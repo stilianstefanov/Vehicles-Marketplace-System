@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ThinkElectric.Data.Models\ThinkElectric.Data.Models.csproj" />
+    <ProjectReference Include="..\ThinkElectric.Web.ViewModels\ThinkElectric.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\ThinkElectrick.Data\ThinkElectric.Data.csproj" />
+  </ItemGroup>
+
+</Project>

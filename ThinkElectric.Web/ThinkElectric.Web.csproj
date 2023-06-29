@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-ThinkElectric.Web-7e922d52-221b-4ee6-8196-70df9bb062b3</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.16" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.16" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.16" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.16" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.16" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ThinkElectric.Services\ThinkElectric.Services.csproj" />
+    <ProjectReference Include="..\ThinkElectric.Web.ViewModels\ThinkElectric.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\ThinkElectrick.Data\ThinkElectric.Data.csproj" />
+  </ItemGroup>
+
+</Project>

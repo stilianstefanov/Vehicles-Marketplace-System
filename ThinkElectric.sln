@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33801.468
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThinkElectric.Web", "ThinkElectric.Web\ThinkElectric.Web.csproj", "{E4AC6489-70E4-49C3-A34F-BAE99C0C7438}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThinkElectric.Data", "ThinkElectrick.Data\ThinkElectric.Data.csproj", "{1378EAC3-426E-4E0C-BE23-48A1664BFBEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThinkElectric.Data.Models", "ThinkElectric.Data.Models\ThinkElectric.Data.Models.csproj", "{B4667EEC-24AE-4195-81AD-1BCCF6255708}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThinkElectric.Web.ViewModels", "ThinkElectric.Web.ViewModels\ThinkElectric.Web.ViewModels.csproj", "{8267D9E5-4E38-4C79-BD06-222F0A16FE94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThinkElectric.Services", "ThinkElectric.Services\ThinkElectric.Services.csproj", "{7FB8C048-86BC-4205-B0E4-D788D81CD98C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThinkElectric.Common", "ThinkElectric.Common\ThinkElectric.Common.csproj", "{A8BC37B4-2A1C-4A5B-A1BD-A40168A3C0D2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E4AC6489-70E4-49C3-A34F-BAE99C0C7438}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4AC6489-70E4-49C3-A34F-BAE99C0C7438}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4AC6489-70E4-49C3-A34F-BAE99C0C7438}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4AC6489-70E4-49C3-A34F-BAE99C0C7438}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1378EAC3-426E-4E0C-BE23-48A1664BFBEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1378EAC3-426E-4E0C-BE23-48A1664BFBEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1378EAC3-426E-4E0C-BE23-48A1664BFBEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1378EAC3-426E-4E0C-BE23-48A1664BFBEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4667EEC-24AE-4195-81AD-1BCCF6255708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4667EEC-24AE-4195-81AD-1BCCF6255708}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4667EEC-24AE-4195-81AD-1BCCF6255708}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4667EEC-24AE-4195-81AD-1BCCF6255708}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8267D9E5-4E38-4C79-BD06-222F0A16FE94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8267D9E5-4E38-4C79-BD06-222F0A16FE94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8267D9E5-4E38-4C79-BD06-222F0A16FE94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8267D9E5-4E38-4C79-BD06-222F0A16FE94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FB8C048-86BC-4205-B0E4-D788D81CD98C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FB8C048-86BC-4205-B0E4-D788D81CD98C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FB8C048-86BC-4205-B0E4-D788D81CD98C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FB8C048-86BC-4205-B0E4-D788D81CD98C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8BC37B4-2A1C-4A5B-A1BD-A40168A3C0D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8BC37B4-2A1C-4A5B-A1BD-A40168A3C0D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8BC37B4-2A1C-4A5B-A1BD-A40168A3C0D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8BC37B4-2A1C-4A5B-A1BD-A40168A3C0D2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02EA2154-34A1-415D-8189-DD1EAF8F1320}
+	EndGlobalSection
+EndGlobal
