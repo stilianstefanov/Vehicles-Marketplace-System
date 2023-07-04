@@ -23,9 +23,9 @@ public class ApplicationUser : IdentityUser<Guid>
     public string LastName { get; set; } = null!;
 
     [ForeignKey(nameof(Address))]
-    public Guid AddressId { get; set; }
+    public Guid? AddressId { get; set; }
 
-    public Address Address { get; set; } = null!;
+    public Address? Address { get; set; }
 
     public Guid? CompanyId { get; set; }
 

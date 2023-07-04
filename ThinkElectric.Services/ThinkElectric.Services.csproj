@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.16" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ThinkElectric.Data.Models\ThinkElectric.Data.Models.csproj" />
     <ProjectReference Include="..\ThinkElectric.Web.ViewModels\ThinkElectric.Web.ViewModels.csproj" />
     <ProjectReference Include="..\ThinkElectrick.Data\ThinkElectric.Data.csproj" />
