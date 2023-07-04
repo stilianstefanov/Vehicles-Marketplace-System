@@ -194,4 +194,23 @@ public static class EntityValidationConstants
 
         public const int ContentMinLength = 10;
     }
+
+    public static class User
+    {
+        public const int FirstNameMaxLength = 100;
+
+        public const int FirstNameMinLength = 2;
+
+        public const int LastNameMaxLength = 100;
+
+        public const int LastNameMinLength = 2;
+
+        public const int PhoneNumberMaxLength = 20;
+
+        public const string PhoneNumberRegex = @"^(\+\d{1,3}[- ]?)?\d{10}$";
+
+        public const int PasswordMaxLength = 100;
+
+        public const int PasswordMinLength = 3;
+    }
 }

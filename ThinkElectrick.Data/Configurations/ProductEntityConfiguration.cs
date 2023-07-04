@@ -8,9 +8,6 @@ public class ProductEntityConfiguration : IEntityTypeConfiguration<Product>
 {
     public void Configure(EntityTypeBuilder<Product> builder)
     {
-        builder.Property(p => p.CreatedOn)
-            .HasDefaultValue(DateTime.UtcNow);
-
         builder.Property(p => p.Price)
             .HasColumnType("decimal(18,2)");
 

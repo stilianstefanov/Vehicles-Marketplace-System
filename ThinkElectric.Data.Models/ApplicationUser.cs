@@ -1,7 +1,9 @@
 ﻿namespace ThinkElectric.Data.Models;
 
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
+using static ThinkElectric.Common.EntityValidationConstants.User;
 
 public class ApplicationUser : IdentityUser<Guid>
 {
@@ -11,6 +13,14 @@ public class ApplicationUser : IdentityUser<Guid>
         Reviews = new HashSet<Review>();
         Orders = new HashSet<Order>();
     }
+
+    [Required]
+    [MaxLength(FirstNameMaxLength)]
+    public string FirstName { get; set; } = null!;
+
+    [Required]
+    [MaxLength(LastNameMaxLength)]
+    public string LastName { get; set; } = null!;
 
     [ForeignKey(nameof(Address))]
     public Guid AddressId { get; set; }
