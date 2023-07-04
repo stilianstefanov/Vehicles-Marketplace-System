@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThinkElectric.Web", "ThinkElectric.Web\ThinkElectric.Web.csproj", "{E4AC6489-70E4-49C3-A34F-BAE99C0C7438}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThinkElectric.Web", "ThinkElectric.Web\ThinkElectric.Web.csproj", "{E4AC6489-70E4-49C3-A34F-BAE99C0C7438}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThinkElectric.Data", "ThinkElectrick.Data\ThinkElectric.Data.csproj", "{1378EAC3-426E-4E0C-BE23-48A1664BFBEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThinkElectric.Data", "ThinkElectrick.Data\ThinkElectric.Data.csproj", "{1378EAC3-426E-4E0C-BE23-48A1664BFBEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThinkElectric.Data.Models", "ThinkElectric.Data.Models\ThinkElectric.Data.Models.csproj", "{B4667EEC-24AE-4195-81AD-1BCCF6255708}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThinkElectric.Data.Models", "ThinkElectric.Data.Models\ThinkElectric.Data.Models.csproj", "{B4667EEC-24AE-4195-81AD-1BCCF6255708}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThinkElectric.Web.ViewModels", "ThinkElectric.Web.ViewModels\ThinkElectric.Web.ViewModels.csproj", "{8267D9E5-4E38-4C79-BD06-222F0A16FE94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThinkElectric.Web.ViewModels", "ThinkElectric.Web.ViewModels\ThinkElectric.Web.ViewModels.csproj", "{8267D9E5-4E38-4C79-BD06-222F0A16FE94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThinkElectric.Services", "ThinkElectric.Services\ThinkElectric.Services.csproj", "{7FB8C048-86BC-4205-B0E4-D788D81CD98C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThinkElectric.Services", "ThinkElectric.Services\ThinkElectric.Services.csproj", "{7FB8C048-86BC-4205-B0E4-D788D81CD98C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThinkElectric.Common", "ThinkElectric.Common\ThinkElectric.Common.csproj", "{A8BC37B4-2A1C-4A5B-A1BD-A40168A3C0D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThinkElectric.Common", "ThinkElectric.Common\ThinkElectric.Common.csproj", "{A8BC37B4-2A1C-4A5B-A1BD-A40168A3C0D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThinkElectric.Web.Infrastructure", "ThinkElectric.Web.Infrastructure\ThinkElectric.Web.Infrastructure.csproj", "{8CEC2247-76A3-4FD3-913A-81D318257348}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{A8BC37B4-2A1C-4A5B-A1BD-A40168A3C0D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8BC37B4-2A1C-4A5B-A1BD-A40168A3C0D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8BC37B4-2A1C-4A5B-A1BD-A40168A3C0D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CEC2247-76A3-4FD3-913A-81D318257348}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CEC2247-76A3-4FD3-913A-81D318257348}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CEC2247-76A3-4FD3-913A-81D318257348}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CEC2247-76A3-4FD3-913A-81D318257348}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

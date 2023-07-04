@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Data;
 using Data.Models;
+using Infrastructure.Extensions;
+using Services.Contracts;
 
 public class Program
 {
@@ -28,6 +30,8 @@ public class Program
                 options.Password.RequiredLength = builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
             })
             .AddEntityFrameworkStores<ThinkElectricDbContext>();
+
+        builder.Services.AddApplicationServices(typeof(IProductService));
 
         builder.Services.AddControllersWithViews();
 
