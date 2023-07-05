@@ -28,7 +28,7 @@ public class Company
     public string PhoneNumber { get; set; } = null!;
 
     [MaxLength(WebSiteMaxLength)]
-    public string? WebSite { get; set; }
+    public string? Website { get; set; }
 
     [Required]
     [MaxLength(DescriptionMaxLength)]

@@ -26,8 +26,6 @@ public class Address
     [MaxLength(StreetMaxLength)]
     public string Street { get; set; } = null!;
 
-    public int StreetNumber { get; set; }
-
     [Required]
     [MaxLength(ZipCodeMaxLength)]
     public string ZipCode { get; set; } = null!;

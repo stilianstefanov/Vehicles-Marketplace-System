@@ -29,15 +29,11 @@ public static class EntityValidationConstants
 
         public const int EmailMaxLength = 100;
 
-        public const string EmailRegex = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
-
         public const int PhoneNumberMaxLength = 20;
 
         public const string PhoneNumberRegex = @"^(\+\d{1,3}[- ]?)?\d{10}$";
 
         public const int WebSiteMaxLength = 100;
-
-        public const int WebSiteMinLength = 4;
 
         public const int DescriptionMaxLength = 1000;
 
