@@ -11,7 +11,6 @@ public class UserController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
     private readonly ICartService _cartService;
 
     public UserController(
@@ -59,7 +58,7 @@ public class UserController : Controller
                 return RedirectToAction("Create", "Company");
             }
 
-            await _cartService.CreateAsync(User.GetId()!);
+            await _cartService.CreateAsync(user.Id);
 
             return RedirectToAction("Index", "Home");
         }

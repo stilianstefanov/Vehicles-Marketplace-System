@@ -31,7 +31,6 @@ public class Accessory
     public string CompatibleModel { get; set; } = null!;
 
 
-    [ForeignKey(nameof(Product))]
     public Guid ProductId { get; set; }
 
     public Product Product { get; set; } = null!;

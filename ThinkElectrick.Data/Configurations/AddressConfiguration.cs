@@ -10,12 +10,12 @@ public class AddressConfiguration : IEntityTypeConfiguration<Address>
     {
         builder.HasOne(a => a.User)
             .WithOne(u => u.Address)
-            .HasForeignKey<ApplicationUser>(u => u.AddressId)
+            .HasForeignKey<Address>(a => a.UserId)
             .IsRequired(false);
 
         builder.HasOne(a => a.Company)
             .WithOne(c => c.Address)
-            .HasForeignKey<Company>(a => a.AddressId)
+            .HasForeignKey<Address>(a => a.CompanyId)
             .IsRequired(false);
     }
 }

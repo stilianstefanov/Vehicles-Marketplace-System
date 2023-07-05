@@ -59,7 +59,6 @@ public class Bike
     public int EnginePower { get; set; }
 
 
-    [ForeignKey(nameof(Product))]
     public Guid ProductId { get; set; }
 
     public Product Product { get; set; } = null!;

@@ -44,15 +44,9 @@ public class Product
 
     public Category Category { get; set; } = null!;
 
-    public Guid? ScooterId { get; set; }
-
     public Scooter? Scooter { get; set; }
 
-    public Guid? BikeId { get; set; }
-
     public Bike? Bike { get; set; }
-
-    public Guid? AccessoryId { get; set; }
 
     public Accessory? Accessory { get; set; }
 

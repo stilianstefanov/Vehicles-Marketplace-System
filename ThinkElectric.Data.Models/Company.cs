@@ -41,12 +41,8 @@ public class Company
     public string? LogoUrl { get; set; }
 
 
-    [ForeignKey(nameof(Address))]
-    public Guid AddressId { get; set; }
-
     public Address Address { get; set; } = null!;
 
-    [ForeignKey(nameof(User))]
     public Guid UserId { get; set; }
 
     public ApplicationUser User { get; set; } = null!;

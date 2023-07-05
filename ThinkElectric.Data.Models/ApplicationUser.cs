@@ -22,17 +22,9 @@ public class ApplicationUser : IdentityUser<Guid>
     [MaxLength(LastNameMaxLength)]
     public string LastName { get; set; } = null!;
 
-    [ForeignKey(nameof(Address))]
-    public Guid? AddressId { get; set; }
-
     public Address? Address { get; set; }
 
-    public Guid? CompanyId { get; set; }
-
     public Company? Company { get; set; }
-
-    [ForeignKey(nameof(Cart))]
-    public Guid? CartId { get; set; }
 
     public Cart? Cart { get; set; }
 

@@ -14,11 +14,13 @@ public class CartService : ICartService
     }
 
 
-    public async Task CreateAsync(string userId)
+    public async Task CreateAsync(Guid userId)
     {
         await _dbContext.Carts.AddAsync(new Cart()
         {
-            UserId = Guid.Parse(userId)
+            UserId = userId
         });
+
+        await _dbContext.SaveChangesAsync();
     }
 }

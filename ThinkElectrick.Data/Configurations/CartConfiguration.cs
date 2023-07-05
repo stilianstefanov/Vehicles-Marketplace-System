@@ -10,6 +10,6 @@ public class CartConfiguration : IEntityTypeConfiguration<Cart>
     {
         builder.HasOne(c => c.User)
             .WithOne(u => u.Cart)
-            .HasForeignKey<ApplicationUser>(u => u.CartId);
+            .HasForeignKey<Cart>(c => c.UserId);
     }
 }

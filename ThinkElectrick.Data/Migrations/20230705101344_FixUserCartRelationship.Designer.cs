@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThinkElectric.Data;
 
@@ -11,9 +12,10 @@ using ThinkElectric.Data;
 namespace ThinkElectric.Data.Migrations
 {
     [DbContext(typeof(ThinkElectricDbContext))]
-    partial class ThinkElectricDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230705101344_FixUserCartRelationship")]
+    partial class FixUserCartRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,14 +233,6 @@ namespace ThinkElectric.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId")
-                        .IsUnique()
-                        .HasFilter("[CompanyId] IS NOT NULL");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
-
                     b.ToTable("Addresses");
                 });
 
@@ -250,6 +244,15 @@ namespace ThinkElectric.Data.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<Guid?>("AddressId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -306,6 +309,10 @@ namespace ThinkElectric.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId")
+                        .IsUnique()
+                        .HasFilter("[AddressId] IS NOT NULL");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -467,6 +474,9 @@ namespace ThinkElectric.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("AddressId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(1000)
@@ -504,6 +514,9 @@ namespace ThinkElectric.Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId")
+                        .IsUnique();
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -563,6 +576,12 @@ namespace ThinkElectric.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("AccessoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("BikeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -590,6 +609,9 @@ namespace ThinkElectric.Data.Migrations
 
                     b.Property<double>("Rating")
                         .HasColumnType("float");
+
+                    b.Property<Guid?>("ScooterId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -759,19 +781,13 @@ namespace ThinkElectric.Data.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ThinkElectric.Data.Models.Address", b =>
+            modelBuilder.Entity("ThinkElectric.Data.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("ThinkElectric.Data.Models.Company", "Company")
-                        .WithOne("Address")
-                        .HasForeignKey("ThinkElectric.Data.Models.Address", "CompanyId");
+                    b.HasOne("ThinkElectric.Data.Models.Address", "Address")
+                        .WithOne("User")
+                        .HasForeignKey("ThinkElectric.Data.Models.ApplicationUser", "AddressId");
 
-                    b.HasOne("ThinkElectric.Data.Models.ApplicationUser", "User")
-                        .WithOne("Address")
-                        .HasForeignKey("ThinkElectric.Data.Models.Address", "UserId");
-
-                    b.Navigation("Company");
-
-                    b.Navigation("User");
+                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("ThinkElectric.Data.Models.Bike", b =>
@@ -815,11 +831,17 @@ namespace ThinkElectric.Data.Migrations
 
             modelBuilder.Entity("ThinkElectric.Data.Models.Company", b =>
                 {
+                    b.HasOne("ThinkElectric.Data.Models.Address", "Address")
+                        .WithOne("Company")
+                        .HasForeignKey("ThinkElectric.Data.Models.Company", "AddressId");
+
                     b.HasOne("ThinkElectric.Data.Models.ApplicationUser", "User")
                         .WithOne("Company")
                         .HasForeignKey("ThinkElectric.Data.Models.Company", "UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Address");
 
                     b.Navigation("User");
                 });
@@ -901,10 +923,15 @@ namespace ThinkElectric.Data.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("ThinkElectric.Data.Models.Address", b =>
+                {
+                    b.Navigation("Company");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ThinkElectric.Data.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Address");
-
                     b.Navigation("Cart");
 
                     b.Navigation("Company");
@@ -926,9 +953,6 @@ namespace ThinkElectric.Data.Migrations
 
             modelBuilder.Entity("ThinkElectric.Data.Models.Company", b =>
                 {
-                    b.Navigation("Address")
-                        .IsRequired();
-
                     b.Navigation("Products");
                 });
 
