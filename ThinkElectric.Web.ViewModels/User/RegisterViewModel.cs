@@ -36,4 +36,6 @@ public class RegisterViewModel
     [RegularExpression(PhoneNumberRegex, ErrorMessage = PhoneNumberErrorMessage)]
     [Display(Name = "Phone Number")]
     public string PhoneNumber { get; set; } = null!;
+
+    public bool IsCompany { get; set; }
 }

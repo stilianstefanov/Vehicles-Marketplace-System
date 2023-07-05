@@ -1,6 +1,7 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
 using Data.Models;
+using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
@@ -8,11 +9,20 @@ using ViewModels.User;
 
 public class UserController : Controller
 {
-    private readonly IUserService _userService;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly ICartService _cartService;
 
-    public UserController(IUserService userService)
+    public UserController(
+
+        UserManager<ApplicationUser> userManager, 
+        SignInManager<ApplicationUser> signInManager,
+        ICartService cartService)
     {
-        _userService = userService;
+        _userManager = userManager;
+        _signInManager = signInManager;
+        _cartService = cartService;
     }
 
     [HttpGet]
@@ -29,6 +39,42 @@ public class UserController : Controller
             return View(model);
         }
 
-        var result = await _userService.RegisterAsync(model);
+        var user = new ApplicationUser
+        {
+            UserName = model.Email,
+            Email = model.Email,
+            FirstName = model.FirstName,
+            LastName = model.LastName,
+            PhoneNumber = model.PhoneNumber
+        };
+
+        var result = await _userManager.CreateAsync(user, model.Password);
+
+        if (result.Succeeded)
+        {
+            await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
+
+            if (model.IsCompany)
+            {
+                return RedirectToAction("Create", "Company");
+            }
+
+            await _cartService.CreateAsync(User.GetId()!);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+
+        return View(model);
+    }
+
+    [HttpGet]
+    public IActionResult Login()
+    {
+        return View();
     }
 }
