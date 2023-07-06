@@ -22,4 +22,8 @@
     <ProjectReference Include="..\ThinkElectrick.Data\ThinkElectric.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\companies\" />
+  </ItemGroup>
+
 </Project>

@@ -44,4 +44,6 @@ public class CompanyCreateViewModel
     [Required]
     [StringLength(ZipCodeMaxLength, MinimumLength = ZipCodeMinLength)]
     public string ZipCode { get; set; } = null!;
+
+    public string? ImageUrl { get; set; }
 }

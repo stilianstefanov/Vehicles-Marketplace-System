@@ -31,10 +31,11 @@ public class Program
             })
             .AddEntityFrameworkStores<ThinkElectricDbContext>();
 
-        builder.Services.AddApplicationServices(typeof(IProductService));
-
         builder.Services.AddScoped<UserManager<ApplicationUser>>();
         builder.Services.AddScoped<SignInManager<ApplicationUser>>();
+
+        builder.Services.AddApplicationServices(typeof(IProductService));
+
 
         builder.Services.AddControllersWithViews();
 

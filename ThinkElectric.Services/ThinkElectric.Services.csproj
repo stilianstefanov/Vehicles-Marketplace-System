@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FirebaseAuthentication.net" Version="4.0.2" />
+    <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ThinkElectric.Data.Models\ThinkElectric.Data.Models.csproj" />
     <ProjectReference Include="..\ThinkElectric.Web.ViewModels\ThinkElectric.Web.ViewModels.csproj" />
     <ProjectReference Include="..\ThinkElectrick.Data\ThinkElectric.Data.csproj" />
