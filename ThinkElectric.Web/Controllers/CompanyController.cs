@@ -6,11 +6,11 @@ using ViewModels.Company;
 
 public class CompanyController : Controller
 {
-    private readonly IFileService _fileService;
+    private readonly IImageService _imageService;
 
-    public CompanyController(IFileService fileService)
+    public CompanyController(IImageService imageService)
     {
-        _fileService = fileService;
+        _imageService = imageService;
     }
 
     [HttpGet]
@@ -20,15 +20,20 @@ public class CompanyController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CompanyCreateViewModel model, IFormFile imageFile)
+    public async Task<IActionResult> Create(CompanyCreateViewModel model, IFormFile? imageFile)
     {
         if (!ModelState.IsValid)
         {
             return View(model);
         }
 
-        string imageUrl = await _fileService.UploadFileAsync(imageFile, "companies");
+        if (imageFile == null || imageFile.Length == 0)
+        {
+            ModelState.AddModelError("Image", "Image is required.");
+            return View(model);
+        }
 
+        var imageId = await _imageService.CreateAsync(imageFile);
 
 
         return RedirectToAction("Index", "Home");

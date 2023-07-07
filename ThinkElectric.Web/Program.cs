@@ -6,6 +6,7 @@ using Data;
 using Data.Models;
 using Infrastructure.Extensions;
 using Services.Contracts;
+using ThinkElectric.Data.MongoDb.Models;
 
 public class Program
 {
@@ -30,6 +31,9 @@ public class Program
                 options.Password.RequiredLength = builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
             })
             .AddEntityFrameworkStores<ThinkElectricDbContext>();
+
+        builder.Services.Configure<ImageStoreDatabaseSettings>(
+            builder.Configuration.GetSection("ImageStoreDatabase"));
 
         builder.Services.AddScoped<UserManager<ApplicationUser>>();
         builder.Services.AddScoped<SignInManager<ApplicationUser>>();
