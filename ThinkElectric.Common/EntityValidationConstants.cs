@@ -38,6 +38,8 @@ public static class EntityValidationConstants
         public const int DescriptionMaxLength = 1000;
 
         public const int DescriptionMinLength = 10;
+
+        public const int ImageIdMaxLength = 30;
     }
 
     public static class Category
@@ -53,9 +55,7 @@ public static class EntityValidationConstants
 
         public const int NameMinLength = 4;
 
-        public const int ImageUrlMaxLength = 2048;
-
-        public const int ImageUrlMinLength = 2;
+        public const int ImageIdMaxLength = 30;
 
         public const int PriceMinValue = 0;
 

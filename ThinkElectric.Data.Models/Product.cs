@@ -22,8 +22,8 @@ public class Product
     public string Name { get; set; } = null!;
 
     [Required]
-    [MaxLength(ImageUrlMaxLength)]
-    public string ImageUrl { get; set; } = null!;
+    [MaxLength(ImageIdMaxLength)]
+    public string ImageId { get; set; } = null!;
 
     public decimal Price { get; set; }
 

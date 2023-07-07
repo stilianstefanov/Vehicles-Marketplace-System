@@ -22,6 +22,8 @@
 
         public async Task<string> CreateAsync(IFormFile imageFile)
         {
+            string imageType = Path.GetExtension(imageFile.FileName);
+
             byte[] imageBytes;
 
             await using MemoryStream memoryStream = new MemoryStream();
@@ -33,6 +35,7 @@
             Image image = new Image
             {
                 Id = ObjectId.GenerateNewId().ToString(),
+                ImageType = imageType,
                 Data = imageBytes
             };
 

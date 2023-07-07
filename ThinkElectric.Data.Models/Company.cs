@@ -38,8 +38,8 @@ public class Company
 
     public double Rating { get; set; }
 
-    public string? LogoUrl { get; set; }
-
+    [MaxLength(ImageIdMaxLength)]
+    public string ImageId { get; set; } = null!;
 
     public Address Address { get; set; } = null!;
 

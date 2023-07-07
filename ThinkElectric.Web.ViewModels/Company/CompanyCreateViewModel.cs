@@ -1,9 +1,10 @@
 ﻿namespace ThinkElectric.Web.ViewModels.Company;
 
 using System.ComponentModel.DataAnnotations;
-using static ThinkElectric.Common.EntityValidationConstants.Address;
+using Address;
+using Microsoft.AspNetCore.Http;
 using static ThinkElectric.Common.EntityValidationConstants.Company;
-using static ThinkElectric.Common.EntityValidationErrors;
+using static Common.EntityValidationErrors;
 
 public class CompanyCreateViewModel
 {
@@ -29,21 +30,7 @@ public class CompanyCreateViewModel
 
     public DateTime? FoundedDate { get; set; }
 
-    [Required]
-    [StringLength(CountryMaxLength, MinimumLength = CountryMinLength)]
-    public string Country { get; set; } = null!;
+    public IFormFile? ImageFile { get; set; }
 
-    [Required]
-    [StringLength(CityMaxLength, MinimumLength = CityMinLength)]
-    public string City { get; set; } = null!;
-
-    [Required]
-    [StringLength(StreetMaxLength, MinimumLength = StreetMinLength)]
-    public string Street { get; set; } = null!;
-
-    [Required]
-    [StringLength(ZipCodeMaxLength, MinimumLength = ZipCodeMinLength)]
-    public string ZipCode { get; set; } = null!;
-
-    public string? ImageUrl { get; set; }
+    public AddressCreateViewModel Address { get; set; } = null!;
 }
