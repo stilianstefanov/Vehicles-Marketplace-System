@@ -81,6 +81,10 @@ public class CompanyController : Controller
             return NotFound();
         }
 
-        return View();
+        company.Address = await _addressService.GetAddressByCompanyIdAsync(company.Id);
+
+        company.Image = await _imageService.GetImageByIdAsync(company.ImageId);
+
+        return View(company);
     }
 }

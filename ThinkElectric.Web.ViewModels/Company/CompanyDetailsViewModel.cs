@@ -20,9 +20,7 @@ public class CompanyDetailsViewModel
 
     public string ImageId { get; set; } = null!;
 
-    public Byte[] ImageData { get; set; } = null!;
+    public ImageViewModel Image { get; set; } = null!;
 
-    public string ImageType { get; set; } = null!;
-
-    public AddressViewModel? Address { get; set; }
+    public AddressViewModel? Address { get; set; } = null!;
 }

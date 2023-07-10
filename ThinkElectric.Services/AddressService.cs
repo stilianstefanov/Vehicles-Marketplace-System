@@ -3,6 +3,7 @@
 using Contracts;
 using Data;
 using Data.Models;
+using Microsoft.EntityFrameworkCore;
 using Web.ViewModels.Address;
 
 public class AddressService : IAddressService
@@ -29,5 +30,22 @@ public class AddressService : IAddressService
         await _dbContext.SaveChangesAsync();
 
         return address;
+    }
+
+    public async Task<AddressViewModel?> GetAddressByCompanyIdAsync(string companyId)
+    {
+        AddressViewModel? model = await _dbContext
+            .Addresses
+            .Where(a => a.CompanyId.ToString() == companyId)
+            .Select(a => new AddressViewModel()
+            {
+                Street = a.Street,
+                City = a.City,
+                ZipCode = a.ZipCode,
+                Country = a.Country
+            })
+            .FirstOrDefaultAsync();
+
+        return model;
     }
 }

@@ -6,6 +6,7 @@
     using Microsoft.Extensions.Options;
     using MongoDB.Bson;
     using MongoDB.Driver;
+    using Web.ViewModels;
 
     public class ImageService : IImageService
     {
@@ -42,6 +43,20 @@
             await _imageCollection.InsertOneAsync(image);
 
             return image.Id;
+        }
+
+        public async Task<ImageViewModel> GetImageByIdAsync(string imageId)
+        {
+            ImageViewModel model = await _imageCollection
+                .Find(image => image.Id == imageId)
+                .Project(image => new ImageViewModel
+                {
+                    ImageType = image.ImageType,
+                    Data = image.Data
+                })
+                .FirstOrDefaultAsync();
+
+            return model;
         }
     }
 }
