@@ -1,10 +1,9 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
-using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using ViewModels.Company;
-using static ThinkElectric.Common.ValidationErrors;
+using static Common.ValidationErrors;
 
 public class CompanyController : Controller
 {
@@ -20,9 +19,11 @@ public class CompanyController : Controller
     }
 
     [HttpGet]
-    public IActionResult Create()
+    public async Task<IActionResult> Create(string id)
     {
-        return View();
+        var companyModel = await _companyService.GetCompanyCreateViewModelAsync(id);
+
+        return View(companyModel);
     }
 
     [HttpPost]

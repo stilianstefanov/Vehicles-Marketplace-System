@@ -18,6 +18,7 @@ public class CompanyCreateViewModel
 
     [Required]
     [RegularExpression(PhoneNumberRegex, ErrorMessage = PhoneNumberErrorMessage)]
+    [Display(Name = "Phone Number")]
     public string PhoneNumber { get; set; } = null!;
 
     [Url]
@@ -28,6 +29,7 @@ public class CompanyCreateViewModel
     [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength)]
     public string Description { get; set; } = null!;
 
+    [Display(Name = "Founded Date")]
     public DateTime? FoundedDate { get; set; }
 
     public IFormFile? ImageFile { get; set; }
