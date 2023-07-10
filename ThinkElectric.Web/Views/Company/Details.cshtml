@@ -1,5 +1,31 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model CompanyDetailsViewModel
+
 @{
+    ViewBag.Title = "Company Details";
 }
+
+@{
+    ViewBag.Title = "Company Details";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Image.Data)" alt="Company Logo" class="img-fluid rounded-circle" />
+        </div>
+        <div class="col-md-8">
+            <h2>@Model.Name</h2>
+            <p><strong>Email:</strong> @Model.Email</p>
+            <p><strong>Phone Number:</strong> @Model.PhoneNumber</p>
+            <p><strong>Website:</strong> <a href="@Model.Website" target="_blank">@Model.Website</a></p>
+            <p><strong>Description:</strong> @Model.Description</p>
+            <p><strong>Founded Date:</strong> @Model.FoundedDate.ToString("MM/dd/yyyy")</p>
+            <p><strong>Address:</strong></p>
+            <p>
+                @Model.Address.Street<br />
+                @Model.Address.City, @Model.Address.ZipCode<br />
+                @Model.Address.Country
+            </p>
+        </div>
+    </div>
+</div>

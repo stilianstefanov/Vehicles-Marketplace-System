@@ -22,5 +22,5 @@ public class CompanyDetailsViewModel
 
     public ImageViewModel Image { get; set; } = null!;
 
-    public AddressViewModel? Address { get; set; } = null!;
+    public AddressViewModel Address { get; set; } = null!;
 }

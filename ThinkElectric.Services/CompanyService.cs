@@ -57,6 +57,7 @@
                 .Where(c => c.UserId.ToString() == id)
                 .Select(c => new CompanyDetailsViewModel()
                 {
+                    Id = c.Id.ToString(),
                     Name = c.Name,
                     Email = c.Email,
                     PhoneNumber = c.PhoneNumber,

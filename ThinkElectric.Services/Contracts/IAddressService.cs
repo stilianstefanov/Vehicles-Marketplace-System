@@ -7,5 +7,5 @@ public interface IAddressService
 {
     Task<Address> CreateAsync(AddressCreateViewModel modelAddress);
 
-    Task<AddressViewModel?> GetAddressByCompanyIdAsync(string companyId);
+    Task<AddressViewModel> GetAddressByCompanyIdAsync(string companyId);
 }

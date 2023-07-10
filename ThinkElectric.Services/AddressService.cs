@@ -32,9 +32,9 @@ public class AddressService : IAddressService
         return address;
     }
 
-    public async Task<AddressViewModel?> GetAddressByCompanyIdAsync(string companyId)
+    public async Task<AddressViewModel> GetAddressByCompanyIdAsync(string companyId)
     {
-        AddressViewModel? model = await _dbContext
+        AddressViewModel model = await _dbContext
             .Addresses
             .Where(a => a.CompanyId.ToString() == companyId)
             .Select(a => new AddressViewModel()
@@ -44,7 +44,7 @@ public class AddressService : IAddressService
                 ZipCode = a.ZipCode,
                 Country = a.Country
             })
-            .FirstOrDefaultAsync();
+            .FirstAsync();
 
         return model;
     }

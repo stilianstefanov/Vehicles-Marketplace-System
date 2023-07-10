@@ -81,9 +81,16 @@ public class CompanyController : Controller
             return NotFound();
         }
 
-        company.Address = await _addressService.GetAddressByCompanyIdAsync(company.Id);
+        try
+        {
+            company.Address = await _addressService.GetAddressByCompanyIdAsync(company.Id);
 
-        company.Image = await _imageService.GetImageByIdAsync(company.ImageId);
+            company.Image = await _imageService.GetImageByIdAsync(company.ImageId);
+        }
+        catch (Exception)
+        {
+            ModelState.AddModelError("", "An unexpected error occurred while proceeding you request.");
+        }
 
         return View(company);
     }
