@@ -4,6 +4,7 @@
     using Data;
     using Data.Models;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
     using Web.ViewModels.Company;
 
     public class CompanyService : ICompanyService
@@ -46,6 +47,28 @@
                 PhoneNumber = user.PhoneNumber,
             };
 
+            return model;
+        }
+
+        public async Task<CompanyDetailsViewModel?> GetCompanyDetailsAsync(string id)
+        {
+            CompanyDetailsViewModel? model = await _dbContext
+                .Companies
+                .Where(c => c.UserId.ToString() == id)
+                .Select(c => new CompanyDetailsViewModel()
+                {
+                    Name = c.Name,
+                    Email = c.Email,
+                    PhoneNumber = c.PhoneNumber,
+                    Website = c.Website,
+                    Description = c.Description,
+                    FoundedDate = c.FoundedDate,
+                    ImageId = c.ImageId,
+
+                })
+                .FirstOrDefaultAsync();
+                
+                
             return model;
         }
     }

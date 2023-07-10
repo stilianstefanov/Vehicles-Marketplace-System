@@ -1,5 +1,6 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
+using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using ViewModels.Company;
@@ -71,8 +72,15 @@ public class CompanyController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Details(string id)
+    public async Task<IActionResult> Details()
     {
+        var company = await _companyService.GetCompanyDetailsAsync(User.GetId()!);
+
+        if (company == null)
+        {
+            return NotFound();
+        }
+
         return View();
     }
 }

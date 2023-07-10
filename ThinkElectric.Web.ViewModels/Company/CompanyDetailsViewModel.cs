@@ -18,9 +18,11 @@ public class CompanyDetailsViewModel
 
     public DateTime FoundedDate { get; set; }
 
+    public string ImageId { get; set; } = null!;
+
     public Byte[] ImageData { get; set; } = null!;
 
     public string ImageType { get; set; } = null!;
 
-    public AddressViewModel Address { get; set; } = null!;
+    public AddressViewModel? Address { get; set; }
 }
