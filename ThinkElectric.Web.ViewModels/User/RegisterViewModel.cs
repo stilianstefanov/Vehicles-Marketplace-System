@@ -2,7 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using static ThinkElectric.Common.EntityValidationConstants.User;
-using static ThinkElectric.Common.EntityValidationErrors;
+using static ThinkElectric.Common.ValidationErrors;
 
 public class RegisterViewModel
 {

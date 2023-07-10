@@ -4,6 +4,7 @@ using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using ViewModels.Company;
+using static ThinkElectric.Common.ValidationErrors;
 
 public class CompanyController : Controller
 {
@@ -34,13 +35,13 @@ public class CompanyController : Controller
 
         if (model.FoundedDate == null)
         {
-            ModelState.AddModelError("FoundedDate", "Please enter valid date in the specific format.");
+            ModelState.AddModelError(nameof(model.FoundedDate), DateErrorMessage);
             return View(model);
         }
 
         if (model.ImageFile == null || model.ImageFile.Length == 0)
         {
-            ModelState.AddModelError("ImageFile", "Image is required.");
+            ModelState.AddModelError(nameof(model.ImageFile), ImageRequiredErrorMessage);
             return View(model);
         }
 
@@ -48,7 +49,7 @@ public class CompanyController : Controller
 
         if (imageType != ".jpg" && imageType != ".jpeg" && imageType != ".png")
         {
-            ModelState.AddModelError("ImageFile", "Image must be a .jpg, .jpeg, or .png file.");
+            ModelState.AddModelError(nameof(model.ImageFile), ImageFormatErrorMessage);
             return View(model);
         }
 
