@@ -4,8 +4,10 @@ using System.Security.Claims;
 using Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Services.Contracts;
 using ViewModels.User;
+using static ThinkElectric.Common.EntityValidationConstants;
 
 public class UserController : Controller
 {
@@ -53,12 +55,12 @@ public class UserController : Controller
 
         if (result.Succeeded)
         {
-            await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
-
             if (model.IsCompany)
             {
-                return RedirectToAction("Create", "Company");
+                return RedirectToAction("Create", "Company", new { id = user.Id.ToString()});
             }
+
+            await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
 
             await _cartService.CreateAsync(user.Id);
 
@@ -87,10 +89,20 @@ public class UserController : Controller
             return View(model);
         }
 
-        var user = await _userManager.FindByNameAsync(model.Email);
+        var user = await _userManager
+            .Users
+            .Include(u => u.Cart)
+            .Include(u => u.Company)
+            .FirstOrDefaultAsync(u => u.UserName == model.Email);
+            
 
         if (user != null)
         {
+            if (user.Cart == null && user.Company == null)
+            {
+                return RedirectToAction("Create", "Company", new { id = user.Id.ToString()});
+            }
+
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
 
             if (result.Succeeded)

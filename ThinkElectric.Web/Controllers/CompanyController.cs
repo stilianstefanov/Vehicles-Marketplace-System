@@ -26,7 +26,7 @@ public class CompanyController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CompanyCreateViewModel model)
+    public async Task<IActionResult> Create([FromForm]CompanyCreateViewModel model, string id)
     {
         if (!ModelState.IsValid)
         {
@@ -59,13 +59,13 @@ public class CompanyController : Controller
 
             var address = await _addressService.CreateAsync(model.Address);
 
-            await _companyService.CreateAsync(model, imageId, address, User.GetId()!);
+            await _companyService.CreateAsync(model, imageId, address, id);
         }
         catch (Exception)
         {
             ModelState.AddModelError("", "An unexpected error occurred while proceeding you request.");
         }
 
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Login", "User");
     }
 }
