@@ -10,6 +10,7 @@ public class Company
     {
         Id = Guid.NewGuid();
         Products = new HashSet<Product>();
+        Reviews = new HashSet<Review>();
     }
 
     [Key]
@@ -36,7 +37,6 @@ public class Company
 
     public DateTime FoundedDate { get; set; }
 
-    public double Rating { get; set; }
 
     [MaxLength(ImageIdMaxLength)]
     public string ImageId { get; set; } = null!;
@@ -48,4 +48,6 @@ public class Company
     public ApplicationUser User { get; set; } = null!;
 
     public ICollection<Product> Products { get; set; }
+
+    public ICollection<Review> Reviews { get; set; }
 }

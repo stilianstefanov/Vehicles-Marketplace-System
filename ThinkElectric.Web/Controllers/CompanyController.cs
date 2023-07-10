@@ -69,4 +69,10 @@ public class CompanyController : Controller
 
         return RedirectToAction("Login", "User");
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Details(string id)
+    {
+        return View();
+    }
 }

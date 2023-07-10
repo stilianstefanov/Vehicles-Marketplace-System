@@ -22,11 +22,18 @@ public class Review
 
     public DateTime? ModifiedOn { get; set; }
 
+    public double Rating { get; set; }
+
 
     [ForeignKey(nameof(Product))]
-    public Guid ProductId { get; set; }
+    public Guid? ProductId { get; set; }
 
-    public Product Product { get; set; } = null!;
+    public Product? Product { get; set; } = null!;
+
+    [ForeignKey(nameof(Company))]
+    public Guid? CompanyId { get; set; }
+
+    public Company? Company { get; set; } = null!;
 
     [ForeignKey(nameof(User))]
     public Guid UserId { get; set; }

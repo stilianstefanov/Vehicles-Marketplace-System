@@ -23,7 +23,12 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                     </ul>
-                    <partial name="_LoginPartial" />
+                    <div class="d-flex align-items-center">
+                        <partial name="_NavigationPartial" />
+                    </div>
+                    <div class="d-flex align-items-center ms-4">
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
             </div>
         </nav>

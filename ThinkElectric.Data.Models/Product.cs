@@ -29,8 +29,6 @@ public class Product
 
     public int Quantity { get; set; }
 
-    public double Rating { get; set; }
-
     public DateTime CreatedOn { get; set; }
 
 
