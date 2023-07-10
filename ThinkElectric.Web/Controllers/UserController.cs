@@ -1,29 +1,18 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
-using System.Security.Claims;
-using Data.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Services.Contracts;
 using ViewModels.User;
-using static ThinkElectric.Common.EntityValidationConstants;
 
 public class UserController : Controller
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ICartService _cartService;
+    private readonly IUserService _userService;
 
-    public UserController(
-
-        UserManager<ApplicationUser> userManager, 
-        SignInManager<ApplicationUser> signInManager,
-        ICartService cartService)
+    public UserController(ICartService cartService, IUserService userService)
     {
-        _userManager = userManager;
-        _signInManager = signInManager;
         _cartService = cartService;
+        _userService = userService;
     }
 
     [HttpGet]
@@ -35,39 +24,27 @@ public class UserController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(RegisterViewModel model)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid) return View(model);
+
+        var resultRegister = await _userService.RegisterAsync(model);
+
+        if (resultRegister.Succeeded)
         {
-            return View(model);
-        }
+            var user = await _userService.GetUserByEmailAsync(model.Email);
 
-        var user = new ApplicationUser
-        {
-            UserName = model.Email,
-            Email = model.Email,
-            FirstName = model.FirstName,
-            LastName = model.LastName,
-            PhoneNumber = model.PhoneNumber
-        };
-
-        var result = await _userManager.CreateAsync(user, model.Password);
-
-        await _userManager.AddClaimAsync(user, new Claim("FullName", $"{user.FirstName} {user.LastName}"));
-
-        if (result.Succeeded)
-        {
             if (model.IsCompany)
             {
-                return RedirectToAction("Create", "Company", new { id = user.Id.ToString()});
+                return RedirectToAction("Create", "Company", new { id = user!.Id.ToString() });
             }
 
-            await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
+            await _cartService.CreateAsync(user!.Id);
 
-            await _cartService.CreateAsync(user.Id);
+            await _userService.SignInAsync(user, model.Password, false, false);
 
             return RedirectToAction("Index", "Home");
         }
 
-        foreach (var error in result.Errors)
+        foreach (var error in resultRegister.Errors)
         {
             ModelState.AddModelError(string.Empty, error.Description);
         }
@@ -84,26 +61,18 @@ public class UserController : Controller
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(model);
-        }
+        if (!ModelState.IsValid) return View(model);
 
-        var user = await _userManager
-            .Users
-            .Include(u => u.Cart)
-            .Include(u => u.Company)
-            .FirstOrDefaultAsync(u => u.UserName == model.Email);
-            
+        var user = await _userService.GetUserByEmailWithCartAndCompany(model.Email);
 
         if (user != null)
         {
             if (user.Cart == null && user.Company == null)
             {
-                return RedirectToAction("Create", "Company", new { id = user.Id.ToString()});
+                return RedirectToAction("Create", "Company", new { id = user.Id.ToString() });
             }
 
-            var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
+            var result = await _userService.SignInAsync(user, model.Password, model.RememberMe, false);
 
             if (result.Succeeded)
             {
@@ -118,7 +87,7 @@ public class UserController : Controller
 
     public async Task<IActionResult> Logout()
     {
-        await _signInManager.SignOutAsync();
+        await _userService.SignOutAsync();
 
         return RedirectToAction("Index", "Home");
     }
