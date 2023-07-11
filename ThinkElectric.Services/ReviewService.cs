@@ -23,8 +23,7 @@ public class ReviewService : IReviewService
             .Select(r => new ReviewViewModel()
             {
                 Content = r.Content,
-                CreatedOn = r.CreatedOn.ToString("dd/MM/yyyy"),
-                ModifiedOn = r.ModifiedOn.HasValue ? r.ModifiedOn.Value.ToString("dd/MM/yyyy") : null,
+                CreatedOn = r.CreatedOn.ToString("MM/dd/yyyy H:mm"),
                 Rating = r.Rating,
                 UserFullName = $"{r.User.FirstName} {r.User.LastName}"
             })

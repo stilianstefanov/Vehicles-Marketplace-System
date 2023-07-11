@@ -1,0 +1,28 @@
+﻿@model IEnumerable<ReviewViewModel>
+
+<div class="col-md-12">
+  <div class="col-md-12 col-lg-12">
+      <div class="card-body p-4">
+          @foreach (var review in Model)
+          {
+              <div class="card mb-4">
+                  <div class="card-body">
+                      <p>@review.Content</p>
+                      <div class="d-flex justify-content-between">
+                          <div class="d-flex flex-row align-items-center">
+                              <p class="small mb-0 ms-2">@review.UserFullName</p>
+                          </div>
+                          <div class="d-flex flex-row align-items-center">
+                                <p class="small text-muted mb-0">@review.CreatedOn</p>
+                          </div>
+
+                          <div class="d-flex flex-row align-items-center">
+                              <p class="small text-muted mb-0">Rating: @review.Rating</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          }
+          </div>
+      </div>
+</div>

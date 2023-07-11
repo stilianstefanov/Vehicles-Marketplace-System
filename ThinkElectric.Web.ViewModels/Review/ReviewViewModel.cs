@@ -6,8 +6,6 @@ public class ReviewViewModel
 
     public string CreatedOn { get; set; } = null!;
 
-    public string? ModifiedOn { get; set; }
-
     public double Rating { get; set; }
 
     public string UserFullName { get; set; } = null!;
