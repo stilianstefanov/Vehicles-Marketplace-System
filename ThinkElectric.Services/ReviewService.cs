@@ -25,7 +25,8 @@ public class ReviewService : IReviewService
                 Content = r.Content,
                 CreatedOn = r.CreatedOn.ToString("dd/MM/yyyy"),
                 ModifiedOn = r.ModifiedOn.HasValue ? r.ModifiedOn.Value.ToString("dd/MM/yyyy") : null,
-                Rating = r.Rating
+                Rating = r.Rating,
+                UserFullName = $"{r.User.FirstName} {r.User.LastName}"
             })
             .ToArrayAsync();
 

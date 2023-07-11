@@ -11,17 +11,46 @@
         </div>
         <div class="col-md-8">
             <h2>@Model.Name</h2>
-            <h4><strong>Email:</strong> @Model.Email</h4>
-            <h4><strong>Phone Number:</strong> @Model.PhoneNumber</h4>
-            <h4><strong>Website:</strong> <a href="@Model.Website" target="_blank">@Model.Website</a></h4>
-            <h4><strong>Description:</strong> @Model.Description</h4>
-            <h4><strong>Founded Date:</strong> @Model.FoundedDate.ToString("MM/dd/yyyy")</h4>
-            <h4><strong>Address:</strong></h4>
-            <p>
-                @Model.Address.Street<br />
-                @Model.Address.City, @Model.Address.ZipCode<br />
-                @Model.Address.Country
-            </p>
+            <form>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" value="@Model.Email" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number:</label>
+                    <input type="text" class="form-control" id="phoneNumber" value="@Model.PhoneNumber" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="website">Website:</label>
+                    <input type="text" class="form-control" id="website" value="@Model.Website" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea class="form-control" id="description" rows="4" readonly>@Model.Description</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="foundedDate">Founded Date:</label>
+                    <input type="text" class="form-control" id="foundedDate" value="@Model.FoundedDate.ToString("MM/dd/yyyy")" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address:</label>
+                    <input type="text" class="form-control" id="address" value="@Model.Address.Country" readonly>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="city">City:</label>
+                        <input type="text" class="form-control" id="city" value="@Model.Address.City" readonly>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="zipcode">Zip Code:</label>
+                        <input type="text" class="form-control" id="zipcode" value="@Model.Address.ZipCode" readonly>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="country">Country:</label>
+                        <input type="text" class="form-control" id="country" value="@Model.Address.Street" readonly>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
