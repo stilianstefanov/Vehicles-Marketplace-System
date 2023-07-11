@@ -11,12 +11,17 @@ public class CompanyController : Controller
     private readonly IImageService _imageService;
     private readonly ICompanyService _companyService;
     private readonly IAddressService _addressService;
+    private readonly IReviewService _reviewService;
 
-    public CompanyController(IImageService imageService, ICompanyService companyService, IAddressService addressService)
+    public CompanyController(IImageService imageService,
+        ICompanyService companyService,
+        IAddressService addressService,
+        IReviewService reviewService)
     {
         _imageService = imageService;
         _companyService = companyService;
         _addressService = addressService;
+        _reviewService = reviewService;
     }
 
     [HttpGet]
@@ -86,6 +91,8 @@ public class CompanyController : Controller
             company.Address = await _addressService.GetAddressByCompanyIdAsync(company.Id);
 
             company.Image = await _imageService.GetImageByIdAsync(company.ImageId);
+
+            company.Reviews = await _reviewService.GetReviewsByCompanyIdAsync(company.Id);
         }
         catch (Exception)
         {
