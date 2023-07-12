@@ -79,7 +79,7 @@ public class CompanyController : Controller
     [HttpGet]
     public async Task<IActionResult> Details()
     {
-        var company = await _companyService.GetCompanyDetailsAsync(User.GetId()!);
+        var company = await _companyService.GetCompanyDetailsByUserIdAsync(User.GetId()!);
 
         if (company == null)
         {
@@ -101,4 +101,11 @@ public class CompanyController : Controller
 
         return View(company);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit()
+    {
+        return View();
+    }
+
 }

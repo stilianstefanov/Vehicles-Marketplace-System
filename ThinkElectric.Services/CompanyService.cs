@@ -50,7 +50,7 @@
             return model;
         }
 
-        public async Task<CompanyDetailsViewModel?> GetCompanyDetailsAsync(string id)
+        public async Task<CompanyDetailsViewModel?> GetCompanyDetailsByUserIdAsync(string id)
         {
             CompanyDetailsViewModel? model = await _dbContext
                 .Companies
