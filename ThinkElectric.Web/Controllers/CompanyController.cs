@@ -52,9 +52,9 @@ public class CompanyController : Controller
             return View(model);
         }
 
-        string imageType = Path.GetExtension(model.ImageFile.FileName);
+        var imageType = model.ImageFile.ContentType;
 
-        if (imageType != ".jpg" && imageType != ".jpeg" && imageType != ".png")
+        if (imageType != "image/jpg" && imageType != "image/jpeg" && imageType != "image/png")
         {
             ModelState.AddModelError(nameof(model.ImageFile), ImageFormatErrorMessage);
             return View(model);
