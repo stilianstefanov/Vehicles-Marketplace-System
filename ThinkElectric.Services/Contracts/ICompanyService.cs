@@ -5,7 +5,10 @@ using Web.ViewModels.Company;
 
 public interface ICompanyService
 {
-    Task CreateAsync(CompanyCreateViewModel model, string imageId, Address address, string userId);
-    Task<CompanyCreateViewModel> GetCompanyCreateViewModelAsync(string id);
-    Task<CompanyDetailsViewModel?> GetCompanyDetailsByUserIdAsync(string id);
+    Task<string> CreateAsync(CompanyCreateViewModel model, string imageId, string addressId, string userId);
+
+    Task<CompanyCreateViewModel> GetCompanyCreateViewModelByUserIdAsync(string id);
+
+    Task<CompanyDetailsViewModel?> GetCompanyDetailsByIdAsync(string id);
+
 }

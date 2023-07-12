@@ -18,7 +18,7 @@
             _userManager = userManager;
         }
 
-        public async Task CreateAsync(CompanyCreateViewModel model, string imageId, Address address, string userId)
+        public async Task<string> CreateAsync(CompanyCreateViewModel model, string imageId, string addressId, string userId)
         {
             Company company = new Company()
             {
@@ -29,15 +29,17 @@
                 Description = model.Description,
                 FoundedDate = model.FoundedDate!.Value,
                 ImageId = imageId,
-                Address = address,
+                AddressId = Guid.Parse(addressId),
                 UserId = Guid.Parse(userId)
             };
 
             await _dbContext.Companies.AddAsync(company);
             await _dbContext.SaveChangesAsync();
+
+            return company.Id.ToString();
         }
 
-        public async Task<CompanyCreateViewModel> GetCompanyCreateViewModelAsync(string id)
+        public async Task<CompanyCreateViewModel> GetCompanyCreateViewModelByUserIdAsync(string id)
         {
             ApplicationUser user = await _userManager.FindByIdAsync(id);
 
@@ -50,11 +52,11 @@
             return model;
         }
 
-        public async Task<CompanyDetailsViewModel?> GetCompanyDetailsByUserIdAsync(string id)
+        public async Task<CompanyDetailsViewModel?> GetCompanyDetailsByIdAsync(string id)
         {
             CompanyDetailsViewModel? model = await _dbContext
                 .Companies
-                .Where(c => c.UserId.ToString() == id)
+                .Where(c => c.Id.ToString() == id)
                 .Select(c => new CompanyDetailsViewModel()
                 {
                     Id = c.Id.ToString(),
@@ -65,6 +67,7 @@
                     Description = c.Description,
                     FoundedDate = c.FoundedDate,
                     ImageId = c.ImageId,
+                    AddressId = c.AddressId.ToString(),
 
                 })
                 .FirstOrDefaultAsync();

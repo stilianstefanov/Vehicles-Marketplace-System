@@ -25,6 +25,8 @@ public class CompanyDetailsViewModel
 
     public ImageViewModel Image { get; set; } = null!;
 
+    public string AddressId { get; set; } = null!;
+
     public AddressViewModel Address { get; set; } = null!;
 
     public IEnumerable<ReviewViewModel> Reviews { get; set; } = null!;

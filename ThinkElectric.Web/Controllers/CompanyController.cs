@@ -1,6 +1,5 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
-using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using ViewModels.Company;
@@ -12,22 +11,28 @@ public class CompanyController : Controller
     private readonly ICompanyService _companyService;
     private readonly IAddressService _addressService;
     private readonly IReviewService _reviewService;
+    private readonly IUserService _userService;
 
     public CompanyController(IImageService imageService,
         ICompanyService companyService,
         IAddressService addressService,
-        IReviewService reviewService)
+        IReviewService reviewService,
+        IUserService userService)
     {
         _imageService = imageService;
         _companyService = companyService;
         _addressService = addressService;
         _reviewService = reviewService;
+        _userService = userService;
     }
 
     [HttpGet]
     public async Task<IActionResult> Create(string id)
     {
-        var companyModel = await _companyService.GetCompanyCreateViewModelAsync(id);
+        //ToDO - check if user is exists and if has company role with the user service!!!!!!!!!!!!!!!!!!!
+        //ToDo - check if the user already has a company created !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        var companyModel = await _companyService.GetCompanyCreateViewModelByUserIdAsync(id);
 
         return View(companyModel);
     }
@@ -64,9 +69,11 @@ public class CompanyController : Controller
         {
             var imageId = await _imageService.CreateAsync(model.ImageFile);
 
-            var address = await _addressService.CreateAsync(model.Address);
+            var addressId = await _addressService.CreateAsync(model.Address);
 
-            await _companyService.CreateAsync(model, imageId, address, id);
+            var companyId = await _companyService.CreateAsync(model, imageId, addressId, id);
+
+            await _userService.AddClaimAsync(id, "Company", companyId);
         }
         catch (Exception)
         {
@@ -77,35 +84,28 @@ public class CompanyController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Details()
+    public async Task<IActionResult> Details(string id)
     {
-        var company = await _companyService.GetCompanyDetailsByUserIdAsync(User.GetId()!);
+        var companyModel = await _companyService.GetCompanyDetailsByIdAsync(id);
 
-        if (company == null)
+        if (companyModel == null)
         {
             return NotFound();
         }
 
         try
         {
-            company.Address = await _addressService.GetAddressByCompanyIdAsync(company.Id);
+            companyModel.Address = await _addressService.GetAddressByIdAsync(companyModel.AddressId);
 
-            company.Image = await _imageService.GetImageByIdAsync(company.ImageId);
+            companyModel.Image = await _imageService.GetImageByIdAsync(companyModel.ImageId);
 
-            company.Reviews = await _reviewService.GetReviewsByCompanyIdAsync(company.Id);
+            companyModel.Reviews = await _reviewService.GetReviewsByCompanyIdAsync(companyModel.Id);
         }
         catch (Exception)
         {
             ModelState.AddModelError("", "An unexpected error occurred while proceeding you request.");
         }
 
-        return View(company);
+        return View(companyModel);
     }
-
-    [HttpGet]
-    public async Task<IActionResult> Edit()
-    {
-        return View();
-    }
-
 }

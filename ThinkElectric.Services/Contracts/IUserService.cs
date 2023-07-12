@@ -15,5 +15,6 @@ public interface IUserService
 
     Task<ApplicationUser?> GetUserByEmailAsync(string email);
 
-    Task<ApplicationUser?> GetUserByEmailWithCartAndCompany(string email); 
+    Task<ApplicationUser?> GetUserByEmailWithCartAndCompany(string email);
+    Task AddClaimAsync(string userId, string key, string value);
 }

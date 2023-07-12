@@ -70,4 +70,11 @@ public class UserService : IUserService
 
         return user;
     }
+
+    public async Task AddClaimAsync(string userId, string key, string value)
+    {
+        ApplicationUser user = await _userManager.FindByIdAsync(userId);
+
+        await _userManager.AddClaimAsync(user, new Claim(key, value));
+    }
 }

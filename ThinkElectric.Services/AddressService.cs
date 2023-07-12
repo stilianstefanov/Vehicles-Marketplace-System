@@ -16,7 +16,7 @@ public class AddressService : IAddressService
     }
 
 
-    public async Task<Address> CreateAsync(AddressCreateViewModel modelAddress)
+    public async Task<string> CreateAsync(AddressCreateViewModel modelAddress)
     {
         Address address = new Address()
         {
@@ -29,14 +29,14 @@ public class AddressService : IAddressService
         await _dbContext.Addresses.AddAsync(address);
         await _dbContext.SaveChangesAsync();
 
-        return address;
+        return address.Id.ToString();
     }
 
-    public async Task<AddressViewModel> GetAddressByCompanyIdAsync(string companyId)
+    public async Task<AddressViewModel> GetAddressByIdAsync(string id)
     {
         AddressViewModel model = await _dbContext
             .Addresses
-            .Where(a => a.CompanyId.ToString() == companyId)
+            .Where(a => a.Id.ToString() == id)
             .Select(a => new AddressViewModel()
             {
                 Street = a.Street,

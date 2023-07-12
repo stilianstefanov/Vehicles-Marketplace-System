@@ -30,11 +30,8 @@ public class Address
     public string ZipCode { get; set; } = null!;
 
 
-    public Guid? UserId { get; set; }
 
     public ApplicationUser? User { get; set; }
-
-    public Guid? CompanyId { get; set; }
 
     public Company? Company { get; set; }
 }

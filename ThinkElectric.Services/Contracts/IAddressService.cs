@@ -5,7 +5,7 @@ using Web.ViewModels.Address;
 
 public interface IAddressService
 {
-    Task<Address> CreateAsync(AddressCreateViewModel modelAddress);
+    Task<string> CreateAsync(AddressCreateViewModel modelAddress);
 
-    Task<AddressViewModel> GetAddressByCompanyIdAsync(string companyId);
+    Task<AddressViewModel> GetAddressByIdAsync(string id);
 }

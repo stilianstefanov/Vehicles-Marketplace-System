@@ -41,6 +41,8 @@ public class Company
     [MaxLength(ImageIdMaxLength)]
     public string ImageId { get; set; } = null!;
 
+    public Guid AddressId { get; set; }
+
     public Address Address { get; set; } = null!;
 
     public Guid UserId { get; set; }
