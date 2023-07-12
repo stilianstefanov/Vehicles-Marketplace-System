@@ -19,7 +19,7 @@ public class CompanyDetailsViewModel
 
     public DateTime FoundedDate { get; set; }
 
-    public double Rating => Reviews.Any() ? Reviews.Average(r => r.Rating) : 0;
+    public string Rating => Reviews.Any() ? Reviews.Average(r => r.Rating).ToString("f1") : "0";
 
     public string ImageId { get; set; } = null!;
 
