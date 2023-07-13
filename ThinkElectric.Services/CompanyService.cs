@@ -84,5 +84,45 @@
 
             return hasCompany;
         }
+
+        public async Task<bool> CompanyExistsByIdAsync(string id)
+        {
+            bool hasCompany = await _dbContext.
+                Companies.
+                AnyAsync(c => c.Id.ToString() == id);
+
+            return hasCompany;
+        }
+
+        public async Task<bool> IsUserCompanyOwnerAsync(string companyId, string userId)
+        {
+            bool isOwner = await _dbContext.
+                Companies.
+                AnyAsync(c => c.Id.ToString() == companyId && c.UserId.ToString() == userId);
+
+            return isOwner;
+        }
+
+        public async Task<CompanyEditViewModel> GetCompanyEditViewModelByIdAsync(string id)
+        {
+            CompanyEditViewModel model = await _dbContext
+                .Companies
+                .Where(c => c.Id.ToString() == id)
+                .Select(c => new CompanyEditViewModel()
+                {
+                    Name = c.Name,
+                    Email = c.Email,
+                    PhoneNumber = c.PhoneNumber,
+                    Website = c.Website,
+                    Description = c.Description,
+                    FoundedDate = c.FoundedDate,
+                    ImageId = c.ImageId,
+                    AddressId = c.AddressId.ToString(),
+
+                })
+                .FirstAsync();
+
+            return model;
+        }
     }
 }

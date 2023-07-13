@@ -22,4 +22,6 @@ public static class ErrorMessages
     public const string AlreadyRegisteredAsCompanyErrorMessage = "You are already registered as a company!";
 
     public const string NotRegisteredAsCompanyErrorMessage = "You are not registered as a company!";
+
+    public const string NotOwnerOfCompanyErrorMessage = "You are not the owner of this company!";
 }

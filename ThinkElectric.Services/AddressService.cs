@@ -32,7 +32,7 @@ public class AddressService : IAddressService
         return address.Id.ToString();
     }
 
-    public async Task<AddressViewModel> GetAddressByIdAsync(string id)
+    public async Task<AddressViewModel> GetAddressDetailsByIdAsync(string id)
     {
         AddressViewModel model = await _dbContext
             .Addresses

@@ -1,5 +1,6 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
+using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson.Serialization.Serializers;
@@ -167,11 +168,13 @@ public class CompanyController : Controller
 
         try
         {
-            companyModel.Address = await _addressService.GetAddressByIdAsync(companyModel.AddressId);
+            companyModel.Address = await _addressService.GetAddressDetailsByIdAsync(companyModel.AddressId);
 
             companyModel.Image = await _imageService.GetImageByIdAsync(companyModel.ImageId);
 
             companyModel.Reviews = await _reviewService.GetReviewsByCompanyIdAsync(companyModel.Id);
+
+            return View(companyModel);
         }
         catch (Exception)
         {
@@ -179,7 +182,45 @@ public class CompanyController : Controller
 
             return RedirectToAction("Index", "Home");
         }
+    }
 
-        return View(companyModel);
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> Edit(string id)
+    {
+        bool companyExists = await _companyService.CompanyExistsByIdAsync(id);
+
+        if (!companyExists)
+        {
+            this.TempData[ErrorMessage] = CompanyNotFoundErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        bool isUserCompanyOwner = await _companyService.IsUserCompanyOwnerAsync(id, User.GetId()!);
+
+        if (!isUserCompanyOwner)
+        {
+            this.TempData[ErrorMessage] = NotOwnerOfCompanyErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        try
+        {
+            CompanyEditViewModel companyModel = await _companyService.GetCompanyEditViewModelByIdAsync(id);
+
+            companyModel.Address = await _addressService.GetAddressEditByIdAsync(companyModel.AddressId);
+
+            companyModel.CurrentImage = await _imageService.GetImageByIdAsync(companyModel.ImageId!);
+
+            return View(companyModel);
+        }
+        catch (Exception)
+        {
+            this.TempData[ErrorMessage] = UnexpectedErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
