@@ -2,5 +2,5 @@
 
 public interface ICartService
 {
-    Task CreateAsync(Guid userId);
+    Task<string> CreateAsync(Guid userId);
 }

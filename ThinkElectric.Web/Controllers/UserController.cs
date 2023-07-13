@@ -40,10 +40,14 @@ public class UserController : Controller
 
             if (model.IsCompany)
             {
+                await _userService.AddClaimAsync(user!.Id.ToString(), "companyUser", "");
+
                 return RedirectToAction("Create", "Company", new { id = user!.Id.ToString() });
             }
 
-            await _cartService.CreateAsync(user!.Id);
+            var cartId = await _cartService.CreateAsync(user!.Id);
+
+            await _userService.AddClaimAsync(user.Id.ToString(), "cartId", cartId.ToString());
 
             await _userService.SignInAsync(user, model.Password, false, false);
 

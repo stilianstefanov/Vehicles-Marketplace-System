@@ -1,12 +1,15 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson.Serialization.Serializers;
 using Services.Contracts;
 using ViewModels.Company;
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 
 
+[Authorize]
 public class CompanyController : Controller
 {
     private readonly IImageService _imageService;
@@ -28,20 +31,82 @@ public class CompanyController : Controller
         _userService = userService;
     }
 
-    [HttpGet]
+
+    [AllowAnonymous]
     public async Task<IActionResult> Create(string id)
     {
-        //ToDO - check if user is exists and if has company role with the user service!!!!!!!!!!!!!!!!!!!
-        //ToDo - check if the user already has a company created !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        bool userExists = await _userService.UserExistsByIdAsync(id);
 
-        var companyModel = await _companyService.GetCompanyCreateViewModelByUserIdAsync(id);
+        if (!userExists)
+        {
+            this.TempData[ErrorMessage] = UnexpectedErrorMessage;
 
-        return View(companyModel);
+            return RedirectToAction("Index", "Home");
+        }
+
+        bool isCompany = await _userService.IsRegisteredAsCompanyAsync(id);
+
+        if (!isCompany)
+        {
+            this.TempData[ErrorMessage] = NotRegisteredAsCompanyErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        bool hasAlreadyCreatedCompany = await _companyService.HasAlreadyCreatedCompanyAsync(id);
+
+        if (hasAlreadyCreatedCompany)
+        {
+            this.TempData[ErrorMessage] = AlreadyRegisteredAsCompanyErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        try
+        {
+            var companyModel = await _companyService.GetCompanyCreateViewModelByUserIdAsync(id);
+
+            return View(companyModel);
+        }
+        catch (Exception)
+        {
+            this.TempData[ErrorMessage] = UnexpectedErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> Create([FromForm]CompanyCreateViewModel model, string id)
     {
+        bool userExists = await _userService.UserExistsByIdAsync(id);
+
+        if (!userExists)
+        {
+            this.TempData[ErrorMessage] = UnexpectedErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        bool isCompany = await _userService.IsRegisteredAsCompanyAsync(id);
+
+        if (!isCompany)
+        {
+            this.TempData[ErrorMessage] = NotRegisteredAsCompanyErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        bool hasAlreadyCreatedCompany = await _companyService.HasAlreadyCreatedCompanyAsync(id);
+
+        if (hasAlreadyCreatedCompany)
+        {
+            this.TempData[ErrorMessage] = AlreadyRegisteredAsCompanyErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
         if (!ModelState.IsValid)
         {
             return View(model);
@@ -75,17 +140,20 @@ public class CompanyController : Controller
 
             var companyId = await _companyService.CreateAsync(model, imageId, addressId, id);
 
-            await _userService.AddClaimAsync(id, "Company", companyId);
+            await _userService.AddClaimAsync(id, "companyId", companyId);
+
+            return RedirectToAction("Login", "User");
         }
         catch (Exception)
         {
-            GeneralError();
-        }
+            this.TempData[ErrorMessage] = UnexpectedErrorMessage;
 
-        return RedirectToAction("Login", "User");
+            return RedirectToAction("Index", "Home");
+        }
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> Details(string id)
     {
         var companyModel = await _companyService.GetCompanyDetailsByIdAsync(id);
@@ -107,16 +175,11 @@ public class CompanyController : Controller
         }
         catch (Exception)
         {
-            GeneralError();
+            this.TempData[ErrorMessage] = UnexpectedErrorMessage;
+
+            return RedirectToAction("Index", "Home");
         }
 
         return View(companyModel);
-    }
-
-    private IActionResult GeneralError()
-    {
-        this.TempData[ErrorMessage] = UnexpectedErrorMessage;
-
-        return this.RedirectToAction("Index", "Home");
     }
 }

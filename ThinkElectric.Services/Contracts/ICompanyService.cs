@@ -11,4 +11,5 @@ public interface ICompanyService
 
     Task<CompanyDetailsViewModel?> GetCompanyDetailsByIdAsync(string id);
 
+    Task<bool> HasAlreadyCreatedCompanyAsync(string id);
 }

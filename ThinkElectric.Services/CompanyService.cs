@@ -75,5 +75,14 @@
                 
             return model;
         }
+
+        public async Task<bool> HasAlreadyCreatedCompanyAsync(string id)
+        {
+            bool hasCompany = await _dbContext.
+                Companies.
+                AnyAsync(c => c.UserId.ToString() == id);
+
+            return hasCompany;
+        }
     }
 }

@@ -6,6 +6,7 @@ using Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Web.ViewModels.User;
+using static ThinkElectric.Common.EntityValidationConstants;
 
 public class UserService : IUserService
 {
@@ -76,5 +77,28 @@ public class UserService : IUserService
         ApplicationUser user = await _userManager.FindByIdAsync(userId);
 
         await _userManager.AddClaimAsync(user, new Claim(key, value));
+    }
+
+    public async Task<bool> IsRegisteredAsCompanyAsync(string userId)
+    {
+        ApplicationUser user = await _userManager.FindByIdAsync(userId);
+
+        IList<Claim> claims = await _userManager.GetClaimsAsync(user);
+
+        bool isRegisteredAsCompany = claims.Any(c => c.Type == "companyUser");
+
+        return isRegisteredAsCompany;
+    }
+
+    public async Task<bool> UserExistsByIdAsync(string userId)
+    {
+        ApplicationUser? user = await _userManager.FindByIdAsync(userId);
+
+        if (user == null)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

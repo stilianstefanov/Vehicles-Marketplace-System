@@ -1,4 +1,18 @@
-﻿@if (User.Identity != null && User.Identity.IsAuthenticated)
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using ThinkElectric.Services.Contracts
+@using System.Security.Claims
+
+@inject IUserService UserService
+@{
+    bool isRegisteredAsCompany = false;
+
+    if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        isRegisteredAsCompany = await UserService.IsRegisteredAsCompanyAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+    }
+}
+
+@if (User.Identity != null && User.Identity.IsAuthenticated && isRegisteredAsCompany)
 {
     <ul class="navbar-nav">
         <li class="nav-item dropdown">
@@ -6,7 +20,7 @@
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="#">Products</a>
                 <a class="dropdown-item" href="#">Orders</a>
-                <a class="dropdown-item" asp-controller="Company" asp-action="Details" asp-route-id="@User.FindFirst("Company")!.Value">Company Details</a>
+                <a class="dropdown-item" asp-controller="Company" asp-action="Details" asp-route-id="@User.FindFirst("companyId")!.Value">Company Details</a>
             </div>
         </li>
     </ul>

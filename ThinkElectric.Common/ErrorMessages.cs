@@ -12,9 +12,14 @@ public static class ErrorMessages
 
     public const string ImageFormatErrorMessage = "Image must be a .jpg, .jpeg, or .png file.";
 
+
     public const string UncompletedRegistrationErrorMessage = "Please finish you registration to continue!";
 
     public const string UnexpectedErrorMessage = "An unexpected error occurred while proceeding you request. Please try again later or contact administrator";
 
     public const string CompanyNotFoundErrorMessage = "Company with the provided Id does not exist. Please try again!";
+
+    public const string AlreadyRegisteredAsCompanyErrorMessage = "You are already registered as a company!";
+
+    public const string NotRegisteredAsCompanyErrorMessage = "You are not registered as a company!";
 }
