@@ -48,4 +48,21 @@ public class AddressService : IAddressService
 
         return model;
     }
+
+    public async Task<AddressEditViewModel> GetAddressEditByIdAsync(string id)
+    {
+        AddressEditViewModel model = await _dbContext
+            .Addresses
+            .Where(a => a.Id.ToString() == id)
+            .Select(a => new AddressEditViewModel()
+            {
+                Street = a.Street,
+                City = a.City,
+                ZipCode = a.ZipCode,
+                Country = a.Country
+            })
+            .FirstAsync();
+
+        return model;
+    }
 }
