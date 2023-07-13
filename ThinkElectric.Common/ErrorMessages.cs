@@ -15,4 +15,6 @@ public static class ErrorMessages
     public const string UncompletedRegistrationErrorMessage = "Please finish you registration to continue!";
 
     public const string UnexpectedErrorMessage = "An unexpected error occurred while proceeding you request. Please try again later or contact administrator";
+
+    public const string CompanyNotFoundErrorMessage = "Company with the provided Id does not exist. Please try again!";
 }

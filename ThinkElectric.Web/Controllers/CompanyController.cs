@@ -79,7 +79,7 @@ public class CompanyController : Controller
         }
         catch (Exception)
         {
-            ModelState.AddModelError("", "An unexpected error occurred while proceeding you request.");
+            GeneralError();
         }
 
         return RedirectToAction("Login", "User");
@@ -92,7 +92,9 @@ public class CompanyController : Controller
 
         if (companyModel == null)
         {
-            return NotFound();
+            TempData[ErrorMessage] = CompanyNotFoundErrorMessage;
+
+            return RedirectToAction("Index", "Home");
         }
 
         try
@@ -105,7 +107,7 @@ public class CompanyController : Controller
         }
         catch (Exception)
         {
-            ModelState.AddModelError("", "An unexpected error occurred while proceeding you request.");
+            GeneralError();
         }
 
         return View(companyModel);
