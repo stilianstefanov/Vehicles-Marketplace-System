@@ -3,7 +3,6 @@
 using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson.Serialization.Serializers;
 using Services.Contracts;
 using ViewModels.Company;
 using static Common.ErrorMessages;
@@ -34,15 +33,21 @@ public class CompanyController : Controller
 
 
     [AllowAnonymous]
+    [HttpGet]
     public async Task<IActionResult> Create(string id)
     {
-        bool userExists = await _userService.UserExistsByIdAsync(id);
-
-        if (!userExists)
+        try
         {
-            this.TempData[ErrorMessage] = UnexpectedErrorMessage;
+            bool userExists = await _userService.UserExistsByIdAsync(id);
 
-            return RedirectToAction("Index", "Home");
+            if (!userExists)
+            {
+                return GeneralError();
+            }
+        }
+        catch
+        {
+            return GeneralError();
         }
 
         bool isCompany = await _userService.IsRegisteredAsCompanyAsync(id);
@@ -71,9 +76,7 @@ public class CompanyController : Controller
         }
         catch (Exception)
         {
-            this.TempData[ErrorMessage] = UnexpectedErrorMessage;
-
-            return RedirectToAction("Index", "Home");
+            return GeneralError();
         }
     }
 
@@ -81,13 +84,18 @@ public class CompanyController : Controller
     [AllowAnonymous]
     public async Task<IActionResult> Create([FromForm]CompanyCreateViewModel model, string id)
     {
-        bool userExists = await _userService.UserExistsByIdAsync(id);
-
-        if (!userExists)
+        try
         {
-            this.TempData[ErrorMessage] = UnexpectedErrorMessage;
+            bool userExists = await _userService.UserExistsByIdAsync(id);
 
-            return RedirectToAction("Index", "Home");
+            if (!userExists)
+            {
+                return GeneralError();
+            }
+        }
+        catch
+        {
+            return GeneralError();
         }
 
         bool isCompany = await _userService.IsRegisteredAsCompanyAsync(id);
@@ -147,9 +155,7 @@ public class CompanyController : Controller
         }
         catch (Exception)
         {
-            this.TempData[ErrorMessage] = UnexpectedErrorMessage;
-
-            return RedirectToAction("Index", "Home");
+            return GeneralError();
         }
     }
 
@@ -178,9 +184,7 @@ public class CompanyController : Controller
         }
         catch (Exception)
         {
-            this.TempData[ErrorMessage] = UnexpectedErrorMessage;
-
-            return RedirectToAction("Index", "Home");
+            return GeneralError();
         }
     }
 
@@ -208,9 +212,9 @@ public class CompanyController : Controller
 
         try
         {
-            CompanyEditViewModel companyModel = await _companyService.GetCompanyEditViewModelByIdAsync(id);
+            var companyModel = await _companyService.GetCompanyEditViewModelByIdAsync(id);
 
-            companyModel.Address = await _addressService.GetAddressEditByIdAsync(companyModel.AddressId);
+            companyModel.Address = await _addressService.GetAddressEditByIdAsync(companyModel.AddressId!);
 
             companyModel.CurrentImage = await _imageService.GetImageByIdAsync(companyModel.ImageId!);
 
@@ -218,9 +222,81 @@ public class CompanyController : Controller
         }
         catch (Exception)
         {
-            this.TempData[ErrorMessage] = UnexpectedErrorMessage;
+            return GeneralError();
+        }
+    }
+
+    [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> Edit([FromForm]CompanyEditViewModel model, string id)
+    {
+        bool companyExists = await _companyService.CompanyExistsByIdAsync(id);
+
+        if (!companyExists)
+        {
+            this.TempData[ErrorMessage] = CompanyNotFoundErrorMessage;
 
             return RedirectToAction("Index", "Home");
         }
+
+        bool isUserCompanyOwner = await _companyService.IsUserCompanyOwnerAsync(id, User.GetId()!);
+
+        if (!isUserCompanyOwner)
+        {
+            this.TempData[ErrorMessage] = NotOwnerOfCompanyErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        if (model.FoundedDate == null)
+        {
+            ModelState.AddModelError(nameof(model.FoundedDate), DateErrorMessage);
+            return View(model);
+        }
+
+        if (model.NewImage != null && model.NewImage.Length != 0)
+        {
+            var imageType = model.NewImage.ContentType;
+
+            if (imageType != "image/jpg" && imageType != "image/jpeg" && imageType != "image/png")
+            {
+                ModelState.AddModelError(nameof(model.NewImage), ImageFormatErrorMessage);
+                return View(model);
+            }
+        }
+
+        try
+        {
+            if (model.NewImage != null && model.NewImage.Length != 0)
+            {
+                var imageId = await _companyService.GetImageIdByCompanyIdAsync(id);
+
+                await _imageService.UpdateAsync(imageId, model.NewImage);
+            }
+
+            string addressId = await _companyService.GetAddressIdByCompanyIdAsync(id);
+
+            await _addressService.EditAsync(addressId, model.Address);
+
+            await _companyService.EditAsync(model, id);
+
+            return RedirectToAction("Details", "Company", new { id });
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
+    }
+
+    private IActionResult GeneralError()
+    {
+        this.TempData[ErrorMessage] = UnexpectedErrorMessage;
+
+        return RedirectToAction("Index", "Home");
     }
 }

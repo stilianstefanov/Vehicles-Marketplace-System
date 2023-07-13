@@ -32,13 +32,13 @@ public class CompanyEditViewModel
     [Display(Name = "Founded Date")]
     public DateTime? FoundedDate { get; set; }
 
-    public string? ImageId { get; set; } = null!;
+    public string? ImageId { get; set; }
 
     public ImageViewModel? CurrentImage { get; set; }
 
     public IFormFile? NewImage { get; set; }
 
-    public string AddressId { get; set; } = null!;
+    public string? AddressId { get; set; }
 
     public AddressEditViewModel Address { get; set; } = null!;
 }

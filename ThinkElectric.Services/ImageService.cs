@@ -23,7 +23,7 @@
 
         public async Task<string> CreateAsync(IFormFile imageFile)
         {
-            string imageType = Path.GetExtension(imageFile.FileName);
+            string imageType = imageFile.ContentType;
 
             byte[] imageBytes;
 
@@ -57,6 +57,28 @@
                 .FirstOrDefaultAsync();
 
             return model;
+        }
+
+        public async Task UpdateAsync(string imageId, IFormFile newImage)
+        {
+            string imageType = newImage.ContentType;
+
+            byte[] imageBytes;
+
+            await using MemoryStream memoryStream = new MemoryStream();
+
+            await newImage.CopyToAsync(memoryStream);
+
+            imageBytes = memoryStream.ToArray();
+
+            Image updatedImage = new Image
+            {
+                Id = imageId,
+                ImageType = imageType,
+                Data = imageBytes
+            };
+
+            await _imageCollection.ReplaceOneAsync(i => i.Id == imageId, updatedImage);
         }
     }
 }

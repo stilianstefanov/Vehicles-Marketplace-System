@@ -71,9 +71,11 @@ public class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.MapDefaultControllerRoute();
-
-        app.MapRazorPages();
+        app.UseEndpoints(config =>
+        {
+            config.MapDefaultControllerRoute();
+            config.MapRazorPages();
+        });
 
         app.Run();
     }

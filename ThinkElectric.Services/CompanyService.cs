@@ -124,5 +124,44 @@
 
             return model;
         }
+
+        public async Task<string> GetImageIdByCompanyIdAsync(string id)
+        {
+            string imageId = await _dbContext
+                .Companies
+                .Where(c => c.Id.ToString() == id)
+                .Select(c => c.ImageId)
+                .FirstAsync();
+
+            return imageId;
+        }
+
+        public async Task<string> GetAddressIdByCompanyIdAsync(string id)
+        {
+            string addressId = await _dbContext
+                .Companies
+                .Where(c => c.Id.ToString() == id)
+                .Select(c => c.AddressId.ToString())
+                .FirstAsync();
+
+            return addressId;
+        }
+
+        public async Task EditAsync(CompanyEditViewModel model, string id)
+        {
+            Company company = await _dbContext
+                .Companies
+                .Where(c => c.Id.ToString() == id)
+                .FirstAsync();
+
+            company.Name = model.Name;
+            company.Email = model.Email;
+            company.PhoneNumber = model.PhoneNumber;
+            company.Website = model.Website;
+            company.Description = model.Description;
+            company.FoundedDate = model.FoundedDate!.Value;
+
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

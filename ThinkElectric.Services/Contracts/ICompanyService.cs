@@ -12,4 +12,7 @@ public interface ICompanyService
     Task<bool> CompanyExistsByIdAsync(string id);
     Task<bool> IsUserCompanyOwnerAsync(string companyId, string userId);
     Task<CompanyEditViewModel> GetCompanyEditViewModelByIdAsync(string id);
+    Task<string> GetImageIdByCompanyIdAsync(string id);
+    Task<string> GetAddressIdByCompanyIdAsync(string id);
+    Task EditAsync(CompanyEditViewModel model, string id);
 }

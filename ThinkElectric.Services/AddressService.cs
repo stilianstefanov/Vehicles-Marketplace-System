@@ -65,4 +65,18 @@ public class AddressService : IAddressService
 
         return model;
     }
+
+    public async Task EditAsync(string id, AddressEditViewModel modelAddress)
+    {
+        Address address = await _dbContext
+            .Addresses
+            .FirstAsync(a => a.Id.ToString() == id);
+
+        address.Street = modelAddress.Street;
+        address.City = modelAddress.City;
+        address.ZipCode = modelAddress.ZipCode;
+        address.Country = modelAddress.Country;
+
+        await _dbContext.SaveChangesAsync();
+    }
 }
