@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using Address;
 using static ThinkElectric.Common.EntityValidationConstants.Company;
-using static Common.ValidationErrors;
+using static Common.ErrorMessages;
 
 public class CompanyEditViewModel
 {

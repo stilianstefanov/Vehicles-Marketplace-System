@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using ViewModels.User;
 
+using static Common.NotificationsMessagesConstants;
+using static Common.ErrorMessages;
+
 public class UserController : Controller
 {
     private readonly ICartService _cartService;
@@ -24,7 +27,10 @@ public class UserController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(RegisterViewModel model)
     {
-        if (!ModelState.IsValid) return View(model);
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
 
         var resultRegister = await _userService.RegisterAsync(model);
 
@@ -69,6 +75,8 @@ public class UserController : Controller
         {
             if (user.Cart == null && user.Company == null)
             {
+                TempData[WarningMessage] = UncompletedRegistrationErrorMessage;
+
                 return RedirectToAction("Create", "Company", new { id = user.Id.ToString() });
             }
 

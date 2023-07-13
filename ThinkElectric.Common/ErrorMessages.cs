@@ -1,6 +1,6 @@
 ﻿namespace ThinkElectric.Common;
 
-public static class ValidationErrors
+public static class ErrorMessages
 {
     public const string PhoneNumberErrorMessage = "The phone number must be in the format +359 888 888 888 or 0888 888 888.";
 
@@ -11,4 +11,8 @@ public static class ValidationErrors
     public const string ImageRequiredErrorMessage = "Please upload image in the format .jpg, .jpeg, or .png";
 
     public const string ImageFormatErrorMessage = "Image must be a .jpg, .jpeg, or .png file.";
+
+    public const string UncompletedRegistrationErrorMessage = "Please finish you registration to continue!";
+
+    public const string UnexpectedErrorMessage = "An unexpected error occurred while proceeding you request. Please try again later or contact administrator";
 }

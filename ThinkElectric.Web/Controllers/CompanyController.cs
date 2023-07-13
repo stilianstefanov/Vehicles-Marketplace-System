@@ -3,7 +3,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using ViewModels.Company;
-using static Common.ValidationErrors;
+using static Common.ErrorMessages;
+using static Common.NotificationsMessagesConstants;
+
 
 public class CompanyController : Controller
 {
@@ -107,5 +109,12 @@ public class CompanyController : Controller
         }
 
         return View(companyModel);
+    }
+
+    private IActionResult GeneralError()
+    {
+        this.TempData[ErrorMessage] = UnexpectedErrorMessage;
+
+        return this.RedirectToAction("Index", "Home");
     }
 }

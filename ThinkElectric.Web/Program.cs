@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Data;
 using Data.Models;
 using Infrastructure.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using ThinkElectric.Data.MongoDb.Models;
 
@@ -41,17 +42,23 @@ public class Program
         builder.Services.AddApplicationServices(typeof(IProductService));
 
 
-        builder.Services.AddControllersWithViews();
+        builder.Services.AddControllersWithViews()
+            .AddMvcOptions(options =>
+            {
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
 
         var app = builder.Build();
 
         if (app.Environment.IsDevelopment())
         {
             app.UseMigrationsEndPoint();
+            app.UseDeveloperExceptionPage();
         }
         else
         {
-            app.UseExceptionHandler("/Home/Error");
+            app.UseExceptionHandler("/Home/Error/500");
+            app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
 
             app.UseHsts();
         }
