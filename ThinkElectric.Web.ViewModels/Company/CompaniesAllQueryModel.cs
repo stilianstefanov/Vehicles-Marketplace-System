@@ -24,7 +24,7 @@ public class CompaniesAllQueryModel
 
     public int CompaniesPerPage { get; set; }
 
-    public int TotalCompanies { get; set; }
+    public int TotalPages { get; set; }
 
     public IEnumerable<CompanyAllViewModel> Companies { get; set; }
 }

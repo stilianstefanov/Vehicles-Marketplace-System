@@ -23,3 +23,9 @@ body {
 .details-field {
     background-color: #9ea3a0;
 }
+
+.image-equal {
+    height: 230px; 
+    object-fit: cover;
+    object-position: center;
+}

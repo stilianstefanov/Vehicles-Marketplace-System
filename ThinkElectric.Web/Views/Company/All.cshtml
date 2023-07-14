@@ -4,7 +4,9 @@
     ViewBag.Title = "Company List";
 }
 
-<h2>Company List</h2>
+<div class="text-center mt-3">
+    <h2>Companies</h2>
+</div>
 
 <div class="row">
     <div class="col-md-4">
@@ -37,12 +39,12 @@
     </div>
 </div>
 
-<div class="row" id="companyContainer">
+<div class="row mt-5" id="companyContainer">
     @foreach (var company in Model)
     {
         <div class="col-md-4">
             <div class="card">
-                <img src="data:@company.Image.ImageType;base64,@Convert.ToBase64String(company.Image.Data)" alt="Company Logo" class="img-fluid rounded-circle" />
+                <img src="data:@company.Image.ImageType;base64,@Convert.ToBase64String(company.Image.Data)" alt="Company Logo" class="image-equal"/>
                 <div class="card-body">
                     <h5 class="card-title">@company.Name</h5>
                     <p class="card-text">
@@ -55,7 +57,7 @@
     }
 </div>
 
-<div>
+<div class="text-center mt-5">
     <button type="button" class="btn btn-primary" id="previousPage">Previous</button>
     <button type="button" class="btn btn-primary" id="nextPage">Next</button>
 </div>

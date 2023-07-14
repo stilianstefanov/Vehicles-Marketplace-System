@@ -84,7 +84,7 @@ public class CompanyController : Controller
 
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> Create([FromForm]CompanyCreateViewModel model, string id)
+    public async Task<IActionResult> Create([FromForm] CompanyCreateViewModel model, string id)
     {
         try
         {
@@ -230,7 +230,7 @@ public class CompanyController : Controller
 
     [Authorize]
     [HttpPost]
-    public async Task<IActionResult> Edit([FromForm]CompanyEditViewModel model, string id)
+    public async Task<IActionResult> Edit([FromForm] CompanyEditViewModel model, string id)
     {
         bool companyExists = await _companyService.CompanyExistsByIdAsync(id);
 
@@ -301,6 +301,16 @@ public class CompanyController : Controller
     {
         AllCompaniesFilteredAndPagedServiceModel serviceModel =
             await _companyService.AllAsync(new CompaniesAllQueryModel());
+
+        serviceModel.Companies = serviceModel
+            .Companies
+            .Select(async company =>
+        {
+            company.Image = await _imageService.GetImageByIdAsync(company.ImageId);
+            return company;
+        })
+            .Select(t => t.Result).ToList();
+
 
         return View(serviceModel.Companies);
     }
