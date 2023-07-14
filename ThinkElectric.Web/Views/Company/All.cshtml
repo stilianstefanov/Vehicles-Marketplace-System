@@ -1,0 +1,137 @@
+﻿@model IEnumerable<CompanyAllViewModel>
+
+@{
+    ViewBag.Title = "Company List";
+}
+
+<h2>Company List</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="search">Search:</label>
+            <input type="text" class="form-control" id="search" placeholder="Search">
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="sort">Sort By:</label>
+            <select class="form-control" id="sort">
+                <option value="0">Name (Descending)</option>
+                <option value="1">Name (Ascending)</option>
+                <option value="2">Founded Date (Descending)</option>
+                <option value="3">Founded Date (Ascending)</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="perPage">Companies per Page:</label>
+            <select class="form-control" id="perPage">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="companyContainer">
+    @foreach (var company in Model)
+    {
+        <div class="col-md-4">
+            <div class="card">
+                <img src="data:@company.Image.ImageType;base64,@Convert.ToBase64String(company.Image.Data)" alt="Company Logo" class="img-fluid rounded-circle" />
+                <div class="card-body">
+                    <h5 class="card-title">@company.Name</h5>
+                    <p class="card-text">
+                        <strong>Website:</strong> <a href="@company.Website" target="_blank">@company.Website</a><br>
+                        <strong>Founded:</strong> @company.FoundedDate
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div>
+    <button type="button" class="btn btn-primary" id="previousPage">Previous</button>
+    <button type="button" class="btn btn-primary" id="nextPage">Next</button>
+</div>
+
+@*@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Initial page load
+            loadData();
+
+            // Search input change event
+            $('#search').on('input', function () {
+                loadData();
+            });
+
+            // Sort dropdown change event
+            $('#sort').on('change', function () {
+                loadData();
+            });
+
+            // PerPage dropdown change event
+            $('#perPage').on('change', function () {
+                loadData();
+            });
+
+            // Previous page button click event
+            $('#previousPage').on('click', function () {
+                loadData('previous');
+            });
+
+            // Next page button click event
+            $('#nextPage').on('click', function () {
+                loadData('next');
+            });
+        });
+
+        function loadData(pageDirection) {
+            var search = $('#search').val();
+            var sort = $('#sort').val();
+            var perPage = $('#perPage').val();
+            var currentPage = pageDirection === 'previous' ? -1 : 1;
+
+            $.ajax({
+                url: '/Company/GetCompanies',
+                type: 'GET',
+                data: {
+                    search: search,
+                    sort: sort,
+                    perPage: perPage,
+                    currentPage: currentPage
+                },
+                success: function (result) {
+                    $('#companyContainer').empty();
+
+                    $.each(result.companies, function (index, company) {
+                        var card = '<div class="col-md-4">' +
+                            '<div class="card">' +
+                            '<img src="data:image/png;base64,' + company.Image + '" class="card-img-top" alt="Company Image">' +
+                            '<div class="card-body">' +
+                            '<h5 class="card-title">' + company.Name + '</h5>' +
+                            '<p class="card-text">' +
+                            '<strong>Website:</strong> <a href="' + company.Website + '" target="_blank">' + company.Website + '</a><br>' +
+                            '<strong>Founded:</strong> ' + company.FoundedDate + '</p>' +
+                            '</div></div></div>';
+
+                        $('#companyContainer').append(card);
+                    });
+
+                    // Update previous and next page buttons
+                    $('#previousPage').prop('disabled', result.currentPage === 1);
+                    $('#nextPage').prop('disabled', result.currentPage === result.totalPages);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+}*@

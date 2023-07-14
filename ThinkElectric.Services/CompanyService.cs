@@ -5,7 +5,9 @@
     using Data.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    using Models;
     using Web.ViewModels.Company;
+    using Web.ViewModels.Company.Enums;
 
     public class CompanyService : ICompanyService
     {
@@ -162,6 +164,59 @@
             company.FoundedDate = model.FoundedDate!.Value;
 
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<AllCompaniesFilteredAndPagedServiceModel> AllAsync(CompaniesAllQueryModel queryModel)
+        {
+            IQueryable<Company> companiesQuery = _dbContext
+                .Companies
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(queryModel.SearchTerm))
+            {
+                string wildCardSearchTerm = $"%{queryModel.SearchTerm.ToLower()}%";
+
+                companiesQuery = companiesQuery
+                    .Where(c => EF.Functions.Like(c.Name, wildCardSearchTerm) ||
+                                EF.Functions.Like(c.Description, wildCardSearchTerm) ||
+                                EF.Functions.Like(c.Email, wildCardSearchTerm ));
+            }
+
+            companiesQuery = queryModel.CompanySorting switch
+            {
+                CompanySorting.NameAscending => companiesQuery
+                    .OrderBy(c => c.Name),
+                CompanySorting.NameDescending => companiesQuery
+                    .OrderByDescending(c => c.Name),
+                CompanySorting.FoundedDateAscending => companiesQuery
+                    .OrderBy(c => c.FoundedDate),
+                CompanySorting.FoundedDateDescending => companiesQuery
+                    .OrderByDescending(c => c.FoundedDate),
+                _ => companiesQuery.OrderBy(c => c.Name)
+            };
+
+            IEnumerable<CompanyAllViewModel> allCompanies = await companiesQuery
+                .Skip((queryModel.CurrentPage - 1) * queryModel.CompaniesPerPage)
+                .Take(queryModel.CompaniesPerPage)
+                .Select(c => new CompanyAllViewModel()
+                {
+                    Id = c.Id.ToString(),
+                    Name = c.Name,
+                    Website = c.Website,
+                    FoundedDate = c.FoundedDate.ToString("d"),
+                    ImageId = c.ImageId,
+                })
+                .ToArrayAsync();
+
+            int totalCompanies = companiesQuery.Count();
+
+            AllCompaniesFilteredAndPagedServiceModel model = new AllCompaniesFilteredAndPagedServiceModel()
+            {
+                Companies = allCompanies,
+                TotalCompaniesCount = totalCompanies
+            };
+
+            return model;
         }
     }
 }

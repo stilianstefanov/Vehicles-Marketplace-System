@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ThinkElectric.Services.Models\ThinkElectric.Services.Models.csproj" />
     <ProjectReference Include="..\ThinkElectric.Services\ThinkElectric.Services.csproj" />
     <ProjectReference Include="..\ThinkElectric.Web.Infrastructure\ThinkElectric.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\ThinkElectric.Web.ViewModels\ThinkElectric.Web.ViewModels.csproj" />

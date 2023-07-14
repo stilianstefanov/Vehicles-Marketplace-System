@@ -4,6 +4,8 @@ using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
+using Services.Models;
+using ViewModels;
 using ViewModels.Company;
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
@@ -291,6 +293,16 @@ public class CompanyController : Controller
         {
             return GeneralError();
         }
+    }
+
+    [AllowAnonymous]
+    [HttpGet]
+    public async Task<IActionResult> All()
+    {
+        AllCompaniesFilteredAndPagedServiceModel serviceModel =
+            await _companyService.AllAsync(new CompaniesAllQueryModel());
+
+        return View(serviceModel.Companies);
     }
 
     private IActionResult GeneralError()
