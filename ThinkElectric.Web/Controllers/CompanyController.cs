@@ -7,6 +7,7 @@ using Services.Contracts;
 using ViewModels.Company;
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
+using static Common.GeneralMessages;
 
 
 [Authorize]
@@ -150,6 +151,8 @@ public class CompanyController : Controller
             var companyId = await _companyService.CreateAsync(model, imageId, addressId, id);
 
             await _userService.AddClaimAsync(id, "companyId", companyId);
+
+            TempData[SuccessMessage] = RegistrationSuccessMessage;
 
             return RedirectToAction("Login", "User");
         }

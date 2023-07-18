@@ -6,6 +6,7 @@ using ViewModels.User;
 
 using static Common.NotificationsMessagesConstants;
 using static Common.ErrorMessages;
+using static Common.GeneralMessages;
 
 public class UserController : Controller
 {
@@ -50,6 +51,8 @@ public class UserController : Controller
             await _userService.AddClaimAsync(user.Id.ToString(), "cartId", cartId.ToString());
 
             await _userService.SignInAsync(user, model.Password, false, false);
+
+            TempData[SuccessMessage] = RegistrationSuccessMessage;
 
             return RedirectToAction("Index", "Home");
         }
