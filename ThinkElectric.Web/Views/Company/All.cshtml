@@ -1,6 +1,4 @@
-﻿@model IEnumerable<CompanyAllViewModel>
-
-@{
+﻿@{
     ViewBag.Title = "Company List";
 }
 
@@ -40,21 +38,6 @@
 </div>
 
 <div class="row mt-5" id="companyContainer">
-    @foreach (var company in Model)
-    {
-        <div class="col-md-4">
-            <div class="card">
-                <img src="data:@company.Image.ImageType;base64,@Convert.ToBase64String(company.Image.Data)" alt="Company Logo" class="image-equal"/>
-                <div class="card-body">
-                    <h5 class="card-title">@company.Name</h5>
-                    <p class="card-text">
-                        <strong>Website:</strong> <a href="@company.Website" target="_blank">@company.Website</a><br>
-                        <strong>Founded:</strong> @company.FoundedDate
-                    </p>
-                </div>
-            </div>
-        </div>
-    }
 </div>
 
 <div class="text-center mt-5">
@@ -62,78 +45,88 @@
     <button type="button" class="btn btn-primary" id="nextPage">Next</button>
 </div>
 
-@*@section Scripts {
-    <script>
-        $(document).ready(function () {
-            // Initial page load
-            loadData();
+<script>
+    $(document).ready(function () {
+      var currentPage = 1; // Initialize current page to 1
 
-            // Search input change event
-            $('#search').on('input', function () {
-                loadData();
-            });
+      // Initial page load
+      loadData();
 
-            // Sort dropdown change event
-            $('#sort').on('change', function () {
-                loadData();
-            });
+      // Search input change event
+      $('#search').on('input', function () {
+        currentPage = 1; // Reset current page to 1
+        loadData();
+      });
 
-            // PerPage dropdown change event
-            $('#perPage').on('change', function () {
-                loadData();
-            });
+      // Sort dropdown change event
+      $('#sort').on('change', function () {
+        currentPage = 1; // Reset current page to 1
+        loadData();
+      });
 
-            // Previous page button click event
-            $('#previousPage').on('click', function () {
-                loadData('previous');
-            });
+      // PerPage dropdown change event
+      $('#perPage').on('change', function () {
+        currentPage = 1; // Reset current page to 1
+        loadData();
+      });
 
-            // Next page button click event
-            $('#nextPage').on('click', function () {
-                loadData('next');
-            });
-        });
+      // Previous page button click event
+      $('#previousPage').on('click', function () {
+        if (currentPage > 1) {
+          loadData('previous');
+        }
+      });
 
-        function loadData(pageDirection) {
-            var search = $('#search').val();
-            var sort = $('#sort').val();
-            var perPage = $('#perPage').val();
-            var currentPage = pageDirection === 'previous' ? -1 : 1;
+      // Next page button click event
+      $('#nextPage').on('click', function () {
+        loadData('next');
+      });
+
+      function loadData(pageDirection) {
+        var search = $('#search').val();
+        var sort = $('#sort').val();
+        var perPage = $('#perPage').val();
+
+        if (pageDirection === 'previous' && currentPage > 1) {
+          currentPage--;
+        } else if (pageDirection === 'next' && currentPage < totalPages) {
+          currentPage++;
+        }
 
             $.ajax({
-                url: '/Company/GetCompanies',
+                url: '/Company/AllFilteredAndPaged',
                 type: 'GET',
                 data: {
-                    search: search,
-                    sort: sort,
-                    perPage: perPage,
+                    searchTerm: search,
+                    companySorting: sort,
+                    companiesPerPage: perPage,
                     currentPage: currentPage
                 },
                 success: function (result) {
                     $('#companyContainer').empty();
 
-                    $.each(result.companies, function (index, company) {
+                    result.companies.forEach(function (company) {
                         var card = '<div class="col-md-4">' +
                             '<div class="card">' +
-                            '<img src="data:image/png;base64,' + company.Image + '" class="card-img-top" alt="Company Image">' +
+                            '<img src="data:' + company.image.imageType + ';base64,' + company.image.data + '" class="image-equal" alt="Company Image">' +
                             '<div class="card-body">' +
-                            '<h5 class="card-title">' + company.Name + '</h5>' +
+                            '<h5 class="card-title">' + company.name + '</h5>' +
                             '<p class="card-text">' +
-                            '<strong>Website:</strong> <a href="' + company.Website + '" target="_blank">' + company.Website + '</a><br>' +
-                            '<strong>Founded:</strong> ' + company.FoundedDate + '</p>' +
+                            '<strong>Website:</strong> <a href="' + company.website + '" target="_blank">' + company.website + '</a><br>' +
+                            '<strong>Founded:</strong> ' + company.foundedDate + '</p>' +
                             '</div></div></div>';
 
                         $('#companyContainer').append(card);
                     });
 
                     // Update previous and next page buttons
-                    $('#previousPage').prop('disabled', result.currentPage === 1);
-                    $('#nextPage').prop('disabled', result.currentPage === result.totalPages);
+                    $('#previousPage').prop('disabled', currentPage === 1);
+                    $('#nextPage').prop('disabled', currentPage === result.totalPages);
                 },
                 error: function (error) {
                     console.log(error);
                 }
             });
-        }
-    </script>
-}*@
+      }
+    });
+</script>

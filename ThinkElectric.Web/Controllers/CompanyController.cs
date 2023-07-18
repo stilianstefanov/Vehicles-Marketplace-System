@@ -4,8 +4,6 @@ using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
-using Services.Models;
-using ViewModels;
 using ViewModels.Company;
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
@@ -297,22 +295,27 @@ public class CompanyController : Controller
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<IActionResult> All()
+    public IActionResult All()
     {
-        AllCompaniesFilteredAndPagedServiceModel serviceModel =
-            await _companyService.AllAsync(new CompaniesAllQueryModel());
+        return View();
+    }
 
-        serviceModel.Companies = serviceModel
+    [AllowAnonymous]
+    [HttpGet]
+    public async Task<IActionResult> AllFilteredAndPaged(CompaniesAllQueryModel queryModel)
+    {
+        queryModel = await _companyService.AllAsync(queryModel);
+
+        queryModel.Companies = queryModel
             .Companies
             .Select(async company =>
-        {
+            {
             company.Image = await _imageService.GetImageByIdAsync(company.ImageId);
             return company;
         })
             .Select(t => t.Result).ToList();
 
-
-        return View(serviceModel.Companies);
+        return Json(queryModel);
     }
 
     private IActionResult GeneralError()

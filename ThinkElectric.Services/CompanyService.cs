@@ -5,7 +5,6 @@
     using Data.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
-    using Models;
     using Web.ViewModels.Company;
     using Web.ViewModels.Company.Enums;
 
@@ -166,7 +165,7 @@
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<AllCompaniesFilteredAndPagedServiceModel> AllAsync(CompaniesAllQueryModel queryModel)
+        public async Task<CompaniesAllQueryModel> AllAsync(CompaniesAllQueryModel queryModel)
         {
             IQueryable<Company> companiesQuery = _dbContext
                 .Companies
@@ -208,15 +207,13 @@
                 })
                 .ToArrayAsync();
 
-            int totalCompanies = companiesQuery.Count();
+            int totalPages = (int)Math.Ceiling(await companiesQuery.CountAsync() / (double)queryModel.CompaniesPerPage);
 
-            AllCompaniesFilteredAndPagedServiceModel model = new AllCompaniesFilteredAndPagedServiceModel()
-            {
-                Companies = allCompanies,
-                TotalCompaniesCount = totalCompanies
-            };
+            queryModel.TotalPages = totalPages;
 
-            return model;
+            queryModel.Companies = allCompanies;
+
+            return queryModel;
         }
     }
 }

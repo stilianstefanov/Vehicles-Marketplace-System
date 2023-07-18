@@ -1,7 +1,6 @@
 ﻿namespace ThinkElectric.Services.Contracts;
 
 using Data.Models;
-using Models;
 using Web.ViewModels.Company;
 
 public interface ICompanyService
@@ -17,5 +16,5 @@ public interface ICompanyService
     Task<string> GetAddressIdByCompanyIdAsync(string id);
     Task EditAsync(CompanyEditViewModel model, string id);
 
-    Task<AllCompaniesFilteredAndPagedServiceModel> AllAsync(CompaniesAllQueryModel queryModel);
+    Task<CompaniesAllQueryModel> AllAsync(CompaniesAllQueryModel queryModel);
 }
