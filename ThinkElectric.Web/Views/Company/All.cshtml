@@ -114,7 +114,14 @@
                             '<p class="card-text">' +
                             '<strong>Website:</strong> <a href="' + company.website + '" target="_blank">' + company.website + '</a><br>' +
                             '<strong>Founded:</strong> ' + company.foundedDate + '</p>' +
-                            '</div></div></div>';
+                            '</div>' +
+                            '<div class="card-footer d-flex justify-content-center">' +
+                            '<div class="btn-group" role="group">' +
+                            '<a href="/Company/Details/' + company.id + '" class="btn btn-primary">Details</a>' +
+                            '<a href="/Company/Products/' + company.id + '" class="btn btn-secondary ml-5">Products</a>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div></div>';
 
                         $('#companyContainer').append(card);
                     });
