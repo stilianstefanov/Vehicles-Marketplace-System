@@ -1,6 +1,7 @@
 ﻿namespace ThinkElectric.Web.ViewModels.Product;
 
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 using static ThinkElectric.Common.EntityValidationConstants.Product;
 
 
@@ -17,4 +18,6 @@ public class ProductCreateViewModel
     [Required]
     [Range(QuantityMinValue, QuantityMaxValue)]
     public int Quantity { get; set; }
+
+    public IFormFile? ImageFile { get; set; }
 }

@@ -24,4 +24,6 @@ public static class ErrorMessages
     public const string NotRegisteredAsCompanyErrorMessage = "You are not registered as a company!";
 
     public const string NotOwnerOfCompanyErrorMessage = "You are not the owner of this company!";
+
+    public const string ScooterTypeErrorMessage = "Please select scooter type!";
 }

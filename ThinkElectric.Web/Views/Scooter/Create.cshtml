@@ -1,0 +1,84 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ScooterCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Scooter";
+}
+
+<div class="container">
+    <h2>Add Scooter</h2>
+
+    <form asp-action="Create" asp-controller="Scooter" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label asp-for="Product.Name"></label>
+            <input asp-for="Product.Name" class="form-control" placeholder="Enter name here..." />
+            <span asp-validation-for="Product.Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Product.Price"></label>
+            <input asp-for="Product.Price" class="form-control" placeholder="Enter price here..." />
+            <span asp-validation-for="Product.Price" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Product.Quantity"></label>
+            <input asp-for="Product.Quantity" class="form-control" placeholder="Enter initial quantity here..." />
+            <span asp-validation-for="Product.Quantity" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Brand"></label>
+            <input asp-for="Brand" class="form-control" placeholder="Enter the scooter brand name here..." />
+            <span asp-validation-for="Brand" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Model"></label>
+            <input asp-for="Model" class="form-control" placeholder="Enter the scooter model here..."></input>
+            <span asp-validation-for="Model" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Color"></label>
+            <input asp-for="Color" class="form-control" placeholder="Enter the scooter color here..."/>
+            <span asp-validation-for="Color" class="text-danger"></span>
+        </div>
+        
+        <div class="form-group">
+            <label asp-for="Battery"></label>
+            <input asp-for="Battery" class="form-control" placeholder="Enter the battery information here..." />
+            <span asp-validation-for="Battery" class="text-danger"></span>
+        </div>
+        
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="ScooterType"></label>
+                <select asp-for="ScooterType" class="form-control">
+                    <option value="0">Select Scooter Type</option>
+                    <option value="1">Lightweight</option>
+                    <option value="2">Off Road</option>
+                    <option value="3">VespaStyle</option>
+                    <option value="4">LongRange</option>
+                    <option value="5">Performance</option>
+                    <option value="6">SitDown</option>
+                </select>
+                <span asp-validation-for="ScooterType" class="text-danger"></span>
+            </div>
+            
+        </div>
+
+        <div class="form-group mt-5">
+            <label for="ImageFile">Upload Image</label>
+            <input type="file" name="ImageFile" id="ImageFile" class="form-control-file">
+            <span asp-validation-for="Product.ImageFile" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

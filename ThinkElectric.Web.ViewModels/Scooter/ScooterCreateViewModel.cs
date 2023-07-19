@@ -3,10 +3,12 @@
 using System.ComponentModel.DataAnnotations;
 using Product;
 using static ThinkElectric.Common.EntityValidationConstants.Scooter;
+using static ThinkElectric.Common.ErrorMessages;
 
 public class ScooterCreateViewModel
 {
     public ProductCreateViewModel Product { get; set; } = null!;
+
     
     [Required]
     [StringLength(BrandMaxLength, MinimumLength = BrandMinLength)]
@@ -24,7 +26,7 @@ public class ScooterCreateViewModel
     [StringLength(BatteryMaxLength, MinimumLength = BatteryMinLength)]
     public string Battery { get; set; } = null!;
 
-    [Range(ScooterTypeMinValue, ScooterTypeMaxValue)]
+    [Range(ScooterTypeMinValue, ScooterTypeMaxValue, ErrorMessage = ScooterTypeErrorMessage)]
     [Display(Name = "Scooter Type")]
     public int ScooterType { get; set; }
 
