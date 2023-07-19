@@ -29,3 +29,16 @@ body {
     object-fit: cover;
     object-position: center;
 }
+
+.big-button {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    width: 260px; /* 100% of the viewport width */
+    height: 260px; /* 100% of the viewport height */
+    color: #9ea3a0; /* Text color */
+    display: ruby-base;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}

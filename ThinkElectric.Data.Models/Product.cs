@@ -2,6 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Enums.Product;
 using static ThinkElectric.Common.EntityValidationConstants.Product;
 
 public class Product
@@ -31,16 +32,14 @@ public class Product
 
     public DateTime CreatedOn { get; set; }
 
+    public ProductType ProductType { get; set; }
+
+
 
     [ForeignKey(nameof(Company))]
     public Guid CompanyId { get; set; }
 
     public Company Company { get; set; } = null!;
-
-    [ForeignKey(nameof(Category))]
-    public int CategoryId { get; set; }
-
-    public Category Category { get; set; } = null!;
 
     public Scooter? Scooter { get; set; }
 

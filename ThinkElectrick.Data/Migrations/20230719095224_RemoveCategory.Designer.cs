@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThinkElectric.Data;
 
@@ -11,9 +12,10 @@ using ThinkElectric.Data;
 namespace ThinkElectric.Data.Migrations
 {
     [DbContext(typeof(ThinkElectricDbContext))]
-    partial class ThinkElectricDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230719095224_RemoveCategory")]
+    partial class RemoveCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -558,9 +560,6 @@ namespace ThinkElectric.Data.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductType")
-                        .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");

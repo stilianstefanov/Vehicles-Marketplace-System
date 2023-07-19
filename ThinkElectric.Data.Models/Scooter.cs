@@ -1,7 +1,6 @@
 ﻿namespace ThinkElectric.Data.Models;
 
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using ThinkElectric.Data.Models.Enums.Scooter;
 using static Common.EntityValidationConstants.Scooter;
 

@@ -42,13 +42,6 @@ public static class EntityValidationConstants
         public const int ImageIdMaxLength = 30;
     }
 
-    public static class Category
-    {
-        public const int NameMaxLength = 50;
-
-        public const int NameMinLength = 2;
-    }
-
     public static class Product
     {
         public const int NameMaxLength = 100;
@@ -57,13 +50,13 @@ public static class EntityValidationConstants
 
         public const int ImageIdMaxLength = 30;
 
-        public const int PriceMinValue = 0;
+        public const string PriceMinValue = "0";
+
+        public const string PriceMaxValue = "20000";
 
         public const int QuantityMinValue = 0;
 
-        public const int RatingMinValue = 0;
-
-        public const int RatingMaxValue = 5;
+        public const int QuantityMaxValue = 1000;
     }
 
 
@@ -112,6 +105,18 @@ public static class EntityValidationConstants
         public const int EnginePowerMaxValue = 5000;
 
         public const int EnginePowerMinValue = 100;
+
+        public const int ScooterTypeMaxValue = 6;
+
+        public const int ScooterTypeMinValue = 1;
+
+        public const int EngineTypeMaxValue = 2;
+
+        public const int EngineTypeMinValue = 1;
+
+        public const int BrakesTypeMaxValue = 3;
+
+        public const int BrakesTypeMinValue = 1;
     }
 
     public static class Bike
@@ -208,5 +213,14 @@ public static class EntityValidationConstants
         public const int PasswordMaxLength = 100;
 
         public const int PasswordMinLength = 3;
+    }
+
+    public static class CompanyQuery
+    {
+        public const int SearchTermMaxLength = 100;
+
+        public const int SortingMaxValue = 3;
+
+        public const int SortingMinValue = 0;
     }
 }

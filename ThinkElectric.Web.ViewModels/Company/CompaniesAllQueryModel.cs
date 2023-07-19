@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using Enums;
 
 using static Common.GeneralApplicationConstants;
+using static Common.EntityValidationConstants.CompanyQuery;
 
 public class CompaniesAllQueryModel
 {
@@ -14,10 +15,12 @@ public class CompaniesAllQueryModel
 
         Companies = new HashSet<CompanyAllViewModel>();
     }
-    
+
+    [MaxLength(SearchTermMaxLength)]
     [Display(Name = "Search")]
     public string? SearchTerm { get; set; }
 
+    [Range(SortingMinValue, SortingMaxValue)]
     public CompanySorting CompanySorting { get; set; }
 
     public int CurrentPage { get; set; }

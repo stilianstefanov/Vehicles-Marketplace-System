@@ -24,8 +24,6 @@ public class ThinkElectricDbContext : IdentityDbContext<ApplicationUser, Identit
 
     public DbSet<CartItem> CartItems { get; set; } = null!;
 
-    public DbSet<Category> Categories { get; set; } = null!;
-
     public DbSet<Company> Companies { get; set; } = null!;
 
     public DbSet<Order> Orders { get; set; } = null!;
