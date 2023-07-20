@@ -132,9 +132,9 @@
                     $('#productContainer').empty();
 
                     result.products.forEach(function (product) {
-                        var card = '<div class="col-md-4">' +
+                        var card = '<div class="col-md-6 col-lg-4">' +
                             '<div class="card">' +
-                            '<img src="data:' + product.image.imageType + ';base64,' + product.image.data + '" class="image-equal" alt="Company Image">' +
+                            '<img src="data:' + product.image.imageType + ';base64,' + product.image.data + '" class="img-fluid image-equal" alt="Company Image">' +
                             '<div class="card-body">' +
                             '<h5 class="card-title">' + product.name + '</h5>' +
                             '<p class="card-text">' +

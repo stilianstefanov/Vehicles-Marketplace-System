@@ -106,9 +106,9 @@
                     $('#companyContainer').empty();
 
                     result.companies.forEach(function (company) {
-                        var card = '<div class="col-md-4">' +
+                        var card = '<div class="col-md-6 col-lg-4 mt-4">' +
                             '<div class="card">' +
-                            '<img src="data:' + company.image.imageType + ';base64,' + company.image.data + '" class="image-equal" alt="Company Image">' +
+                            '<img src="data:' + company.image.imageType + ';base64,' + company.image.data + '" class="img-fluid image-equal" alt="Company Image">' +
                             '<div class="card-body">' +
                             '<h5 class="card-title">' + company.name + '</h5>' +
                             '<p class="card-text">' +
