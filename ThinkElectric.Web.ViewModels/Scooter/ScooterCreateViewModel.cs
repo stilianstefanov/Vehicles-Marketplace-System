@@ -30,11 +30,11 @@ public class ScooterCreateViewModel
     [Display(Name = "Scooter Type")]
     public int ScooterType { get; set; }
 
-    [Range(EngineTypeMinValue, EngineTypeMaxValue)]
+    [Range(EngineTypeMinValue, EngineTypeMaxValue, ErrorMessage = ScooterEngineTypeErrorMessage)]
     [Display(Name = "Engine Type")]
     public int EngineType { get; set; }
 
-    [Range(BrakesTypeMinValue, BrakesTypeMaxValue)]
+    [Range(BrakesTypeMinValue, BrakesTypeMaxValue, ErrorMessage = ScooterBrakesTypeErrorMessage)]
     [Display(Name = "Brakes Type")]
     public int BrakesType { get; set; }
 

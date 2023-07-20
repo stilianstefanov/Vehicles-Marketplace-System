@@ -26,4 +26,8 @@ public static class ErrorMessages
     public const string NotOwnerOfCompanyErrorMessage = "You are not the owner of this company!";
 
     public const string ScooterTypeErrorMessage = "Please select scooter type!";
+
+    public const string ScooterBrakesTypeErrorMessage = "Please select scooter brakes type!";
+
+    public const string ScooterEngineTypeErrorMessage = "Please select scooter engine type!";
 }
