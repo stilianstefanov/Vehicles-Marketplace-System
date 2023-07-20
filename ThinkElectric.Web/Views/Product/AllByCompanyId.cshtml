@@ -61,6 +61,10 @@
 <script>
     $(document).ready(function () {
         var currentPage = 1; // Initialize current page to 1
+        
+        var url = window.location.href;
+        var parts = url.split('/');
+        var companyId = parts.pop();
 
         // Initial page load
         loadData();
@@ -73,6 +77,12 @@
 
         // Sort dropdown change event
         $('#sort').on('change', function () {
+            currentPage = 1; // Reset current page to 1
+            loadData();
+        });
+        
+        // Type dropdown change event
+        $('#type').on('change', function () {
             currentPage = 1; // Reset current page to 1
             loadData();
         });
@@ -99,6 +109,7 @@
             var search = $('#search').val();
             var sort = $('#sort').val();
             var perPage = $('#perPage').val();
+            var type = $('#type').val();
 
             if (pageDirection === 'previous' && currentPage > 1) {
                 currentPage--;
@@ -107,32 +118,37 @@
             }
 
             $.ajax({
-                url: '/Company/AllFilteredAndPaged',
+                url: '/Product/AllByCompanyIdFilteredAndPaged',
                 type: 'GET',
                 data: {
                     searchTerm: search,
-                    companySorting: sort,
-                    companiesPerPage: perPage,
-                    currentPage: currentPage
+                    productSorting: sort,
+                    productsPerPage: perPage,
+                    currentPage: currentPage,
+                    companyId: companyId,
+                    queryProductType: type
                 },
                 success: function (result) {
                     $('#productContainer').empty();
 
-                    result.companies.forEach(function (company) {
+                    result.products.forEach(function (product) {
                         var card = '<div class="col-md-4">' +
                             '<div class="card">' +
-                            '<img src="data:' + company.image.imageType + ';base64,' + company.image.data + '" class="image-equal" alt="Company Image">' +
+                            '<img src="data:' + product.image.imageType + ';base64,' + product.image.data + '" class="image-equal" alt="Company Image">' +
                             '<div class="card-body">' +
-                            '<h5 class="card-title">' + company.name + '</h5>' +
+                            '<h5 class="card-title">' + product.name + '</h5>' +
                             '<p class="card-text">' +
-                            '<strong>Website:</strong> <a href="' + company.website + '" target="_blank">' + company.website + '</a><br>' +
-                            '<strong>Founded:</strong> ' + company.foundedDate + '</p>' +
+                            '<strong>Price: </strong>' + product.price + '<br>' +
+                            '<strong>Quantity:</strong> ' + product.quantity + '<br>' +
+                            '<strong>Added On:</strong> ' + product.createdOn + '<br>' +
+                            '<strong>Type:</strong> ' + product.productType + '<br>' +
+                            '</p>' +
                             '</div>' +
                             '<div class="card-footer d-flex justify-content-center">' +
                             '<div class="btn-group" role="group">' +
-                            '<a href="/Company/Details/' + company.id + '" class="btn btn-primary">Details</a>' +
-                            '<a href="/Company/Products/' + company.id + '" class="btn btn-secondary">Products</a>' +
-                            '<a href="/Company/Products/' + company.id + '" class="btn btn-info">Add Review</a>' +
+                            '<a href="/Product/Details/' + product.id + '" class="btn btn-primary">Details</a>' +
+                            '<a href="/Company/Products/' + product.id + '" class="btn btn-secondary">Add to Cart</a>' +
+                            '<a href="/Company/Products/' + product.id + '" class="btn btn-info">Add Review</a>' +
                             '</div>' +
                             '</div>' +
                             '</div></div>';

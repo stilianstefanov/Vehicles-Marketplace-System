@@ -223,4 +223,17 @@ public static class EntityValidationConstants
 
         public const int SortingMinValue = 0;
     }
+
+    public static class ProductQuery
+    {
+        public const int SearchTermMaxLength = 100;
+
+        public const int SortingMaxValue = 5;
+
+        public const int SortingMinValue = 0;
+
+        public const int ProductTypeMaxValue = 3;
+
+        public const int ProductTypeMinValue = 0;
+    }
 }

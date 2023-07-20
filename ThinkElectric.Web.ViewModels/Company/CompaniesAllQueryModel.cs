@@ -11,7 +11,7 @@ public class CompaniesAllQueryModel
     public CompaniesAllQueryModel()
     {
         this.CurrentPage = DefaultPage;
-        this.CompaniesPerPage = DefaultCompaniesPerPage;
+        this.CompaniesPerPage = DefaultItemsPerPage;
 
         Companies = new HashSet<CompanyAllViewModel>();
     }
