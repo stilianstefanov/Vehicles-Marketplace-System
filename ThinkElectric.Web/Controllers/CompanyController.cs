@@ -191,7 +191,7 @@ public class CompanyController : Controller
         }
     }
 
-    [Authorize]
+    [Authorize(Policy = "CompanyOnly")]
     [HttpGet]
     public async Task<IActionResult> Edit(string id)
     {
@@ -229,7 +229,7 @@ public class CompanyController : Controller
         }
     }
 
-    [Authorize]
+    [Authorize(Policy = "CompanyOnly")]
     [HttpPost]
     public async Task<IActionResult> Edit([FromForm] CompanyEditViewModel model, string id)
     {

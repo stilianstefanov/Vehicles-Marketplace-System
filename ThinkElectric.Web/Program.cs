@@ -33,6 +33,20 @@ public class Program
             })
             .AddEntityFrameworkStores<ThinkElectricDbContext>();
 
+        builder.Services.ConfigureApplicationCookie(options =>
+        {
+            options.LoginPath = $"/User/Login";
+            options.LogoutPath = $"/User/Logout";
+        });
+
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("CompanyOnly", policy =>
+            {
+                policy.RequireClaim("companyId");
+            });
+        });
+
         builder.Services.Configure<ImageStoreDatabaseSettings>(
             builder.Configuration.GetSection("ImageStoreDatabase"));
 

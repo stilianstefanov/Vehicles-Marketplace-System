@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 [Authorize]
 public class ScooterController : Controller
 {
+    [Authorize(Policy = "CompanyOnly")]
     public IActionResult Create()
     {
         return View();
