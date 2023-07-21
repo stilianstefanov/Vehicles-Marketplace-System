@@ -87,6 +87,7 @@ public class ProductService : IProductService
                 Id = p.Id.ToString(),
                 Name = p.Name,
                 ImageId = p.ImageId,
+                CompanyId = p.CompanyId.ToString().ToLower(),
                 Price = p.Price.ToString("f2"),
                 Quantity = p.Quantity,
                 ProductType = p.ProductType.ToString(),

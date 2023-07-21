@@ -4,6 +4,13 @@
 
 @{
     bool isUserRegisteredAsACompany = User.HasClaim("companyUser", "");
+
+    string companyId = "";
+
+if (isUserRegisteredAsACompany)
+    {
+        companyId = User.Claims.FirstOrDefault(c => c.Type == "companyId")!.Value;
+    }
 }
 
 <div class="text-center mt-3">
@@ -65,7 +72,10 @@
 <script>
     $(document).ready(function () {
         var currentPage = 1; // Initialize current page to 1
+
         var isUserRegisteredAsACompany = @isUserRegisteredAsACompany.ToString().ToLower();
+
+        var currentUserCompanyId = '@companyId.ToLower()';
         
         var url = window.location.href;
         var parts = url.split('/');
@@ -157,6 +167,11 @@
                         if (!isUserRegisteredAsACompany) {
                             card += '<a href="/Company/Products/' + product.id + '" class="btn btn-secondary">Add to Cart</a>' +
                                 '<a href="/Company/Products/' + product.id + '" class="btn btn-info">Add Review</a>';
+                        }
+                        else if (product.companyId == currentUserCompanyId) 
+                        {                                
+                                card += '<a href="/Product/Edit/' + product.id + '" class="btn btn-secondary">Add Quantity</a>' +
+                                    '<a href="/Product/Delete/' + product.id + '" class="btn btn-danger">Delete</a>';                            
                         }
 
                         // Continue building the card string

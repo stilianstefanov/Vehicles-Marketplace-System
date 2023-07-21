@@ -14,6 +14,8 @@ public class ProductAllViewModel
 
     public string ProductType { get; set; } = null!;
 
+    public string CompanyId { get; set; } = null!;
+
     public string ImageId { get; set; } = null!;
 
     public ImageViewModel Image { get; set; } = null!;
