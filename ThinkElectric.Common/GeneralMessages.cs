@@ -9,4 +9,6 @@ public static class GeneralMessages
     public const string ScooterCreateSuccessMessage = "You have successfully created a scooter!";
 
     public const string BikeCreateSuccessMessage = "You have successfully created a bike!";
+
+    public const string AccessoryCreateSuccessMessage = "You have successfully created an accessory!";
 }
