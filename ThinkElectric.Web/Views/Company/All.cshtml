@@ -2,6 +2,10 @@
     ViewBag.Title = "Company List";
 }
 
+@{
+    bool isUserRegisteredAsACompany = User.HasClaim("companyUser", "");
+}
+
 <div class="text-center mt-3">
     <h2>Companies</h2>
 </div>
@@ -48,6 +52,7 @@
 <script>
     $(document).ready(function () {
       var currentPage = 1; // Initialize current page to 1
+      var isUserRegisteredAsACompany = @isUserRegisteredAsACompany.ToString().ToLower();
 
       // Initial page load
       loadData();
@@ -118,9 +123,14 @@
                             '<div class="card-footer d-flex justify-content-center">' +
                             '<div class="btn-group" role="group">' +
                             '<a href="/Company/Details/' + company.id + '" class="btn btn-primary">Details</a>' +
-                            '<a href="/Product/AllByCompanyId/' + company.id + '" class="btn btn-secondary">Products</a>' +
-                            '<a href="/Company/Products/' + company.id + '" class="btn btn-info">Add Review</a>' +
-                            '</div>' +
+                            '<a href="/Product/AllByCompanyId/' + company.id + '" class="btn btn-secondary">Products</a>';
+
+                        // Check if isRegisteredAsACompany is false before including the Add Review button
+                        if (!isUserRegisteredAsACompany) {
+                            card += '<a href="/Company/Products/' + company.id + '" class="btn btn-info">Add Review</a>';
+                        }
+
+                        card += '</div>' +
                             '</div>' +
                             '</div></div>';
 
