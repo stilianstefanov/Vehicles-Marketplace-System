@@ -2,6 +2,10 @@
     ViewBag.Title = "Product List";
 }
 
+@{
+    bool isUserRegisteredAsACompany = User.HasClaim("companyUser", "");
+}
+
 <div class="text-center mt-3">
     <h2>Products</h2>
 </div>
@@ -61,6 +65,7 @@
 <script>
     $(document).ready(function () {
         var currentPage = 1; // Initialize current page to 1
+        var isUserRegisteredAsACompany = @isUserRegisteredAsACompany.ToString().ToLower();
         
         var url = window.location.href;
         var parts = url.split('/');
@@ -146,10 +151,16 @@
                             '</div>' +
                             '<div class="card-footer d-flex justify-content-center">' +
                             '<div class="btn-group" role="group">' +
-                            '<a href="/Product/Details/' + product.id + '" class="btn btn-primary">Details</a>' +
-                            '<a href="/Company/Products/' + product.id + '" class="btn btn-secondary">Add to Cart</a>' +
-                            '<a href="/Company/Products/' + product.id + '" class="btn btn-info">Add Review</a>' +
-                            '</div>' +
+                            '<a href="/Product/Details/' + product.id + '" class="btn btn-primary">Details</a>';
+
+                        // Check if isUserRegisteredAsACompany is false, then append "Add Review" and "Add to Cart" links
+                        if (!isUserRegisteredAsACompany) {
+                            card += '<a href="/Company/Products/' + product.id + '" class="btn btn-secondary">Add to Cart</a>' +
+                                '<a href="/Company/Products/' + product.id + '" class="btn btn-info">Add Review</a>';
+                        }
+
+                        // Continue building the card string
+                        card += '</div>' +
                             '</div>' +
                             '</div></div>';
 
