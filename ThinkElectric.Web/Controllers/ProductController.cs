@@ -28,6 +28,11 @@ public class ProductController : Controller
     [AllowAnonymous]
     public async Task<IActionResult> AllByCompanyIdFilteredAndPaged(ProductAllQueryModel queryModel)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
         queryModel = await _productService.AllByCompanyIdAsync(queryModel);
 
         queryModel.Products = queryModel

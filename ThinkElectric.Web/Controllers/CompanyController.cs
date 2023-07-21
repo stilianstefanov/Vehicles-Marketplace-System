@@ -309,6 +309,11 @@ public class CompanyController : Controller
     [HttpGet]
     public async Task<IActionResult> AllFilteredAndPaged(CompaniesAllQueryModel queryModel)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
         queryModel = await _companyService.AllAsync(queryModel);
 
         queryModel.Companies = queryModel
