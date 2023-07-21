@@ -157,9 +157,9 @@ public static class EntityValidationConstants
 
         public const int MaxLoadMinValue = 1;
 
-        public const int TireSizeMaxValue = 20;
+        public const int WheelSizeMaxValue = 20;
 
-        public const int TireSizeMinValue = 1;
+        public const int WheelSizeMinValue = 1;
 
         public const int ChargingTimeMaxValue = 24;
 
@@ -168,6 +168,34 @@ public static class EntityValidationConstants
         public const int EnginePowerMaxValue = 5000;
 
         public const int EnginePowerMinValue = 100;
+
+        public const int FrameSizeMinValue = 10;
+
+        public const int FrameSizeMaxValue = 200;
+
+        public const int GearsCountMinValue = 1;
+
+        public const int GearsCountMaxValue = 50;
+
+        public const int BikeTypeMaxValue = 5;
+
+        public const int BikeTypeMinValue = 1;
+
+        public const int FrameTypeMaxValue = 2;
+
+        public const int FrameTypeMinValue = 1;
+
+        public const int SuspensionTypeMaxValue = 4;
+
+        public const int SuspensionTypeMinValue = 1;
+
+        public const int BrakesTypeMaxValue = 3;
+
+        public const int BrakesTypeMinValue = 1;
+
+        public const int EngineTypeMaxValue = 2;
+
+        public const int EngineTypeMinValue = 1;
     }
 
     public static class Accessory

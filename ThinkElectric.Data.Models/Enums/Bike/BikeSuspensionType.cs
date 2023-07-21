@@ -2,8 +2,8 @@
 
 public enum BikeSuspensionType
 {
-    None = 0,
-    Front = 1,
-    Rear = 2,
-    Full = 3,
+    None = 1,
+    Front = 2,
+    Rear = 3,
+    Full = 4,
 }

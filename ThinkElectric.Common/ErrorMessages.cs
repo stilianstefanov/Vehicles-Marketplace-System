@@ -30,4 +30,14 @@ public static class ErrorMessages
     public const string ScooterBrakesTypeErrorMessage = "Please select scooter brakes type!";
 
     public const string ScooterEngineTypeErrorMessage = "Please select scooter engine type!";
+
+    public const string BikeTypeErrorMessage = "Please select bike type!";
+
+    public const string BikeFrameTypeErrorMessage = "Please select bike frame type!";
+
+    public const string BikeSuspensionTypeErrorMessage = "Please select bike suspension type!";
+
+    public const string BikeBrakesTypeErrorMessage = "Please select bike brakes type!";
+
+    public const string BikeEngineTypeErrorMessage = "Please select bike engine type!";
 }

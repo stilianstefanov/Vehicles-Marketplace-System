@@ -3,7 +3,7 @@
 using System.ComponentModel.DataAnnotations;
 using Product;
 using static ThinkElectric.Common.EntityValidationConstants.Scooter;
-using static ThinkElectric.Common.ErrorMessages;
+using static Common.ErrorMessages;
 
 public class ScooterCreateViewModel
 {

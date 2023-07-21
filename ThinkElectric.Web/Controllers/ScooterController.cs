@@ -3,7 +3,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
-using ThinkElectric.Common;
 using ViewModels.Scooter;
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
