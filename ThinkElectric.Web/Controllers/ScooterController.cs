@@ -1,5 +1,6 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
+using Data.Models.Enums.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
@@ -58,7 +59,7 @@ public class ScooterController : Controller
 
             var imageId = await _imageService.CreateAsync(scooterModel.Product.ImageFile);
 
-            var productId = await _productService.CreateAsync(scooterModel.Product, companyId, imageId);
+            var productId = await _productService.CreateAsync(scooterModel.Product, companyId, imageId, ProductType.Scooter);
 
             var scooterId = await _scooterService.CreateAsync(scooterModel, productId);
 

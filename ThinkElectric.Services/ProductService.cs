@@ -18,7 +18,7 @@ public class ProductService : IProductService
     }
 
 
-    public async Task<string> CreateAsync(ProductCreateViewModel modelProduct, string companyId, string imageId)
+    public async Task<string> CreateAsync(ProductCreateViewModel modelProduct, string companyId, string imageId, ProductType productType)
     {
         Product product = new Product()
         {
@@ -27,7 +27,7 @@ public class ProductService : IProductService
             Price = modelProduct.Price,
             Quantity = modelProduct.Quantity,
             CreatedOn = DateTime.UtcNow,
-            ProductType = ProductType.Scooter,
+            ProductType = productType,
             CompanyId = Guid.Parse(companyId)
         };
 

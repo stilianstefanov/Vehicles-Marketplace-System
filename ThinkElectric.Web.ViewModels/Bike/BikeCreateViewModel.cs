@@ -31,7 +31,7 @@ public class BikeCreateViewModel
     public string Battery { get; set; } = null!;
 
     [Range(BikeTypeMinValue, BikeTypeMaxValue, ErrorMessage = BikeTypeErrorMessage)]
-    public int Type { get; set; }
+    public int BikeType { get; set; }
 
     [Range(FrameTypeMinValue, FrameTypeMaxValue, ErrorMessage = BikeFrameTypeErrorMessage)]
     [Display(Name = "Frame Type")]

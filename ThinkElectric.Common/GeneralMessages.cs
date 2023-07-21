@@ -7,4 +7,6 @@ public static class GeneralMessages
     public const string EditSuccessMessage = "You have successfully edited your company details!";
 
     public const string ScooterCreateSuccessMessage = "You have successfully created a scooter!";
+
+    public const string BikeCreateSuccessMessage = "You have successfully created a bike!";
 }
