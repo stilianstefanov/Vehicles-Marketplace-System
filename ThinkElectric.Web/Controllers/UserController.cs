@@ -7,6 +7,8 @@ using ViewModels.User;
 using static Common.NotificationsMessagesConstants;
 using static Common.ErrorMessages;
 using static Common.GeneralMessages;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 
 public class UserController : Controller
 {
@@ -66,15 +68,18 @@ public class UserController : Controller
     }
 
     [HttpGet]
-    public IActionResult Login()
+    public async  Task<IActionResult> Login()
     {
+        await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
         return View();
     }
 
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
-        if (!ModelState.IsValid) return View(model);
+        if (!ModelState.IsValid) 
+            return View(model);
 
         var user = await _userService.GetUserByEmailWithCartAndCompany(model.Email);
 
