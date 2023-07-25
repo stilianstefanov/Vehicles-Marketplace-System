@@ -10,4 +10,5 @@ public interface IProductService
     Task<ProductAllQueryModel> AllByCompanyIdAsync(ProductAllQueryModel queryModel);
     Task<ProductViewModel> GetProductDetailsByIdAsync(string id);
     Task<Product?> GetProductByIdAsync(string id);
+    Task<ProductEditViewModel> GetProductEditViewModelByIdAsync(string id);
 }

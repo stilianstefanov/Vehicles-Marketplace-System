@@ -135,4 +135,21 @@ public class ProductService : IProductService
 
         return product;
     }
+
+    public async Task<ProductEditViewModel> GetProductEditViewModelByIdAsync(string id)
+    {
+        ProductEditViewModel model = await _dbContext
+            .Products
+            .Where(p => p.Id.ToString() == id)
+            .Select(p => new ProductEditViewModel()
+            {
+                Name = p.Name,
+                Price = p.Price,
+                Quantity = p.Quantity,
+                ImageId = p.ImageId,
+            })
+            .FirstAsync();
+
+        return model;
+    }
 }

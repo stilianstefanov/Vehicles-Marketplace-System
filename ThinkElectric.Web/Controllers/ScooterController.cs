@@ -75,7 +75,7 @@ public class ScooterController : Controller
 
             //return RedirectToAction("Details", "Scooter", new { id = scooterId });
         }
-        catch
+        catch (Exception)
         {
             return GeneralError();
         }
@@ -103,7 +103,7 @@ public class ScooterController : Controller
 
             return View(scooterModel);
         }
-        catch
+        catch (Exception)
         {
             return GeneralError();
         }
@@ -113,7 +113,36 @@ public class ScooterController : Controller
     [Authorize(Policy = "CompanyOnly")]
     public async Task<IActionResult> Edit(string id)
     {
-        return Ok();
+        bool isScooterExisting = await _scooterService.IsScooterExistingAsync(id);
+
+        if (!isScooterExisting)
+        {
+            TempData[ErrorMessage] = ScooterNotFoundErrorMessage;
+            return RedirectToAction("Index", "Home");
+        }
+
+        bool isUserAuthorized = await _scooterService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+
+        if (!isUserAuthorized)
+        {
+            TempData[ErrorMessage] = UnauthorizedErrorMessage;
+            return RedirectToAction("Index", "Home");
+        }
+
+        try
+        {
+            var scooterModel = await _scooterService.GetScooterEditViewModelByIdAsync(id);
+
+            scooterModel.Product = await _productService.GetProductEditViewModelByIdAsync(scooterModel.ProductId);
+
+            scooterModel.Product.CurrentImage = await _imageService.GetImageByIdAsync(scooterModel.Product.ImageId);
+
+            return View(scooterModel);
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
     }
 
     private IActionResult GeneralError()

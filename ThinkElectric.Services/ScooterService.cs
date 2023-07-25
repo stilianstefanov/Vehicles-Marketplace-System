@@ -74,4 +74,50 @@ public class ScooterService : IScooterService
 
         return model;
     }
+
+    public async Task<bool> IsScooterExistingAsync(string id)
+    {
+        bool isScooterExisting = _dbContext
+            .Scooters
+            .Any(s => s.Id.ToString() == id);
+
+        return isScooterExisting;
+    }
+
+    public async Task<bool> IsUserAuthorizedToEditAsync(string id, string userCompanyId)
+    {
+        bool isAuthorized = await _dbContext
+            .Scooters
+            .AnyAsync(s => s.Id.ToString() == id && s.Product.CompanyId.ToString() == userCompanyId);
+
+        return isAuthorized;
+    }
+
+    public async Task<ScooterEditViewModel> GetScooterEditViewModelByIdAsync(string id)
+    {
+        ScooterEditViewModel model = await _dbContext
+            .Scooters
+            .Where(s => s.Id.ToString() == id)
+            .Select(s => new ScooterEditViewModel()
+            {
+                Brand = s.Brand,
+                Model = s.Model,
+                Color = s.Color,
+                Battery = s.Battery,
+                ScooterType = (int)s.Type,
+                EngineType = (int)s.EngineType,
+                BrakesType = (int)s.BrakesType,
+                Range = s.Range,
+                TopSpeed = s.TopSpeed,
+                Weight = s.Weight,
+                MaxLoad = s.MaxLoad,
+                TireSize = s.TireSize,
+                ChargingTime = s.ChargingTime,
+                EnginePower = s.EnginePower,
+                ProductId = s.ProductId.ToString(),
+            })
+            .FirstAsync();
+
+        return model;
+    }
 }

@@ -48,4 +48,6 @@ public static class ErrorMessages
     public const string AccessoryNotFoundErrorMessage = "Accessory with the provided Id does not exist. Please try again!";
 
     public const string ProductNotFoundErrorMessage = "Product with the provided Id does not exist. Please try again!";
+
+    public const string UnauthorizedErrorMessage = "You are not authorized to proceed this request!";
 }
