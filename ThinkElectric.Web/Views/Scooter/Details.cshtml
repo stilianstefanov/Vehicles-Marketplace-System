@@ -49,7 +49,7 @@ if (isUserCompany)
                     </div>
                     <div class="form-group col-md-3">
                         <label for="quantity">Quantity:</label>
-                        <input type="text" class="form-control details-field" id="quantity" value="@Model.Product.Quantity" readonly>
+                        <input type="number" class="form-control details-field" id="quantity" value="@Model.Product.Quantity" readonly>
                     </div>
                 </div>
                 
@@ -88,31 +88,31 @@ if (isUserCompany)
                         <input type="text" class="form-control details-field" id="brakesType" value="@Model.BrakesType" readonly>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="range">Range:</label>
+                        <label for="range">Range (km):</label>
                         <input type="text" class="form-control details-field" id="range" value="@Model.Range" readonly>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="topSpeed">Top Speed:</label>
+                        <label for="topSpeed">Top Speed (km):</label>
                         <input type="text" class="form-control details-field" id="topSpeed" value="@Model.TopSpeed" readonly>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="weight">Weight:</label>
+                        <label for="weight">Weight (kg):</label>
                         <input type="text" class="form-control details-field" id="weight" value="@Model.Weight" readonly>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="maxLoad">Max Load:</label>
+                        <label for="maxLoad">Max Load (kg):</label>
                         <input type="text" class="form-control details-field" id="maxLoad" value="@Model.MaxLoad" readonly>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="tireSize">Tire Size:</label>
+                        <label for="tireSize">Tire Size (inch):</label>
                         <input type="text" class="form-control details-field" id="tireSize" value="@Model.TireSize" readonly>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="chargingTime">Charging Time:</label>
+                        <label for="chargingTime">Charging Time (hours):</label>
                         <input type="text" class="form-control details-field" id="chargingTime" value="@Model.ChargingTime" readonly>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="enginePower">Engine Power:</label>
+                        <label for="enginePower">Engine Power (watt):</label>
                         <input type="text" class="form-control details-field" id="enginePower" value="@Model.EnginePower" readonly>
                     </div>
                 </div>
