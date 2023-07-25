@@ -288,7 +288,7 @@ public class CompanyController : Controller
 
             await _companyService.EditAsync(model, id);
 
-            TempData[SuccessMessage] = EditSuccessMessage;
+            TempData[SuccessMessage] = CompanyEditSuccessMessage;
 
             return RedirectToAction("Details", "Company", new { id });
         }

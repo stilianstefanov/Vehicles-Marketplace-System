@@ -68,13 +68,11 @@ public class AccessoryController : Controller
 
             var productId = await _productService.CreateAsync(accessoryModel.Product, companyId, imageId, ProductType.Accessory);
 
-            var scooterId = await _accessoryService.CreateAsync(accessoryModel, productId);
+            var accessoryId = await _accessoryService.CreateAsync(accessoryModel, productId);
 
             TempData[SuccessMessage] = AccessoryCreateSuccessMessage;
 
-            return RedirectToAction("Index", "Home");
-
-            //return RedirectToAction("Details", "Accessory", new { id = scooterId });
+            return RedirectToAction("Details", "Accessory", new { id = accessoryId });
         }
         catch
         {

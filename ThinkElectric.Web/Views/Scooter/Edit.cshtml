@@ -11,14 +11,19 @@
                 <img src="data:@Model.Product.CurrentImage!.ImageType;base64,@Convert.ToBase64String(Model.Product.CurrentImage.Data)" alt="Company Logo" class="img-fluid" />
                 <div class="mt-5 col-md-12">
                     <div class="form-group mt-5">
-                        <label for="NewImage">Upload New Image</label>
-                        <input type="file" name="NewImage" id="NewImage" class="form-control-file">
+                        <label asp-for="Product.NewImage">Upload New Image</label>
+                        <input asp-for="Product.NewImage" type="file"  class="form-control-file">
                         <span asp-validation-for="@Model.Product.NewImage" class="text-danger"></span>
                     </div>
                 </div>
             </div>
             <div class="col-md-7">
                 <div class="row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Product.Name">Name:</label>
+                        <input asp-for="Product.Name" class="form-control">
+                        <span asp-validation-for="Product.Name" class="text-danger"></span>
+                    </div>
                     <div class="form-group col-md-3">
                         <label asp-for="Product.Price">Price:</label>
                         <input asp-for="Product.Price" class="form-control">
@@ -80,7 +85,7 @@
                             <option value="0">Select Brakes Type</option>
                             <option value="1">Electric</option>
                             <option value="2">Mechanical</option>
-                            <option value="2">Hydraulic</option>
+                            <option value="3">Hydraulic</option>
                         </select>
                         <span asp-validation-for="BrakesType" class="text-danger"></span>
                     </div>

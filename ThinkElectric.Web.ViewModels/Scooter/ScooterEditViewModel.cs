@@ -61,7 +61,7 @@ public class ScooterEditViewModel
     [Display(Name = "Engine Power")]
     public int EnginePower { get; set; }
 
-    public string ProductId { get; set; } = null!;
+    public string? ProductId { get; set; }
 
     public ProductEditViewModel Product { get; set; } = null!;
 }

@@ -120,4 +120,41 @@ public class ScooterService : IScooterService
 
         return model;
     }
+
+    public async Task<string> GetProductIdByScooterIdAsync(string id)
+    {
+        string productId = await _dbContext
+            .Scooters
+            .Where(s => s.Id.ToString() == id)
+            .Select(s => s.ProductId.ToString())
+            .FirstAsync();
+
+        return productId;
+    }
+
+    public async Task EditAsync(string id, ScooterEditViewModel scooterModel)
+    {
+        Scooter scooter = await _dbContext
+            .Scooters
+            .Where(s => s.Id.ToString() == id)
+            .FirstAsync();
+
+        scooter.Brand = scooterModel.Brand;
+        scooter.Model = scooterModel.Model;
+        scooter.Color = scooterModel.Color;
+        scooter.Battery = scooterModel.Battery;
+        scooter.Type = (ScooterType)scooterModel.ScooterType;
+        scooter.EngineType = (ScooterEngineType)scooterModel.EngineType;
+        scooter.BrakesType = (ScooterBrakesType)scooterModel.BrakesType;
+        scooter.Range = scooterModel.Range;
+        scooter.TopSpeed = scooterModel.TopSpeed;
+        scooter.Weight = scooterModel.Weight;
+        scooter.MaxLoad = scooterModel.MaxLoad;
+        scooter.TireSize = scooterModel.TireSize;
+        scooter.ChargingTime = scooterModel.ChargingTime;
+        scooter.EnginePower = scooterModel.EnginePower;
+
+
+        await _dbContext.SaveChangesAsync();
+    }
 }

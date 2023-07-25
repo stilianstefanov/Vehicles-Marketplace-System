@@ -69,13 +69,11 @@ public class BikeController : Controller
 
             var productId = await _productService.CreateAsync(bikeModel.Product, companyId, imageId, ProductType.Bike);
 
-            var scooterId = await _bikeService.CreateAsync(bikeModel, productId);
+            var bikeId = await _bikeService.CreateAsync(bikeModel, productId);
 
             TempData[SuccessMessage] = BikeCreateSuccessMessage;
 
-            return RedirectToAction("Index", "Home");
-
-            //return RedirectToAction("Details", "Bike", new { id = scooterId });
+            return RedirectToAction("Details", "Bike", new { id = bikeId });
         }
         catch
         {

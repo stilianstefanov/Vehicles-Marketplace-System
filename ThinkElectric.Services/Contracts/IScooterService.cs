@@ -9,4 +9,6 @@ public interface IScooterService
     Task<bool> IsScooterExistingAsync(string id);
     Task<bool> IsUserAuthorizedToEditAsync(string id, string userCompanyId);
     Task<ScooterEditViewModel> GetScooterEditViewModelByIdAsync(string id);
+    Task<string> GetProductIdByScooterIdAsync(string id);
+    Task EditAsync(string id, ScooterEditViewModel scooterModel);
 }

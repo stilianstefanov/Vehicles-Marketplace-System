@@ -18,9 +18,9 @@ public class ProductEditViewModel
     [Range(QuantityMinValue, QuantityMaxValue)]
     public int Quantity { get; set; }
 
-    public string ImageId { get; set; } = null!;
+    public string? ImageId { get; set; }
 
-    public ImageViewModel CurrentImage { get; set; } = null!;
+    public ImageViewModel? CurrentImage { get; set; }
 
     public IFormFile? NewImage { get; set; }
 }

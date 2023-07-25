@@ -8,6 +8,7 @@ using ViewModels.Scooter;
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
+using ThinkElectric.Services;
 
 [Authorize]
 public class ScooterController : Controller
@@ -71,9 +72,7 @@ public class ScooterController : Controller
 
             TempData[SuccessMessage] = ScooterCreateSuccessMessage;
 
-            return RedirectToAction("Index", "Home");
-
-            //return RedirectToAction("Details", "Scooter", new { id = scooterId });
+            return RedirectToAction("Details", "Scooter", new { id = scooterId });
         }
         catch (Exception)
         {
@@ -133,11 +132,81 @@ public class ScooterController : Controller
         {
             var scooterModel = await _scooterService.GetScooterEditViewModelByIdAsync(id);
 
-            scooterModel.Product = await _productService.GetProductEditViewModelByIdAsync(scooterModel.ProductId);
+            scooterModel.Product = await _productService.GetProductEditViewModelByIdAsync(scooterModel.ProductId!);
 
-            scooterModel.Product.CurrentImage = await _imageService.GetImageByIdAsync(scooterModel.Product.ImageId);
+            scooterModel.Product.CurrentImage = await _imageService.GetImageByIdAsync(scooterModel.Product.ImageId!);
 
             return View(scooterModel);
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
+    }
+
+    [HttpPost]
+    [Authorize(Policy = "CompanyOnly")]
+    public async Task<IActionResult> Edit([FromForm] ScooterEditViewModel scooterModel, string id)
+    {
+        bool isScooterExisting = await _scooterService.IsScooterExistingAsync(id);
+
+        if (!isScooterExisting)
+        {
+            TempData[ErrorMessage] = ScooterNotFoundErrorMessage;
+            return RedirectToAction("Index", "Home");
+        }
+
+        bool isUserAuthorized = await _scooterService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+
+        if (!isUserAuthorized)
+        {
+            TempData[ErrorMessage] = UnauthorizedErrorMessage;
+            return RedirectToAction("Index", "Home");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            var productId = await _scooterService.GetProductIdByScooterIdAsync(id);
+            var imageId = await _productService.GetImageIdByProductIdAsync(productId);
+            
+            scooterModel.Product.CurrentImage = await _imageService.GetImageByIdAsync(imageId);
+            return View(scooterModel);
+        }
+
+        if (scooterModel.Product.NewImage != null && scooterModel.Product.NewImage.Length != 0)
+        {
+            var imageType = scooterModel.Product.NewImage.ContentType;
+
+            if (imageType != "image/jpg" && imageType != "image/jpeg" && imageType != "image/png")
+            {
+                var productId = await _scooterService.GetProductIdByScooterIdAsync(id);
+                var imageId = await _productService.GetImageIdByProductIdAsync(productId);
+
+                scooterModel.Product.CurrentImage = await _imageService.GetImageByIdAsync(imageId);
+
+                TempData[ErrorMessage] = ImageFormatErrorMessage;
+                return View(scooterModel);
+            }
+        }
+
+        try
+        {
+            var productId = await _scooterService.GetProductIdByScooterIdAsync(id);
+
+            if (scooterModel.Product.NewImage != null && scooterModel.Product.NewImage.Length != 0)
+            {
+                var imageId = await _productService.GetImageIdByProductIdAsync(productId);
+
+                await _imageService.UpdateAsync(imageId, scooterModel.Product.NewImage);
+            }
+
+            await _productService.EditAsync(productId, scooterModel.Product);
+
+            await _scooterService.EditAsync(id, scooterModel);
+
+            TempData[SuccessMessage] = ScooterEditSuccessMessage;
+
+            return RedirectToAction("Details", "Scooter", new { id });
         }
         catch (Exception)
         {

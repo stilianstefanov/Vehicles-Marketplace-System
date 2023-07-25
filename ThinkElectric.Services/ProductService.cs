@@ -152,4 +152,29 @@ public class ProductService : IProductService
 
         return model;
     }
+
+    public async Task<string> GetImageIdByProductIdAsync(string id)
+    {
+        string imageId = await _dbContext
+            .Products
+            .Where(p => p.Id.ToString() == id)
+            .Select(p => p.ImageId)
+            .FirstAsync();
+
+        return imageId;
+    }
+
+    public async Task EditAsync(string id, ProductEditViewModel modelProduct)
+    {
+        Product product = await _dbContext
+            .Products
+            .Where(p => p.Id.ToString() == id)
+            .FirstAsync();
+
+        product.Name = modelProduct.Name;
+        product.Price = modelProduct.Price;
+        product.Quantity = modelProduct.Quantity;
+
+        await _dbContext.SaveChangesAsync();
+    }
 }
