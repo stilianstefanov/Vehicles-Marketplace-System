@@ -4,6 +4,7 @@ using Contracts;
 using Data;
 using Data.Models;
 using Data.Models.Enums.Bike;
+using Microsoft.EntityFrameworkCore;
 using Web.ViewModels.Bike;
 
 public class BikeService : IBikeService
@@ -46,5 +47,38 @@ public class BikeService : IBikeService
         await _dbContext.SaveChangesAsync();
 
         return bike.Id.ToString();
+    }
+
+    public async Task<BikeDetailsViewModel?> GetBikeDetailsByIdAsync(string id)
+    {
+        BikeDetailsViewModel? model = await _dbContext
+            .Bikes
+            .Where(b => b.Id.ToString() == id)
+            .Select(b => new BikeDetailsViewModel()
+            {
+                Brand = b.Brand,
+                Model = b.Model,
+                Color = b.Color,
+                Battery = b.Battery,
+                FrameMaterial = b.FrameMaterial,
+                BikeType = b.Type.ToString(),
+                FrameType = b.FrameType.ToString(),
+                SuspensionType = b.SuspensionType.ToString(),
+                BrakesType = b.BrakesType.ToString(),
+                EngineType = b.EngineType.ToString(),
+                FrameSize = b.FrameSize,
+                GearsCount = b.GearsCount,
+                Range = b.Range,
+                TopSpeed = b.TopSpeed,
+                Weight = b.Weight,
+                MaxLoad = b.MaxLoad,
+                WheelSize = b.WheelSize,
+                ChargingTime = b.ChargingTime,
+                EnginePower = b.EnginePower,
+                ProductId = b.ProductId.ToString()
+            })
+            .FirstOrDefaultAsync();
+
+        return model;
     }
 }

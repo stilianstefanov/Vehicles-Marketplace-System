@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model ScooterDetailsViewModel
+@model BikeDetailsViewModel
 
 @{
-    ViewBag.Title = "Scooter Details";
+    ViewBag.Title = "Bike Details";
 }
 
 @{
@@ -10,7 +10,7 @@
 
     string userCompanyId = string.Empty;
 
-if (isUserCompany)
+    if (isUserCompany)
     {
         userCompanyId = User.Claims.FirstOrDefault(x => x.Type == "companyId")!.Value;
     }
@@ -52,12 +52,12 @@ if (isUserCompany)
                         <input type="text" class="form-control details-field" id="quantity" value="@Model.Product.Quantity" readonly>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="companyName">Company:</label>
                     <input type="text" class="form-control details-field" id="companyName" value="@Model.Product.CompanyName" readonly>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="brand">Brand:</label>
                     <input type="text" class="form-control details-field" id="brand" value="@Model.Brand" readonly>
@@ -66,18 +66,14 @@ if (isUserCompany)
                     <label for="model">Model:</label>
                     <input type="text" class="form-control details-field" id="model" value="@Model.Model" readonly>
                 </div>
+                <div class="form-group">
+                    <label for="color">Color:</label>
+                    <input type="text" class="form-control details-field" id="color" value="@Model.Color" readonly>
+                </div>
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <label for="color">Color:</label>
-                        <input type="text" class="form-control details-field" id="color" value="@Model.Color" readonly>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="battery">Battery:</label>
-                        <input type="text" class="form-control details-field" id="battery" value="@Model.Battery" readonly>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="scooterType">Scooter Type:</label>
-                        <input type="text" class="form-control details-field" id="scooterType" value="@Model.ScooterType" readonly>
+                        <label for="bikeType">Bike Type:</label>
+                        <input type="text" class="form-control details-field" id="bikeType" value="@Model.BikeType" readonly>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="engineType">Engine Type:</label>
@@ -86,6 +82,30 @@ if (isUserCompany)
                     <div class="form-group col-md-6">
                         <label for="brakesType">Brakes Type:</label>
                         <input type="text" class="form-control details-field" id="brakesType" value="@Model.BrakesType" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="frameType">Frame Type:</label>
+                        <input type="text" class="form-control details-field" id="frameType" value="@Model.FrameType" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="suspensionType">Suspension Type:</label>
+                        <input type="text" class="form-control details-field" id="suspensionType" value="@Model.SuspensionType" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="frameMaterial">Frame Material:</label>
+                        <input type="text" class="form-control details-field" id="frameMaterial" value="@Model.FrameMaterial" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="frameSize">Frame Size:</label>
+                        <input type="text" class="form-control details-field" id="frameSize" value="@Model.FrameSize" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="battery">Battery:</label>
+                        <input type="text" class="form-control details-field" id="battery" value="@Model.Battery" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="gearsCount">Gears Count:</label>
+                        <input type="text" class="form-control details-field" id="gearsCount" value="@Model.GearsCount" readonly>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="range">Range:</label>
@@ -104,8 +124,8 @@ if (isUserCompany)
                         <input type="text" class="form-control details-field" id="maxLoad" value="@Model.MaxLoad" readonly>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="tireSize">Tire Size:</label>
-                        <input type="text" class="form-control details-field" id="tireSize" value="@Model.TireSize" readonly>
+                        <label for="wheelSize">Wheel Size:</label>
+                        <input type="text" class="form-control details-field" id="wheelSize" value="@Model.WheelSize" readonly>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="chargingTime">Charging Time:</label>
@@ -119,7 +139,7 @@ if (isUserCompany)
             </form>
             @if (isUserCompany && userCompanyId.ToLower() == Model.Product.CompanyId.ToLower())
             {
-                <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Scooter" asp-action="Edit" asp-route-id="@Model.Id">Edit Details</a>
+                <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Bike" asp-action="Edit" asp-route-id="@Model.Id">Edit Details</a>
             }
             else if (!isUserCompany)
             {

@@ -8,6 +8,7 @@ using ViewModels.Bike;
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
+using ThinkElectric.Services;
 
 
 [Authorize]
@@ -16,12 +17,18 @@ public class BikeController : Controller
     private readonly IBikeService _bikeService;
     private readonly IProductService _productService;
     private readonly IImageService _imageService;
+    private readonly IReviewService _reviewService;
 
-    public BikeController(IBikeService bikeService, IProductService productService, IImageService imageService)
+    public BikeController(
+        IBikeService bikeService, 
+        IProductService productService, 
+        IImageService imageService,
+        IReviewService reviewService)
     {
         _bikeService = bikeService;
         _productService = productService;
         _imageService = imageService;
+        _reviewService = reviewService;
     }
 
     [HttpGet]
@@ -74,6 +81,42 @@ public class BikeController : Controller
         {
             return GeneralError();
         }
+    }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> Details(string id)
+    {
+        var bikeModel = await _bikeService.GetBikeDetailsByIdAsync(id);
+
+        if (bikeModel == null)
+        {
+            TempData[ErrorMessage] = BikeNotFoundErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        try
+        {
+            bikeModel.Product = await _productService.GetProductDetailsByIdAsync(bikeModel.ProductId);
+
+            bikeModel.Product.Image = await _imageService.GetImageByIdAsync(bikeModel.Product.ImageId);
+
+            bikeModel.Product.Reviews = await _reviewService.GetReviewsByProductIdAsync(bikeModel.ProductId);
+
+            return View(bikeModel);
+        }
+        catch
+        {
+            return GeneralError();
+        }
+    }
+
+    [HttpGet]
+    [Authorize(Policy = "CompanyOnly")]
+    public async Task<IActionResult> Edit(string id)
+    {
+        return Ok();
     }
 
     private IActionResult GeneralError()

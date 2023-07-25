@@ -107,7 +107,6 @@ public class ScooterController : Controller
         {
             return GeneralError();
         }
-       
     }
 
     [HttpGet]
