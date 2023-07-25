@@ -103,4 +103,23 @@ public class ProductService : IProductService
 
         return queryModel;
     }
+
+    public async Task<ProductViewModel> GetProductDetailsByIdAsync(string id)
+    {
+        ProductViewModel model = await _dbContext
+            .Products
+            .Where(p => p.Id.ToString() == id)
+            .Select(p => new ProductViewModel()
+            {
+                Name = p.Name,
+                ImageId = p.ImageId,
+                Price = p.Price.ToString("f2"),
+                Quantity = p.Quantity,
+                CompanyName = p.Company.Name,
+                CompanyId = p.CompanyId.ToString(),
+            })
+            .FirstAsync();
+
+        return model;
+    }
 }

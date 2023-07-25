@@ -1,5 +1,7 @@
 ﻿namespace ThinkElectric.Services;
 
+using Microsoft.EntityFrameworkCore;
+
 using Contracts;
 using Data;
 using Data.Models;
@@ -41,5 +43,35 @@ public class ScooterService : IScooterService
         await _dbContext.SaveChangesAsync();
 
         return scooter.Id.ToString();
+    }
+
+    public async Task<ScooterDetailsViewModel?> GetScooterDetailsByIdAsync(string id)
+    {
+        ScooterDetailsViewModel? model = await _dbContext
+            .Scooters
+            .Where(s => s.Id.ToString() == id)
+            .Select(s => new ScooterDetailsViewModel()
+            {
+                Id = s.Id.ToString(),
+                Brand = s.Brand,
+                Model = s.Model,
+                Color = s.Color,
+                Battery = s.Battery,
+                ScooterType = s.Type.ToString(),
+                EngineType = s.EngineType.ToString(),
+                BrakesType = s.BrakesType.ToString(),
+                Range = s.Range,
+                TopSpeed = s.TopSpeed,
+                Weight = s.Weight,
+                MaxLoad = s.MaxLoad,
+                TireSize = s.TireSize,
+                ChargingTime = s.ChargingTime,
+                EnginePower = s.EnginePower,
+                ProductId = s.ProductId.ToString(),
+
+            })
+            .FirstOrDefaultAsync();
+
+        return model;
     }
 }

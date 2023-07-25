@@ -1,0 +1,131 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ScooterDetailsViewModel
+
+@{
+    ViewBag.Title = "Scooter Details";
+}
+
+@{
+    bool isUserCompany = User.HasClaim("companyUser", "");
+
+    string userCompanyId = string.Empty;
+
+if (isUserCompany)
+    {
+        userCompanyId = User.Claims.FirstOrDefault(x => x.Type == "companyId")!.Value;
+    }
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-5">
+            <img src="data:@Model.Product.Image.ImageType;base64,@Convert.ToBase64String(Model.Product.Image.Data)" alt="Product image" class="img-fluid" />
+            <div class="mt-5 col-md-12">
+                @if (Model.Product.Reviews.Any())
+                {
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4>Reviews</h4>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Rating:  @Model.Product.Rating / 10</h4>
+                        </div>
+                    </div>
+                    <partial name="_ReviewsPatrial" model="@Model.Product.Reviews" />
+                }
+                else
+                {
+                    <h4>No Reviews Yet</h4>
+                }
+            </div>
+        </div>
+        <div class="col-md-7">
+            <h2>@Model.Product.Name</h2>
+            <form>
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        <label for="price">Price:</label>
+                        <input type="text" class="form-control details-field" id="price" value="@Model.Product.Price" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="quantity">Quantity:</label>
+                        <input type="text" class="form-control details-field" id="quantity" value="@Model.Product.Quantity" readonly>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="companyName">Company:</label>
+                    <input type="text" class="form-control details-field" id="companyName" value="@Model.Product.CompanyName" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="brand">Brand:</label>
+                    <input type="text" class="form-control details-field" id="brand" value="@Model.Brand" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="model">Model:</label>
+                    <input type="text" class="form-control details-field" id="model" value="@Model.Model)" readonly>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="color">Color:</label>
+                        <input type="text" class="form-control details-field" id="color" value="@Model.Color" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="battery">Battery:</label>
+                        <input type="text" class="form-control details-field" id="battery" value="@Model.Battery" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="scooterType">Scooter Type:</label>
+                        <input type="text" class="form-control details-field" id="scooterType" value="@Model.ScooterType" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="engineType">Engine Type:</label>
+                        <input type="text" class="form-control details-field" id="engineType" value="@Model.EngineType" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="brakesType">Brakes Type:</label>
+                        <input type="text" class="form-control details-field" id="brakesType" value="@Model.BrakesType" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="range">Range:</label>
+                        <input type="text" class="form-control details-field" id="range" value="@Model.Range" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="topSpeed">Top Speed:</label>
+                        <input type="text" class="form-control details-field" id="topSpeed" value="@Model.TopSpeed" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="weight">Weight:</label>
+                        <input type="text" class="form-control details-field" id="weight" value="@Model.Weight" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="maxLoad">Max Load:</label>
+                        <input type="text" class="form-control details-field" id="maxLoad" value="@Model.MaxLoad" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="tireSize">Tire Size:</label>
+                        <input type="text" class="form-control details-field" id="tireSize" value="@Model.TireSize" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="chargingTime">Charging Time:</label>
+                        <input type="text" class="form-control details-field" id="chargingTime" value="@Model.ChargingTime" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="enginePower">Engine Power:</label>
+                        <input type="text" class="form-control details-field" id="enginePower" value="@Model.EnginePower" readonly>
+                    </div>
+                </div>
+            </form>
+            @if (isUserCompany && userCompanyId.ToLower() == Model.Product.CompanyId.ToLower())
+            {
+                <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Scooter" asp-action="Edit" asp-route-id="@Model.Id">Edit Details</a>
+            }
+            else if (!isUserCompany)
+            {
+                <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="" asp-action="" asp-route-id="@Model.ProductId">Add to Cart</a>
+                <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="" asp-action="" asp-route-id="@Model.ProductId">Add Review</a>
+            }
+        </div>
+    </div>
+</div>

@@ -7,4 +7,5 @@ public interface IProductService
 {
     Task<string> CreateAsync(ProductCreateViewModel modelProduct, string companyId, string imageId, ProductType productType);
     Task<ProductAllQueryModel> AllByCompanyIdAsync(ProductAllQueryModel queryModel);
+    Task<ProductViewModel> GetProductDetailsByIdAsync(string id);
 }

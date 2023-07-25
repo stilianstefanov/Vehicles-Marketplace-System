@@ -15,12 +15,18 @@ public class ScooterController : Controller
     private readonly IScooterService _scooterService;
     private readonly IProductService _productService;
     private readonly IImageService _imageService;
+    private readonly IReviewService _reviewService;
 
-    public ScooterController(IScooterService scooterService, IProductService productService, IImageService imageService)
+    public ScooterController(
+        IScooterService scooterService,
+        IProductService productService,
+        IImageService imageService,
+        IReviewService reviewService)
     {
         _scooterService = scooterService;
         _productService = productService;
         _imageService = imageService;
+        _reviewService = reviewService;
     }
 
     [HttpGet]
@@ -73,6 +79,42 @@ public class ScooterController : Controller
         {
             return GeneralError();
         }
+    }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> Details(string id)
+    {
+        var scooterModel = await _scooterService.GetScooterDetailsByIdAsync(id);
+
+        if (scooterModel == null)
+        {
+            TempData[ErrorMessage] = ScooterNotFoundErrorMessage;
+            return RedirectToAction("Index", "Home");
+        }
+
+        try
+        {
+            scooterModel.Product = await _productService.GetProductDetailsByIdAsync(scooterModel.ProductId);
+
+            scooterModel.Product.Image = await _imageService.GetImageByIdAsync(scooterModel.Product.ImageId);
+
+            scooterModel.Product.Reviews = await _reviewService.GetReviewsByProductIdAsync(scooterModel.ProductId);
+
+            return View(scooterModel);
+        }
+        catch
+        {
+            return GeneralError();
+        }
+       
+    }
+
+    [HttpGet]
+    [Authorize(Policy = "CompanyOnly")]
+    public async Task<IActionResult> Edit(string id)
+    {
+        return Ok();
     }
 
     private IActionResult GeneralError()
