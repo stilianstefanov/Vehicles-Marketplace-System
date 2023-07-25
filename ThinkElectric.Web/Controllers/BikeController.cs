@@ -49,7 +49,7 @@ public class BikeController : Controller
 
         if (bikeModel.Product.ImageFile == null || bikeModel.Product.ImageFile.Length == 0)
         {
-            ModelState.AddModelError(nameof(bikeModel.Product.ImageFile), ImageRequiredErrorMessage);
+            TempData[ErrorMessage] = ImageRequiredErrorMessage;
             return View(bikeModel);
         }
 
@@ -57,7 +57,7 @@ public class BikeController : Controller
 
         if (imageType != "image/jpg" && imageType != "image/jpeg" && imageType != "image/png")
         {
-            ModelState.AddModelError(nameof(bikeModel.Product.ImageFile), ImageFormatErrorMessage);
+            TempData[ErrorMessage] = ImageFormatErrorMessage;
             return View(bikeModel);
         }
 

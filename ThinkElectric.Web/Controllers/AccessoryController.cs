@@ -48,7 +48,7 @@ public class AccessoryController : Controller
 
         if (accessoryModel.Product.ImageFile == null || accessoryModel.Product.ImageFile.Length == 0)
         {
-            ModelState.AddModelError(nameof(accessoryModel.Product.ImageFile), ImageRequiredErrorMessage);
+            TempData[ErrorMessage] = ImageRequiredErrorMessage;
             return View(accessoryModel);
         }
 
@@ -56,7 +56,7 @@ public class AccessoryController : Controller
 
         if (imageType != "image/jpg" && imageType != "image/jpeg" && imageType != "image/png")
         {
-            ModelState.AddModelError(nameof(accessoryModel.Product.ImageFile), ImageFormatErrorMessage);
+            TempData[ErrorMessage] = ImageFormatErrorMessage;
             return View(accessoryModel);
         }
 

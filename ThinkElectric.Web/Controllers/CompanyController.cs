@@ -130,7 +130,7 @@ public class CompanyController : Controller
 
         if (model.ImageFile == null || model.ImageFile.Length == 0)
         {
-            ModelState.AddModelError(nameof(model.ImageFile), ImageRequiredErrorMessage);
+            TempData[ErrorMessage] = ImageRequiredErrorMessage;
             return View(model);
         }
 
@@ -138,7 +138,7 @@ public class CompanyController : Controller
 
         if (imageType != "image/jpg" && imageType != "image/jpeg" && imageType != "image/png")
         {
-            ModelState.AddModelError(nameof(model.ImageFile), ImageFormatErrorMessage);
+            TempData[ErrorMessage] = ImageFormatErrorMessage;
             return View(model);
         }
 
@@ -253,11 +253,18 @@ public class CompanyController : Controller
 
         if (!ModelState.IsValid)
         {
+            var imageId = await _companyService.GetImageIdByCompanyIdAsync(id);
+
+            model.CurrentImage = await _imageService.GetImageByIdAsync(imageId);
             return View(model);
         }
 
         if (model.FoundedDate == null)
         {
+            var imageId = await _companyService.GetImageIdByCompanyIdAsync(id);
+
+            model.CurrentImage = await _imageService.GetImageByIdAsync(imageId);
+
             ModelState.AddModelError(nameof(model.FoundedDate), DateErrorMessage);
             return View(model);
         }
@@ -268,7 +275,11 @@ public class CompanyController : Controller
 
             if (imageType != "image/jpg" && imageType != "image/jpeg" && imageType != "image/png")
             {
-                ModelState.AddModelError(nameof(model.NewImage), ImageFormatErrorMessage);
+                string imageId = await _companyService.GetImageIdByCompanyIdAsync(id);
+
+                model.CurrentImage = await _imageService.GetImageByIdAsync(imageId);
+
+                TempData[ErrorMessage] = ImageFormatErrorMessage;
                 return View(model);
             }
         }

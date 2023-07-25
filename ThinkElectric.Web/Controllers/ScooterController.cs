@@ -48,7 +48,7 @@ public class ScooterController : Controller
 
         if (scooterModel.Product.ImageFile == null || scooterModel.Product.ImageFile.Length == 0)
         {
-            ModelState.AddModelError(nameof(scooterModel.Product.ImageFile), ImageRequiredErrorMessage);
+            TempData[ErrorMessage] = ImageRequiredErrorMessage;
             return View(scooterModel);
         }
 
@@ -56,7 +56,7 @@ public class ScooterController : Controller
 
         if (imageType != "image/jpg" && imageType != "image/jpeg" && imageType != "image/png")
         {
-            ModelState.AddModelError(nameof(scooterModel.Product.ImageFile), ImageFormatErrorMessage);
+            TempData[ErrorMessage] = ImageFormatErrorMessage;
             return View(scooterModel);
         }
 
