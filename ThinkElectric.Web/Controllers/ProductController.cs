@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using ViewModels.Product;
+using static Common.ErrorMessages;
+using static Common.NotificationsMessagesConstants;
 
 [Authorize]
 public class ProductController : Controller
@@ -45,5 +47,41 @@ public class ProductController : Controller
             .Select(t => t.Result).ToList();
 
         return Json(queryModel);
+    }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> Details(string id)
+    {
+        var product = await _productService.GetProductByIdAsync(id);
+
+        if (product == null)
+        {
+            TempData[ErrorMessage] = ProductNotFoundErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        if (product.Scooter != null)
+        {
+            return RedirectToAction("Details", "Scooter", new { product.Scooter.Id });
+        }
+        if (product.Bike != null)
+        {
+            return RedirectToAction("Details", "Bike", new { product.Bike.Id });
+        }
+        if (product.Accessory != null)
+        {
+            return RedirectToAction("Details", "Accessory", new { product.Accessory.Id });
+        }
+
+        return GeneralError();
+    }
+
+    private IActionResult GeneralError()
+    {
+        this.TempData[ErrorMessage] = UnexpectedErrorMessage;
+
+        return RedirectToAction("Index", "Home");
     }
 }

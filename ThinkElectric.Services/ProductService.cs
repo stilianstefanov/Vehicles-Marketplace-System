@@ -122,4 +122,17 @@ public class ProductService : IProductService
 
         return model;
     }
+
+    public async Task<Product?> GetProductByIdAsync(string id)
+    {
+        Product? product = await _dbContext
+            .Products
+            .Include(p => p.Scooter)
+            .Include(p => p.Bike)
+            .Include(p => p.Accessory)
+            .Where(p => p.Id.ToString() == id)
+            .FirstOrDefaultAsync();
+
+        return product;
+    }
 }
