@@ -16,12 +16,18 @@ public class AccessoryController : Controller
     private readonly IAccessoryService _accessoryService;
     private readonly IProductService _productService;
     private readonly IImageService _imageService;
+    private readonly IReviewService _reviewService;
 
-    public AccessoryController(IAccessoryService accessoryService, IProductService productService, IImageService imageService)
+    public AccessoryController(
+        IAccessoryService accessoryService, 
+        IProductService productService, 
+        IImageService imageService,
+        IReviewService reviewService)
     {
         _productService = productService;
         _imageService = imageService;
         _accessoryService = accessoryService;
+        _reviewService = reviewService;
     }
 
     [HttpGet]
@@ -74,6 +80,42 @@ public class AccessoryController : Controller
         {
             return GeneralError();
         }
+    }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> Details(string id)
+    {
+        var accessoryModel = await _accessoryService.GetAccessoryDetailsByIdAsync(id);
+
+        if (accessoryModel == null)
+        {
+            TempData[ErrorMessage] = AccessoryNotFoundErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        try
+        {
+            accessoryModel.Product = await _productService.GetProductDetailsByIdAsync(accessoryModel.ProductId);
+
+            accessoryModel.Product.Image = await _imageService.GetImageByIdAsync(accessoryModel.Product.ImageId);
+
+            accessoryModel.Product.Reviews = await _reviewService.GetReviewsByProductIdAsync(accessoryModel.ProductId);
+
+            return View(accessoryModel);
+        }
+        catch
+        {
+            return GeneralError();
+        }
+    }
+
+    [HttpGet]
+    [Authorize(Policy = "CompanyOnly")]
+    public async Task<IActionResult> Edit(string id)
+    {
+        return Ok();
     }
 
     private IActionResult GeneralError()

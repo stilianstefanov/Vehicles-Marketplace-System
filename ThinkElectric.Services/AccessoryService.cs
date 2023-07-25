@@ -3,6 +3,7 @@
 using Contracts;
 using Data;
 using Data.Models;
+using Microsoft.EntityFrameworkCore;
 using Web.ViewModels.Accessory;
 
 public class AccessoryService : IAccessoryService
@@ -31,5 +32,24 @@ public class AccessoryService : IAccessoryService
         await _dbContext.SaveChangesAsync();
 
         return accessory.Id.ToString();
+    }
+
+    public async Task<AccessoryDetailsViewModel?> GetAccessoryDetailsByIdAsync(string id)
+    {
+        AccessoryDetailsViewModel? model = await _dbContext
+            .Accessories
+            .Where(a => a.Id.ToString() == id)
+            .Select(a => new AccessoryDetailsViewModel()
+            {
+                Id = a.Id.ToString(),
+                Brand = a.Brand,
+                Description = a.Description,
+                CompatibleBrand = a.CompatibleBrand,
+                CompatibleModel = a.CompatibleModel,
+                ProductId = a.ProductId.ToString(),
+            })
+            .FirstOrDefaultAsync();
+
+        return model;
     }
 }
