@@ -1,4 +1,4 @@
-﻿@{
+﻿﻿@{
     ViewBag.Title = "Company List";
 }
 
@@ -51,52 +51,52 @@
 
 <script>
     $(document).ready(function () {
-      var currentPage = 1; // Initialize current page to 1
-      var isUserRegisteredAsACompany = @isUserRegisteredAsACompany.ToString().ToLower();
+        var currentPage = 1; // Initialize current page to 1
+        var isUserRegisteredAsACompany = @isUserRegisteredAsACompany.ToString().ToLower();
 
-      // Initial page load
-      loadData();
-
-      // Search input change event
-      $('#search').on('input', function () {
-        currentPage = 1; // Reset current page to 1
+        // Initial page load
         loadData();
-      });
 
-      // Sort dropdown change event
-      $('#sort').on('change', function () {
-        currentPage = 1; // Reset current page to 1
-        loadData();
-      });
+        // Search input change event
+        $('#search').on('input', function () {
+            currentPage = 1; // Reset current page to 1
+            loadData();
+        });
 
-      // PerPage dropdown change event
-      $('#perPage').on('change', function () {
-        currentPage = 1; // Reset current page to 1
-        loadData();
-      });
+        // Sort dropdown change event
+        $('#sort').on('change', function () {
+            currentPage = 1; // Reset current page to 1
+            loadData();
+        });
 
-      // Previous page button click event
-      $('#previousPage').on('click', function () {
-        if (currentPage > 1) {
-          loadData('previous');
-        }
-      });
+        // PerPage dropdown change event
+        $('#perPage').on('change', function () {
+            currentPage = 1; // Reset current page to 1
+            loadData();
+        });
 
-      // Next page button click event
-      $('#nextPage').on('click', function () {
-        loadData('next');
-      });
+        // Previous page button click event
+        $('#previousPage').on('click', function () {
+            if (currentPage > 1) {
+                loadData('previous');
+            }
+        });
 
-      function loadData(pageDirection) {
-        var search = $('#search').val();
-        var sort = $('#sort').val();
-        var perPage = $('#perPage').val();
+        // Next page button click event
+        $('#nextPage').on('click', function () {
+            loadData('next');
+        });
 
-        if (pageDirection === 'previous' && currentPage > 1) {
-          currentPage--;
-        } else if (pageDirection === 'next') {
-          currentPage++;
-        }
+        function loadData(pageDirection) {
+            var search = $('#search').val();
+            var sort = $('#sort').val();
+            var perPage = $('#perPage').val();
+
+            if (pageDirection === 'previous' && currentPage > 1) {
+                currentPage--;
+            } else if (pageDirection === 'next') {
+                currentPage++;
+            }
 
             $.ajax({
                 url: '/Company/AllFilteredAndPaged',
@@ -145,6 +145,6 @@
                     console.log(error);
                 }
             });
-      }
+        }
     });
 </script>

@@ -1,4 +1,11 @@
-﻿
+﻿@{
+    ViewBag.Title = "Scooter List";
+}
+
+
+@{
+    bool isUserRegisteredAsACompany = User.HasClaim("companyUser", "");
+}
 
 <div class="text-center mt-3">
     <h2>Scooters</h2>
@@ -78,7 +85,7 @@
                 <!-- The products will be dynamically loaded here -->
             </div>
         </div>
-        <div class="text-center">
+        <div class="text-center mt-5">
             <button type="button" class="btn btn-primary" id="previousPage">Previous</button>
             <button type="button" class="btn btn-primary" id="nextPage">Next</button>
         </div>
@@ -88,6 +95,7 @@
 <script>
     $(document).ready(function () {
         var currentPage = 1; // Initialize current page to 1
+        var isUserRegisteredAsACompany = @isUserRegisteredAsACompany.ToString().ToLower();
 
         // Initial page load
         loadData();
@@ -145,6 +153,7 @@
             var type = $('#type').val();
             var engineType = $('#engineType').val();
             var brakesType = $('#brakesType').val();
+          
 
             if (pageDirection === 'previous' && currentPage > 1) {
                 currentPage--;
@@ -168,34 +177,66 @@
                     $('#productsContainer').empty();
 
                     result.scooters.forEach(function (scooter) {
-                        var card = '<div>' +
-                            '<div class="card">' +
-                            '<img src="data:' + scooter.product.image.imageType + ';base64,' + scooter.product.image.data + '" class="img-fluid image-equal" alt="Company Image">' +
+                        var card =
+                            '<div class="card mb-3">' +
+                            '<div class="row g-0">' +
+                            '<div class="col-md-4">' +
+                            '<img src="data:' +
+                            scooter.product.image.imageType +
+                            ';base64,' +
+                            scooter.product.image.data +
+                            '" class="img-fluid image-equal-2" alt="Company Image">' +
+                            '</div>' +
+                            '<div class="col-md-8">' +
                             '<div class="card-body">' +
-                            '<h5 class="card-title">' + scooter.product.name + '</h5>' +
+                            '<h5 class="card-title">' +
+                            scooter.product.name +
+                            '</h5>' +
                             '<p class="card-text">' +
-                            '<strong>Price: </strong>' + scooter.product.price + '<br>' +
-                            '<strong>Quantity:</strong> ' + scooter.product.quantity + '<br>' +
+                            '<strong>Price: </strong>' +
+                            scooter.product.price +
+                            '<br>' +
+                            '<strong>Quantity:</strong> ' +
+                            scooter.product.quantity +
+                            '<br>' +
+                            '<strong>Brand:</strong> ' +
+                            scooter.brand +
+                            '<br>' +
+                            '<strong>Model:</strong> ' +
+                            scooter.model +
+                            '<br>' +
+                            '<strong>Color:</strong> ' +
+                            scooter.color +
+                            '<br>' +
+                            '<strong>Scooter Type:</strong> ' +
+                            scooter.scooterType +
+                            '<br>' +
+                            '<strong>Engine Type:</strong> ' +
+                            scooter.engineType +
+                            '<br>' +
+                            '<strong>Brakes Type:</strong> ' +
+                            scooter.brakesType +
+                            '<br>' +
                             '</p>' +
                             '</div>' +
                             '<div class="card-footer d-flex justify-content-center">' +
                             '<div class="btn-group" role="group">' +
-                            '<a href="/Scooter/Details/' + scooter.id + '" class="btn btn-primary">Details</a>';
+                            '<a href="/Scooter/Details/' +
+                            scooter.id +
+                            '" class="btn btn-primary">Details</a>';
 
-                        // Check if isUserRegisteredAsACompany is false, then append "Add Review" and "Add to Cart" links
-                        //if (!isUserRegisteredAsACompany) {
-                        //    card += '<a href="/Company/Products/' + product.id + '" class="btn btn-secondary">Add to Cart</a>' +
-                        //        '<a href="/Company/Products/' + product.id + '" class="btn btn-info">Add Review</a>';
-                        //}
-                        //else if (product.companyId == currentUserCompanyId) {
-                        //    card += '<a href="/Product/Edit/' + product.id + '" class="btn btn-secondary">Add Quantity</a>' +
-                        //        '<a href="/Product/Delete/' + product.id + '" class="btn btn-danger">Delete</a>';
-                        //}
+                        if (!isUserRegisteredAsACompany) {
+                            card +=
+                                '<a href="/Company/Products/' +
+                                scooter.product.id +
+                                '" class="btn btn-secondary">Add to Cart</a>' +
+                                '<a href="/Company/Products/' +
+                                scooter.product.id +
+                                '" class="btn btn-info">Add Review</a>';
+                        }
 
                         // Continue building the card string
-                        card += '</div>' +
-                            '</div>' +
-                            '</div></div>';
+                        card += '</div>' + '</div>' + '</div></div>' + '</div>';
 
                         $('#productsContainer').append(card);
                     });
