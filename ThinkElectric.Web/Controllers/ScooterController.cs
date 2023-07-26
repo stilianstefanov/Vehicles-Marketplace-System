@@ -220,6 +220,29 @@ public class ScooterController : Controller
         return View();
     }
 
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> AllFilteredAndPaged(ScooterAllQueryModel queryModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        queryModel = await _scooterService.GetAllFilteredAndPagedAsync(queryModel);
+
+        queryModel.Scooters = queryModel
+            .Scooters
+            .Select(async scooter =>
+            {
+                scooter.Product.Image = await _imageService.GetImageByIdAsync(scooter.Product.ImageId);
+                return scooter;
+            })
+            .Select(t => t.Result).ToList();
+
+        return Json(queryModel);
+    }
+
     private IActionResult GeneralError()
     {
         this.TempData[ErrorMessage] = UnexpectedErrorMessage;

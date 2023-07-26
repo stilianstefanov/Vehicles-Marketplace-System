@@ -6,7 +6,9 @@ using Contracts;
 using Data;
 using Data.Models;
 using Data.Models.Enums.Scooter;
+using Web.ViewModels.Product;
 using Web.ViewModels.Scooter;
+using Web.ViewModels.Scooter.Enums;
 
 public class ScooterService : IScooterService
 {
@@ -156,5 +158,98 @@ public class ScooterService : IScooterService
 
 
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<ScooterAllQueryModel> GetAllFilteredAndPagedAsync(ScooterAllQueryModel queryModel)
+    {
+        IQueryable<Scooter> scootersQuery = _dbContext
+            .Scooters
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(queryModel.SearchTerm))
+        {
+            string wildCardSearchTerm = $"%{queryModel.SearchTerm.ToLower()}%";
+
+            scootersQuery = scootersQuery
+                .Where(s => EF.Functions.Like(s.Product.Name, wildCardSearchTerm) ||
+                                   EF.Functions.Like(s.Brand, wildCardSearchTerm) ||
+                                   EF.Functions.Like(s.Model, wildCardSearchTerm) ||
+                                   EF.Functions.Like(s.Color, wildCardSearchTerm));
+        }
+
+        scootersQuery = queryModel.ScooterSorting switch
+        {
+            ScooterSorting.NameDescending => scootersQuery.OrderByDescending(s => s.Product.Name),
+            ScooterSorting.NameAscending => scootersQuery.OrderBy(s => s.Product.Name),
+            ScooterSorting.PriceDescending => scootersQuery.OrderByDescending(s => s.Product.Price),
+            ScooterSorting.PriceAscending => scootersQuery.OrderBy(s => s.Product.Price),
+            ScooterSorting.QuantityDescending => scootersQuery.OrderByDescending(s => s.Product.Quantity),
+            ScooterSorting.QuantityAscending => scootersQuery.OrderBy(s => s.Product.Quantity),
+            ScooterSorting.RangeDescending => scootersQuery.OrderByDescending(s => s.Range),
+            ScooterSorting.RangeAscending => scootersQuery.OrderBy(s => s.Range),
+            ScooterSorting.MaxSpeedDescending => scootersQuery.OrderByDescending(s => s.TopSpeed),
+            ScooterSorting.MaxSpeedAscending => scootersQuery.OrderBy(s => s.TopSpeed),
+            ScooterSorting.EnginePowerDescending => scootersQuery.OrderByDescending(s => s.EnginePower),
+            ScooterSorting.EnginePowerAscending => scootersQuery.OrderBy(s => s.EnginePower),
+            _ => scootersQuery.OrderByDescending(s => s.Product.Name)
+        };
+
+        scootersQuery = queryModel.QueryScooterType switch
+        {
+            QueryScooterType.Lightweight => scootersQuery.Where(s => s.Type == ScooterType.Lightweight),
+            QueryScooterType.OffRoad => scootersQuery.Where(s => s.Type == ScooterType.OffRoad),
+            QueryScooterType.VespaStyle => scootersQuery.Where(s => s.Type == ScooterType.VespaStyle),
+            QueryScooterType.LongRange => scootersQuery.Where(s => s.Type == ScooterType.LongRange),
+            QueryScooterType.Performance => scootersQuery.Where(s => s.Type == ScooterType.Performance),
+            QueryScooterType.SitDown => scootersQuery.Where(s => s.Type == ScooterType.SitDown),
+            _ => scootersQuery
+        };
+
+        scootersQuery = queryModel.QueryScooterEngineType switch
+        {
+            QueryScooterEngineType.DualMotor => scootersQuery.Where(s => s.EngineType == ScooterEngineType.DualMotor),
+            QueryScooterEngineType.SingleMotor => scootersQuery.Where(
+                s => s.EngineType == ScooterEngineType.SingleMotor),
+            _ => scootersQuery
+        };
+
+        scootersQuery = queryModel.QueryScooterBrakesType switch
+        {
+            QueryScooterBrakesType.Electric => scootersQuery.Where(s => s.BrakesType == ScooterBrakesType.Electric),
+            QueryScooterBrakesType.Hydraulic => scootersQuery.Where(s => s.BrakesType == ScooterBrakesType.Hydraulic),
+            QueryScooterBrakesType.Mechanical => scootersQuery.Where(s => s.BrakesType == ScooterBrakesType.Mechanical),
+            _ => scootersQuery
+        };
+
+        IEnumerable<ScooterAllViewModel> scooters = await scootersQuery
+            .Skip((queryModel.CurrentPage - 1) * queryModel.ScootersPerPage)
+            .Take(queryModel.ScootersPerPage)
+            .Select(s => new ScooterAllViewModel()
+            {
+                Id = s.Id.ToString(),
+                Brand = s.Brand,
+                Model = s.Model,
+                Color = s.Color,
+                ScooterType = s.Type.ToString(),
+                EngineType = s.EngineType.ToString(),
+                BrakesType = s.BrakesType.ToString(),
+                Product = new ProductViewModel()
+                {
+                    Id = s.ProductId.ToString(),
+                    Name = s.Product.Name,
+                    Price = s.Product.Price.ToString("f2"),
+                    Quantity = s.Product.Quantity,
+                    ImageId = s.Product.ImageId
+                }
+            })
+        .ToArrayAsync();
+
+        int totalPages = (int)Math.Ceiling(await scootersQuery.CountAsync() / (double)queryModel.ScootersPerPage);
+
+        queryModel.TotalPages = totalPages;
+
+        queryModel.Scooters = scooters;
+
+        return queryModel;
     }
 }

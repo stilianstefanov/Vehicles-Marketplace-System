@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-4 left-section">
             <div class="input-group mb-3">
-                <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                <input type="text" id="search" class="form-control" placeholder="Search...">
             </div>
             <div class="card mb-3 filter-section">
                 <div class="card-header bg-primary text-white">
@@ -32,6 +32,7 @@
                             <option value="2">Price (Descending)</option>
                             <option value="3">Price (Ascending)</option>
                             <option value="4">Quantity (Descending)</option>
+                            <option value="5">Quantity (Ascending)</option>
                             <option value="6">Range (Descending)</option>
                             <option value="7">Range (Ascending)</option>
                             <option value="8">MaxSpeed (Descending)</option>
@@ -83,3 +84,130 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        var currentPage = 1; // Initialize current page to 1
+
+        // Initial page load
+        loadData();
+
+        // Search input change event
+        $('#search').on('input', function () {
+            currentPage = 1; // Reset current page to 1
+            loadData();
+        });
+
+        // Sort dropdown change event
+        $('#sort').on('change', function () {
+            currentPage = 1; // Reset current page to 1
+            loadData();
+        });
+
+        // Type dropdown change event
+        $('#type').on('change', function () {
+            currentPage = 1; // Reset current page to 1
+            loadData();
+        });
+
+        // PerPage dropdown change event
+        $('#perPage').on('change', function () {
+            currentPage = 1; // Reset current page to 1
+            loadData();
+        });
+
+        $('#engineType').on('change', function () {
+            currentPage = 1; // Reset current page to 1
+            loadData();
+        });
+
+        $('#brakesType').on('change', function () {
+            currentPage = 1; // Reset current page to 1
+            loadData();
+        });
+
+        // Previous page button click event
+        $('#previousPage').on('click', function () {
+            if (currentPage > 1) {
+                loadData('previous');
+            }
+        });
+
+        // Next page button click event
+        $('#nextPage').on('click', function () {
+            loadData('next');
+        });
+
+        function loadData(pageDirection) {
+            var search = $('#search').val();
+            var sort = $('#sort').val();
+            var perPage = $('#perPage').val();
+            var type = $('#type').val();
+            var engineType = $('#engineType').val();
+            var brakesType = $('#brakesType').val();
+
+            if (pageDirection === 'previous' && currentPage > 1) {
+                currentPage--;
+            } else if (pageDirection === 'next') {
+                currentPage++;
+            }
+
+            $.ajax({
+                url: '/Scooter/AllFilteredAndPaged',
+                type: 'GET',
+                data: {
+                    searchTerm: search,
+                    scooterSorting: sort,
+                    scootersPerPage: perPage,
+                    currentPage: currentPage,
+                    queryScooterType: type,
+                    queryScooterEngineType: engineType, // Changed '=' to ':'
+                    queryScooterBrakesType: brakesType // Changed '=' to ':'
+                },
+                success: function (result) {
+                    $('#productsContainer').empty();
+
+                    result.scooters.forEach(function (scooter) {
+                        var card = '<div>' +
+                            '<div class="card">' +
+                            '<img src="data:' + scooter.product.image.imageType + ';base64,' + scooter.product.image.data + '" class="img-fluid image-equal" alt="Company Image">' +
+                            '<div class="card-body">' +
+                            '<h5 class="card-title">' + scooter.product.name + '</h5>' +
+                            '<p class="card-text">' +
+                            '<strong>Price: </strong>' + scooter.product.price + '<br>' +
+                            '<strong>Quantity:</strong> ' + scooter.product.quantity + '<br>' +
+                            '</p>' +
+                            '</div>' +
+                            '<div class="card-footer d-flex justify-content-center">' +
+                            '<div class="btn-group" role="group">' +
+                            '<a href="/Scooter/Details/' + scooter.id + '" class="btn btn-primary">Details</a>';
+
+                        // Check if isUserRegisteredAsACompany is false, then append "Add Review" and "Add to Cart" links
+                        //if (!isUserRegisteredAsACompany) {
+                        //    card += '<a href="/Company/Products/' + product.id + '" class="btn btn-secondary">Add to Cart</a>' +
+                        //        '<a href="/Company/Products/' + product.id + '" class="btn btn-info">Add Review</a>';
+                        //}
+                        //else if (product.companyId == currentUserCompanyId) {
+                        //    card += '<a href="/Product/Edit/' + product.id + '" class="btn btn-secondary">Add Quantity</a>' +
+                        //        '<a href="/Product/Delete/' + product.id + '" class="btn btn-danger">Delete</a>';
+                        //}
+
+                        // Continue building the card string
+                        card += '</div>' +
+                            '</div>' +
+                            '</div></div>';
+
+                        $('#productsContainer').append(card);
+                    });
+
+                    // Update previous and next page buttons
+                    $('#previousPage').prop('disabled', currentPage === 1);
+                    $('#nextPage').prop('disabled', currentPage === result.totalPages);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
+</script>

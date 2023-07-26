@@ -11,4 +11,5 @@ public interface IScooterService
     Task<ScooterEditViewModel> GetScooterEditViewModelByIdAsync(string id);
     Task<string> GetProductIdByScooterIdAsync(string id);
     Task EditAsync(string id, ScooterEditViewModel scooterModel);
+    Task<ScooterAllQueryModel> GetAllFilteredAndPagedAsync(ScooterAllQueryModel queryModel);
 }
