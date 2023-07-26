@@ -114,7 +114,38 @@ public class BikeController : Controller
     [Authorize(Policy = "CompanyOnly")]
     public async Task<IActionResult> Edit(string id)
     {
-        return Ok();
+        bool isBikeExisting = await _bikeService.IsBikeExistingAsync(id);
+
+        if (!isBikeExisting)
+        {
+            TempData[ErrorMessage] = BikeNotFoundErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        bool isUserAuthorized = await _bikeService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+
+        if (!isUserAuthorized)
+        {
+            TempData[ErrorMessage] = UnauthorizedErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        try
+        {
+            var bikeModel = await _bikeService.GetBikeEditViewModelByIdAsync(id);
+
+            bikeModel.Product = await _productService.GetProductEditViewModelByIdAsync(bikeModel.ProductId!);
+
+            bikeModel.Product.CurrentImage = await _imageService.GetImageByIdAsync(bikeModel.Product.ImageId!);
+
+            return View(bikeModel);
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
     }
 
     private IActionResult GeneralError()

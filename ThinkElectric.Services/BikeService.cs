@@ -81,4 +81,55 @@ public class BikeService : IBikeService
 
         return model;
     }
+
+    public async Task<bool> IsBikeExistingAsync(string id)
+    {
+        bool isExisting = await _dbContext
+            .Bikes
+            .AnyAsync(b => b.Id.ToString() == id);
+
+        return isExisting;
+    }
+
+    public async Task<bool> IsUserAuthorizedToEditAsync(string id, string companyId)
+    {
+        bool isAuthorized = await _dbContext
+            .Bikes
+            .AnyAsync(b => b.Id.ToString() == id && b.Product.CompanyId.ToString() == companyId);
+
+        return isAuthorized;
+    }
+
+    public async Task<BikeEditViewModel> GetBikeEditViewModelByIdAsync(string id)
+    {
+        BikeEditViewModel model = await _dbContext
+            .Bikes
+            .Where(b => b.Id.ToString() == id)
+            .Select(b => new BikeEditViewModel()
+            {
+                Brand = b.Brand,
+                Model = b.Model,
+                Color = b.Color,
+                Battery = b.Battery,
+                FrameMaterial = b.FrameMaterial,
+                BikeType = (int)b.Type,
+                FrameType = (int)b.FrameType,
+                SuspensionType = (int)b.SuspensionType,
+                BrakesType = (int)b.BrakesType,
+                EngineType = (int)b.EngineType,
+                FrameSize = b.FrameSize,
+                GearsCount = b.GearsCount,
+                Range = b.Range,
+                TopSpeed = b.TopSpeed,
+                Weight = b.Weight,
+                MaxLoad = b.MaxLoad,
+                WheelSize = b.WheelSize,
+                ChargingTime = b.ChargingTime,
+                EnginePower = b.EnginePower,
+                ProductId = b.ProductId.ToString()
+            })
+            .FirstAsync();
+
+        return model;
+    }
 }
