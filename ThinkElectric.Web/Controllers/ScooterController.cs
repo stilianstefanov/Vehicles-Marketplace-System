@@ -8,7 +8,6 @@ using ViewModels.Scooter;
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
-using ThinkElectric.Services;
 
 [Authorize]
 public class ScooterController : Controller
@@ -212,6 +211,13 @@ public class ScooterController : Controller
         {
             return GeneralError();
         }
+    }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public IActionResult All()
+    {
+        return View();
     }
 
     private IActionResult GeneralError()

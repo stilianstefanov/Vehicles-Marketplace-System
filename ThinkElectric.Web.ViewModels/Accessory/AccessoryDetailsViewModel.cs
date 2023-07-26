@@ -16,5 +16,5 @@ public class AccessoryDetailsViewModel
 
     public string ProductId { get; set; } = null!;
 
-    public ProductViewModel Product { get; set; } = null!;
+    public ProductDetailsViewModel Product { get; set; } = null!;
 }

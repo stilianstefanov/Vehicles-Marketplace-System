@@ -264,4 +264,25 @@ public static class EntityValidationConstants
 
         public const int ProductTypeMinValue = 0;
     }
+
+    public static class ScooterQuery
+    {
+        public const int SearchTermMaxLength = 100;
+
+        public const int SortingMaxValue = 11;
+
+        public const int SortingMinValue = 0;
+
+        public const int ScooterTypeMaxValue = 6;
+
+        public const int ScooterTypeMinValue = 0;
+
+        public const int EngineTypeMaxValue = 2;
+
+        public const int EngineTypeMinValue = 0;
+
+        public const int BrakesTypeMaxValue = 3;
+
+        public const int BrakesTypeMinValue = 0;
+    }
 }

@@ -104,12 +104,12 @@ public class ProductService : IProductService
         return queryModel;
     }
 
-    public async Task<ProductViewModel> GetProductDetailsByIdAsync(string id)
+    public async Task<ProductDetailsViewModel> GetProductDetailsByIdAsync(string id)
     {
-        ProductViewModel model = await _dbContext
+        ProductDetailsViewModel model = await _dbContext
             .Products
             .Where(p => p.Id.ToString() == id)
-            .Select(p => new ProductViewModel()
+            .Select(p => new ProductDetailsViewModel()
             {
                 Name = p.Name,
                 ImageId = p.ImageId,

@@ -1,0 +1,85 @@
+﻿
+
+<div class="text-center mt-3">
+    <h2>Scooters</h2>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 left-section">
+            <div class="input-group mb-3">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+            </div>
+            <div class="card mb-3 filter-section">
+                <div class="card-header bg-primary text-white">
+                    Filters
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="perPage">Products per Page:</label>
+                        <select class="form-control" id="perPage">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sort">Sort By:</label>
+                        <select class="form-control" id="sort">
+                            <option value="0">Name (Descending)</option>
+                            <option value="1">Name (Ascending)</option>
+                            <option value="2">Price (Descending)</option>
+                            <option value="3">Price (Ascending)</option>
+                            <option value="4">Quantity (Descending)</option>
+                            <option value="6">Range (Descending)</option>
+                            <option value="7">Range (Ascending)</option>
+                            <option value="8">MaxSpeed (Descending)</option>
+                            <option value="9">MaxSpeed (Ascending)</option>
+                            <option value="10">EnginePower (Descending)</option>
+                            <option value="11">EnginePower (Ascending)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Type:</label>
+                        <select class="form-control" id="type">
+                            <option value="0">All</option>
+                            <option value="1">Lightweight</option>
+                            <option value="2">OffRoad</option>
+                            <option value="3">Vespa Style</option>
+                            <option value="4">Long Range</option>
+                            <option value="5">Performance</option>
+                            <option value="6">Sit Down</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="engineType">Engine Type:</label>
+                        <select class="form-control" id="engineType">
+                            <option value="0">All</option>
+                            <option value="1">Single Motor</option>
+                            <option value="2">Dual Motor</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="brakesType">Brakes Type:</label>
+                        <select class="form-control" id="brakesType">
+                            <option value="0">All</option>
+                            <option value="1">Electric</option>
+                            <option value="2">Mechanical</option>
+                            <option value="3">Hydraulic</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 right-section">
+            <div class="row" id="productsContainer">
+                <!-- The products will be dynamically loaded here -->
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-primary" id="previousPage">Previous</button>
+            <button type="button" class="btn btn-primary" id="nextPage">Next</button>
+        </div>
+    </div>
+</div>
