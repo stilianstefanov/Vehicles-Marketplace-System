@@ -9,4 +9,6 @@ public interface IBikeService
     Task<bool> IsBikeExistingAsync(string id);
     Task<bool> IsUserAuthorizedToEditAsync(string id, string companyId);
     Task<BikeEditViewModel> GetBikeEditViewModelByIdAsync(string id);
+    Task<string> GetProductIdByBikeIdAsync(string id);
+    Task EditAsync(string id, BikeEditViewModel bikeModel);
 }

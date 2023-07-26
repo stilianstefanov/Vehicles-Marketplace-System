@@ -148,6 +148,79 @@ public class BikeController : Controller
         }
     }
 
+    [HttpPost]
+    [Authorize(Policy = "CompanyOnly")]
+    public async Task<IActionResult> Edit([FromForm] BikeEditViewModel bikeModel, string id)
+    {
+        bool isBikeExisting = await _bikeService.IsBikeExistingAsync(id);
+
+        if (!isBikeExisting)
+        {
+            TempData[ErrorMessage] = BikeNotFoundErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        bool isUserAuthorized = await _bikeService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+
+        if (!isUserAuthorized)
+        {
+            TempData[ErrorMessage] = UnauthorizedErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            var productId = await _bikeService.GetProductIdByBikeIdAsync(id);
+            var imageId = await _productService.GetImageIdByProductIdAsync(productId);
+
+            bikeModel.Product.CurrentImage = await _imageService.GetImageByIdAsync(imageId);
+
+            return View(bikeModel);
+        }
+
+        if (bikeModel.Product.NewImage != null && bikeModel.Product.NewImage.Length != 0)
+        {
+            var imageType = bikeModel.Product.NewImage.ContentType;
+
+            if (imageType != "image/jpg" && imageType != "image/jpeg" && imageType != "image/png")
+            {
+                var productId = await _bikeService.GetProductIdByBikeIdAsync(id);
+                var imageId = await _productService.GetImageIdByProductIdAsync(productId);
+
+                bikeModel.Product.CurrentImage = await _imageService.GetImageByIdAsync(imageId);
+
+                TempData[ErrorMessage] = ImageFormatErrorMessage;
+                return View(bikeModel);
+            }
+        }
+
+        try
+        {
+            var productId = await _bikeService.GetProductIdByBikeIdAsync(id);
+
+            if (bikeModel.Product.NewImage != null && bikeModel.Product.NewImage.Length != 0)
+            {
+                var imageId = await _productService.GetImageIdByProductIdAsync(productId);
+
+                await _imageService.UpdateAsync(imageId, bikeModel.Product.NewImage);
+            }
+
+            await _productService.EditAsync(productId, bikeModel.Product);
+
+            await _bikeService.EditAsync(id, bikeModel);
+
+            TempData[SuccessMessage] = BikeEditSuccessMessage;
+
+            return RedirectToAction("Details", "Bike", new { id });
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
+    }
+
     private IActionResult GeneralError()
     {
         this.TempData[ErrorMessage] = UnexpectedErrorMessage;

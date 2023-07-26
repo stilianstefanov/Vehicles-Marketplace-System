@@ -133,4 +133,45 @@ public class BikeService : IBikeService
 
         return model;
     }
+
+    public async Task<string> GetProductIdByBikeIdAsync(string id)
+    {
+        string productId = await _dbContext
+            .Bikes
+            .Where(b => b.Id.ToString() == id)
+            .Select(b => b.ProductId.ToString())
+            .FirstAsync();
+
+        return productId;
+    }
+
+    public async Task EditAsync(string id, BikeEditViewModel bikeModel)
+    {
+        Bike bike = await _dbContext
+            .Bikes
+            .Where(b => b.Id.ToString() == id)
+            .FirstAsync();
+
+        bike.Brand = bikeModel.Brand;
+        bike.Model = bikeModel.Model;
+        bike.Color = bikeModel.Color;
+        bike.Battery = bikeModel.Battery;
+        bike.FrameMaterial = bikeModel.FrameMaterial;
+        bike.Type = (BikeType)bikeModel.BikeType;
+        bike.FrameType = (BikeFrameType)bikeModel.FrameType;
+        bike.SuspensionType = (BikeSuspensionType)bikeModel.SuspensionType;
+        bike.BrakesType = (BikeBrakesType)bikeModel.BrakesType;
+        bike.EngineType = (BikeEngineType)bikeModel.EngineType;
+        bike.FrameSize = bikeModel.FrameSize;
+        bike.GearsCount = bikeModel.GearsCount;
+        bike.Range = bikeModel.Range;
+        bike.TopSpeed = bikeModel.TopSpeed;
+        bike.Weight = bikeModel.Weight;
+        bike.MaxLoad = bikeModel.MaxLoad;
+        bike.WheelSize = bikeModel.WheelSize;
+        bike.ChargingTime = bikeModel.ChargingTime;
+        bike.EnginePower = bikeModel.EnginePower;
+
+        await _dbContext.SaveChangesAsync();
+    }
 }

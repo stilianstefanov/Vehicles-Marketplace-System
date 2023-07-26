@@ -53,16 +53,6 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <label asp-for="FrameMaterial">Frame Material:</label>
-                        <input asp-for="FrameMaterial" type="text" class="form-control">
-                        <span asp-validation-for="FrameMaterial" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="Battery">Battery:</label>
-                        <input asp-for="Battery" type="text" class="form-control">
-                        <span asp-validation-for="Battery" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-6">
                         <label asp-for="BikeType"></label>
                         <select asp-for="BikeType" class="form-control">
                             <option value="0">Select Bike Type</option>
@@ -73,6 +63,25 @@
                             <option value="5">Fat Tire</option>
                         </select>
                         <span asp-validation-for="BikeType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="EngineType"></label>
+                        <select asp-for="EngineType" class="form-control">
+                            <option value="0">Select Engine Type</option>
+                            <option value="1">Rear</option>
+                            <option value="2">Middle</option>
+                        </select>
+                        <span asp-validation-for="EngineType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="BrakesType"></label>
+                        <select asp-for="BrakesType" class="form-control">
+                            <option value="0">Select Brakes Type</option>
+                            <option value="1">Rim Brakes</option>
+                            <option value="2">Disc Brakes</option>
+                            <option value="3">Hydraulic Brakes</option>
+                        </select>
+                        <span asp-validation-for="BrakesType" class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-6">
                         <label asp-for="FrameType"></label>
@@ -95,28 +104,19 @@
                         <span asp-validation-for="SuspensionType" class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-6">
-                        <label asp-for="BrakesType"></label>
-                        <select asp-for="BrakesType" class="form-control">
-                            <option value="0">Select Brakes Type</option>
-                            <option value="1">Rim Brakes</option>
-                            <option value="2">Disc Brakes</option>
-                            <option value="3">Hydraulic Brakes</option>
-                        </select>
-                        <span asp-validation-for="BrakesType" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="EngineType"></label>
-                        <select asp-for="EngineType" class="form-control">
-                            <option value="0">Select Engine Type</option>
-                            <option value="1">Rear</option>
-                            <option value="2">Middle</option>
-                        </select>
-                        <span asp-validation-for="EngineType" class="text-danger"></span>
+                        <label asp-for="FrameMaterial">Frame Material:</label>
+                        <input asp-for="FrameMaterial" type="text" class="form-control">
+                        <span asp-validation-for="FrameMaterial" class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-6">
                         <label asp-for="FrameSize">Frame Size (inch):</label>
                         <input asp-for="FrameSize" type="number" class="form-control">
                         <span asp-validation-for="FrameSize" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Battery">Battery:</label>
+                        <input asp-for="Battery" type="text" class="form-control">
+                        <span asp-validation-for="Battery" class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-6">
                         <label asp-for="GearsCount">Gears Count:</label>
