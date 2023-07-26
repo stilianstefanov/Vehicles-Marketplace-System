@@ -15,4 +15,6 @@ public static class GeneralMessages
     public const string ScooterEditSuccessMessage = "You have successfully edited the scooter!";
 
     public const string BikeEditSuccessMessage = "You have successfully edited the bike!";
+
+    public const string AccessoryEditSuccessMessage = "You have successfully edited the accessory!";
 }

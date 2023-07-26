@@ -1,0 +1,67 @@
+﻿@model AccessoryEditViewModel
+
+@{
+    ViewBag.Title = "Edit Accessory";
+}
+
+<div class="container py-5">
+    <form asp-action="Edit" asp-controller="Accessory" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-5">
+                <img src="data:@Model.Product.CurrentImage!.ImageType;base64,@Convert.ToBase64String(Model.Product.CurrentImage.Data)" alt="Company Logo" class="img-fluid" />
+                <div class="mt-5 col-md-12">
+                    <div class="form-group mt-5">
+                        <label asp-for="Product.NewImage">Upload New Image</label>
+                        <input asp-for="Product.NewImage" type="file" class="form-control-file">
+                        <span asp-validation-for="@Model.Product.NewImage" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Product.Name">Name:</label>
+                        <input asp-for="Product.Name" class="form-control">
+                        <span asp-validation-for="Product.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="Product.Price">Price:</label>
+                        <input asp-for="Product.Price" class="form-control">
+                        <span asp-validation-for="Product.Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="Product.Quantity">Quantity:</label>
+                        <input asp-for="Product.Quantity" type="number" class="form-control">
+                        <span asp-validation-for="Product.Quantity" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Brand">Brand:</label>
+                    <input asp-for="Brand" type="text" class="form-control">
+                    <span asp-validation-for="Brand" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description">Description:</label>
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CompatibleBrand">Compatible Brand:</label>
+                    <input asp-for="CompatibleBrand" type="text" class="form-control">
+                    <span asp-validation-for="CompatibleBrand" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CompatibleModel">Compatible Model:</label>
+                    <input asp-for="CompatibleModel" type="text" class="form-control">
+                    <span asp-validation-for="CompatibleModel" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-warning col-md-3 mt-3">Apply Changes</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

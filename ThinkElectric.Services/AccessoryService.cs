@@ -52,4 +52,66 @@ public class AccessoryService : IAccessoryService
 
         return model;
     }
+
+    public async Task<bool> IsAccessoryExistingAsync(string id)
+    {
+        bool isAccessoryExisting = await _dbContext
+            .Accessories
+            .AnyAsync(a => a.Id.ToString() == id);
+
+        return isAccessoryExisting;
+    }
+
+    public async Task<bool> IsUserAuthorizedToEditAsync(string id, string companyId)
+    {
+        bool isUserAuthorizedToEdit = await _dbContext
+            .Accessories
+            .AnyAsync(a => a.Id.ToString() == id && a.Product.CompanyId.ToString() == companyId);
+
+        return isUserAuthorizedToEdit;
+    }
+
+    public async Task<AccessoryEditViewModel> GetAccessoryEditViewModelByIdAsync(string id)
+    {
+        AccessoryEditViewModel model = await _dbContext
+            .Accessories
+            .Where(a => a.Id.ToString() == id)
+            .Select(a => new AccessoryEditViewModel()
+            {
+                Brand = a.Brand,
+                Description = a.Description,
+                CompatibleBrand = a.CompatibleBrand,
+                CompatibleModel = a.CompatibleModel,
+                ProductId = a.ProductId.ToString(),
+            })
+            .FirstAsync();
+
+        return model;
+    }
+
+    public async Task<string> GetProductIdByAccessoryIdAsync(string id)
+    {
+        string productId = await _dbContext
+            .Accessories
+            .Where(a => a.Id.ToString() == id)
+            .Select(a => a.ProductId.ToString())
+            .FirstAsync();
+
+        return productId;
+    }
+
+    public async Task EditAsync(string id, AccessoryEditViewModel accessoryModel)
+    {
+        Accessory accessory = await _dbContext
+            .Accessories
+            .Where(a => a.Id.ToString() == id)
+            .FirstAsync();
+
+        accessory.Brand = accessoryModel.Brand;
+        accessory.Description = accessoryModel.Description;
+        accessory.CompatibleBrand = accessoryModel.CompatibleBrand;
+        accessory.CompatibleModel = accessoryModel.CompatibleModel;
+
+        await _dbContext.SaveChangesAsync();
+    }
 }

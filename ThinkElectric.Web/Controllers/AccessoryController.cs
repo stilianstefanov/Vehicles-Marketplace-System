@@ -7,8 +7,7 @@ using ViewModels.Accessory;
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
-using ThinkElectric.Data.Models.Enums.Product;
-using ThinkElectric.Services;
+using Data.Models.Enums.Product;
 
 [Authorize]
 public class AccessoryController : Controller
@@ -113,7 +112,108 @@ public class AccessoryController : Controller
     [Authorize(Policy = "CompanyOnly")]
     public async Task<IActionResult> Edit(string id)
     {
-        return Ok();
+        bool isAccessoryExisting = await _accessoryService.IsAccessoryExistingAsync(id);
+
+        if (!isAccessoryExisting)
+        {
+            TempData[ErrorMessage] = AccessoryNotFoundErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        bool isUserAuthorized = await _accessoryService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+
+        if (!isUserAuthorized)
+        {
+            TempData[ErrorMessage] = UnauthorizedErrorMessage;
+            return RedirectToAction("Index", "Home");
+        }
+
+        try
+        {
+            var accessoryModel = await _accessoryService.GetAccessoryEditViewModelByIdAsync(id);
+
+            accessoryModel.Product = await _productService.GetProductEditViewModelByIdAsync(accessoryModel.ProductId!);
+
+            accessoryModel.Product.CurrentImage = await _imageService.GetImageByIdAsync(accessoryModel.Product.ImageId!);
+
+            return View(accessoryModel);
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
+    }
+
+    [HttpPost]
+    [Authorize(Policy = "CompanyOnly")]
+    public async Task<IActionResult> Edit([FromForm]AccessoryEditViewModel accessoryModel, string id)
+    {
+        bool isAccessoryExisting = await _accessoryService.IsAccessoryExistingAsync(id);
+
+        if (!isAccessoryExisting)
+        {
+            TempData[ErrorMessage] = AccessoryNotFoundErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        bool isUserAuthorized = await _accessoryService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+
+        if (!isUserAuthorized)
+        {
+            TempData[ErrorMessage] = UnauthorizedErrorMessage;
+            return RedirectToAction("Index", "Home");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            var productId = await _accessoryService.GetProductIdByAccessoryIdAsync(id);
+            var imageId = await _productService.GetImageIdByProductIdAsync(productId);
+
+            accessoryModel.Product.CurrentImage = await _imageService.GetImageByIdAsync(imageId);
+            return View(accessoryModel);
+        }
+
+        if (accessoryModel.Product.NewImage != null && accessoryModel.Product.NewImage.Length != 0)
+        {
+            var imageType = accessoryModel.Product.NewImage.ContentType;
+
+            if (imageType != "image/jpg" && imageType != "image/jpeg" && imageType != "image/png")
+            {
+                var productId = await _accessoryService.GetProductIdByAccessoryIdAsync(id);
+                var imageId = await _productService.GetImageIdByProductIdAsync(productId);
+
+                accessoryModel.Product.CurrentImage = await _imageService.GetImageByIdAsync(imageId);
+
+                TempData[ErrorMessage] = ImageFormatErrorMessage;
+                return View(accessoryModel);
+            }
+        }
+
+        try
+        {
+            var productId = await _accessoryService.GetProductIdByAccessoryIdAsync(id);
+
+            if (accessoryModel.Product.NewImage != null && accessoryModel.Product.NewImage.Length != 0)
+            {
+                var imageId = await _productService.GetImageIdByProductIdAsync(productId);
+
+                await _imageService.UpdateAsync(imageId, accessoryModel.Product.NewImage);
+            }
+
+            await _productService.EditAsync(productId, accessoryModel.Product);
+
+            await _accessoryService.EditAsync(id, accessoryModel);
+
+            TempData[SuccessMessage] = AccessoryEditSuccessMessage;
+
+            return RedirectToAction("Details", "Accessory", new { id });
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
     }
 
     private IActionResult GeneralError()
