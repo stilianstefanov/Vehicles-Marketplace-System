@@ -1,0 +1,170 @@
+﻿@model BikeEditViewModel
+
+@{
+    ViewBag.Title = "Edit Bike";
+}
+
+<div class="container py-5">
+    <form asp-action="Edit" asp-controller="Bike" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-5">
+                <img src="data:@Model.Product.CurrentImage!.ImageType;base64,@Convert.ToBase64String(Model.Product.CurrentImage.Data)" alt="Company Logo" class="img-fluid" />
+                <div class="mt-5 col-md-12">
+                    <div class="form-group mt-5">
+                        <label asp-for="Product.NewImage">Upload New Image</label>
+                        <input asp-for="Product.NewImage" type="file" class="form-control-file">
+                        <span asp-validation-for="@Model.Product.NewImage" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Product.Name">Name:</label>
+                        <input asp-for="Product.Name" class="form-control">
+                        <span asp-validation-for="Product.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="Product.Price">Price:</label>
+                        <input asp-for="Product.Price" class="form-control">
+                        <span asp-validation-for="Product.Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="Product.Quantity">Quantity:</label>
+                        <input asp-for="Product.Quantity" type="number" class="form-control">
+                        <span asp-validation-for="Product.Quantity" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Brand">Brand:</label>
+                    <input asp-for="Brand" type="text" class="form-control">
+                    <span asp-validation-for="Brand" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Model">Model:</label>
+                    <input asp-for="Model" type="text" class="form-control">
+                    <span asp-validation-for="Model" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Color">Color:</label>
+                    <input asp-for="Color" type="text" class="form-control">
+                    <span asp-validation-for="Color" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="FrameMaterial">Frame Material:</label>
+                        <input asp-for="FrameMaterial" type="text" class="form-control">
+                        <span asp-validation-for="FrameMaterial" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Battery">Battery:</label>
+                        <input asp-for="Battery" type="text" class="form-control">
+                        <span asp-validation-for="Battery" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="BikeType"></label>
+                        <select asp-for="BikeType" class="form-control">
+                            <option value="0">Select Bike Type</option>
+                            <option value="1">City</option>
+                            <option value="2">Mountain</option>
+                            <option value="3">Road</option>
+                            <option value="4">Cargo</option>
+                            <option value="5">Fat Tire</option>
+                        </select>
+                        <span asp-validation-for="BikeType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="FrameType"></label>
+                        <select asp-for="FrameType" class="form-control">
+                            <option value="0">Select Frame Type</option>
+                            <option value="1">Foldable</option>
+                            <option value="2">Not Foldable</option>
+                        </select>
+                        <span asp-validation-for="FrameType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="SuspensionType"></label>
+                        <select asp-for="SuspensionType" class="form-control">
+                            <option value="0">Select Suspension Type</option>
+                            <option value="1">No Active Suspension</option>
+                            <option value="2">Front</option>
+                            <option value="3">Rear</option>
+                            <option value="4">Full</option>
+                        </select>
+                        <span asp-validation-for="SuspensionType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="BrakesType"></label>
+                        <select asp-for="BrakesType" class="form-control">
+                            <option value="0">Select Brakes Type</option>
+                            <option value="1">Rim Brakes</option>
+                            <option value="2">Disc Brakes</option>
+                            <option value="3">Hydraulic Brakes</option>
+                        </select>
+                        <span asp-validation-for="BrakesType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="EngineType"></label>
+                        <select asp-for="EngineType" class="form-control">
+                            <option value="0">Select Engine Type</option>
+                            <option value="1">Rear</option>
+                            <option value="2">Middle</option>
+                        </select>
+                        <span asp-validation-for="EngineType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="FrameSize">Frame Size (inch):</label>
+                        <input asp-for="FrameSize" type="number" class="form-control">
+                        <span asp-validation-for="FrameSize" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="GearsCount">Gears Count:</label>
+                        <input asp-for="GearsCount" type="number" class="form-control">
+                        <span asp-validation-for="GearsCount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Range">Range (km):</label>
+                        <input asp-for="Range" type="number" class="form-control">
+                        <span asp-validation-for="Range" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="TopSpeed">Top Speed (km):</label>
+                        <input asp-for="TopSpeed" type="number" class="form-control">
+                        <span asp-validation-for="TopSpeed" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Weight">Weight (kg):</label>
+                        <input asp-for="Weight" type="number" class="form-control">
+                        <span asp-validation-for="Weight" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="MaxLoad">Max Load (kg):</label>
+                        <input asp-for="MaxLoad" type="number" class="form-control">
+                        <span asp-validation-for="MaxLoad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="WheelSize">Wheel Size (inch):</label>
+                        <input asp-for="WheelSize" type="number" class="form-control">
+                        <span asp-validation-for="WheelSize" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="ChargingTime">Charging Time (hours):</label>
+                        <input asp-for="ChargingTime" type="number" class="form-control">
+                        <span asp-validation-for="ChargingTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="EnginePower">Engine Power (watt):</label>
+                        <input asp-for="EnginePower" type="number" class="form-control">
+                        <span asp-validation-for="EnginePower" class="text-danger"></span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-warning col-md-3 mt-3">Apply Changes</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

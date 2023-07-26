@@ -56,6 +56,7 @@ public class BikeService : IBikeService
             .Where(b => b.Id.ToString() == id)
             .Select(b => new BikeDetailsViewModel()
             {
+                Id = b.Id.ToString(),
                 Brand = b.Brand,
                 Model = b.Model,
                 Color = b.Color,

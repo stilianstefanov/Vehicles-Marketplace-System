@@ -6,6 +6,11 @@ using static Common.EntityValidationConstants.Bike;
 
 public class Bike
 {
+    public Bike()
+    {
+        Id = Guid.NewGuid();
+    }
+
     [Key]
     public Guid Id { get; set; }
 

@@ -7,6 +7,7 @@ public class Cart
 {
     public Cart()
     {
+        Id = Guid.NewGuid();
         CartItems = new HashSet<CartItem>();
     }
 

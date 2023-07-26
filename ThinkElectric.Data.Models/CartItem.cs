@@ -5,6 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class CartItem
 {
+    public CartItem()
+    {
+        Id = Guid.NewGuid();
+    }
+
     [Key]
     public Guid Id { get; set; }
 

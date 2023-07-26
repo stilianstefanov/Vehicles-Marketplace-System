@@ -5,6 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class OrderItem
 {
+    public OrderItem()
+    {
+        Id = Guid.NewGuid();
+    }
+
     [Key]
     public Guid Id { get; set; }
 

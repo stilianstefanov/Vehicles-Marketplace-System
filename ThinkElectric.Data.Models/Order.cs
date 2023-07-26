@@ -7,6 +7,7 @@ public class Order
 {
     public Order()
     {
+        Id = Guid.NewGuid();
         OrderItems = new HashSet<OrderItem>();
     }
 
