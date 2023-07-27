@@ -8,7 +8,7 @@
     <form asp-action="Edit" asp-controller="Bike" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-md-5">
-                <img src="data:@Model.Product.CurrentImage!.ImageType;base64,@Convert.ToBase64String(Model.Product.CurrentImage.Data)" alt="Company Logo" class="img-fluid" />
+                <img src="data:@Model.Product.CurrentImage!.ImageType;base64,@Convert.ToBase64String(Model.Product.CurrentImage.Data)" alt="Company Logo" class="img-fluid image-details" />
                 <div class="mt-5 col-md-12">
                     <div class="form-group mt-5">
                         <label asp-for="Product.NewImage">Upload New Image</label>

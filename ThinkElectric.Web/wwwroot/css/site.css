@@ -37,6 +37,13 @@ body {
     object-position: center;
 }
 
+.image-details{
+    height: 500px;
+    width: 500px;
+    object-fit: fill;
+    object-position: center;
+}
+
     .big-button {
         background-repeat: no-repeat;
         background-size: cover;

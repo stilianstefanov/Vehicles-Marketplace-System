@@ -19,7 +19,7 @@
 <div class="container py-5">
     <div class="row">
         <div class="col-md-5">
-            <img src="data:@Model.Product.Image.ImageType;base64,@Convert.ToBase64String(Model.Product.Image.Data)" alt="Product image" class="img-fluid" />
+            <img src="data:@Model.Product.Image.ImageType;base64,@Convert.ToBase64String(Model.Product.Image.Data)" alt="Product image" class="img-fluid image-details" />
             <div class="mt-5 col-md-12">
                 @if (Model.Product.Reviews.Any())
                 {
