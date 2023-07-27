@@ -1,8 +1,134 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model ProductsHomeModel
+
+@{
+    ViewBag.Title = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@{
+    bool isUserRegisteredAsACompany = User.HasClaim("companyUser", "");
+}
+
+<div class="mb-5"></div>
+
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img class="d-block w-100" style="height: 500px;" src="~/img/home-page-scooter.jpg" alt="Home image">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>
+                    <a class="btn btn-primary" asp-controller="Scooter" asp-action="All">View All Scooters</a>
+                </h5>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <img class="d-block w-100" style="height: 500px;" src="~/img/home-page-bike.jpg" alt="Bike image">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>
+                    <a class="btn btn-primary" asp-controller="Bike" asp-action="All">View All Bikes</a>
+                </h5>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!-- Scooters Section -->
+<div class="row mt-4">
+    <div class="col-md-12">
+        <h2 class="text-center mt-4">Check Out Recently Added Scooters</h2>
+    </div>
+</div>
+<div class="row">
+    @foreach (var scooter in Model.ScooterProducts)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="data:@scooter.Image.ImageType;base64,@Convert.ToBase64String(scooter.Image.Data)" alt="Product image" class="img-fluid image-equal" />
+                <div class="card-body">
+                    <h5 class="card-title">@scooter.Name</h5>
+                    <p class="card-text">Price: @scooter.Price</p>
+                    <p class="card-text">Quantity: @scooter.Quantity</p>
+                    <!-- Buttons for each card -->
+                    <div class="text-center mt-2">
+                        <a asp-controller="Product" asp-action="Details" asp-route-id="@scooter.Id" class="btn btn-primary">Details</a>
+                        @if (!isUserRegisteredAsACompany)
+                        {
+                            <button class="btn btn-success">Add To Cart</button>
+                            <button class="btn btn-info">Add A Review</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Bikes Section -->
+<div class="row mt-4">
+    <div class="col-md-12">
+        <h2 class="text-center">Check Out Recently Added Bikes</h2>
+    </div>
+</div>
+<div class="row">
+    @foreach (var bike in Model.BikeProducts)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="data:@bike.Image.ImageType;base64,@Convert.ToBase64String(bike.Image.Data)" alt="Product image" class="img-fluid image-equal" />
+                <div class="card-body">
+                    <h5 class="card-title">@bike.Name</h5>
+                    <p class="card-text">Price: @bike.Price</p>
+                    <p class="card-text">Quantity: @bike.Quantity</p>
+                    <!-- Buttons for each card -->
+                    <div class="text-center mt-2">
+                        <a asp-controller="Product" asp-action="Details" asp-route-id="@bike.Id" class="btn btn-primary">Details</a>
+                        @if (!isUserRegisteredAsACompany)
+                        {
+                            <button class="btn btn-success">Add To Cart</button>
+                            <button class="btn btn-info">Add A Review</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Accessories Section -->
+<div class="row mt-4">
+    <div class="col-md-12">
+        <h2 class="text-center">Check Out Recently Added Accessories</h2>
+    </div>
+</div>
+<div class="row">
+    @foreach (var accessory in Model.AccessoryProducts)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="data:@accessory.Image.ImageType;base64,@Convert.ToBase64String(accessory.Image.Data)" alt="Product image" class="img-fluid image-equal" />
+                <div class="card-body">
+                    <h5 class="card-title">@accessory.Name</h5>
+                    <p class="card-text">Price: @accessory.Price</p>
+                    <p class="card-text">Quantity: @accessory.Quantity</p>
+                    <!-- Buttons for each card -->
+                    <div class="text-center mt-2">
+                        <a asp-controller="Product" asp-action="Details" asp-route-id="@accessory.Id" class="btn btn-primary">Details</a>
+                        @if (!isUserRegisteredAsACompany)
+                        {
+                            <button class="btn btn-success">Add To Cart</button>
+                            <button class="btn btn-info">Add A Review</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>

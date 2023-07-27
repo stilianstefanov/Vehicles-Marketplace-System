@@ -177,4 +177,56 @@ public class ProductService : IProductService
 
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<ProductsHomeModel> GetProductsForHomeAsync()
+    {
+        ProductsHomeModel productsModel = new ProductsHomeModel();
+
+        productsModel.ScooterProducts = await _dbContext
+            .Products
+            .Where(p => p.ProductType == ProductType.Scooter)
+            .OrderByDescending(p => p.CreatedOn)
+            .Take(3)
+            .Select(p => new ProductViewModel()
+            {
+                Id = p.Id.ToString(),
+                Name = p.Name,
+                ImageId = p.ImageId,
+                Price = p.Price.ToString("f2"),
+                Quantity = p.Quantity,
+            })
+            .ToArrayAsync();
+
+        productsModel.BikeProducts = await _dbContext
+            .Products
+            .Where(p => p.ProductType == ProductType.Bike)
+            .OrderByDescending(p => p.CreatedOn)
+            .Take(3)
+            .Select(p => new ProductViewModel()
+            {
+                Id = p.Id.ToString(),
+                Name = p.Name,
+                ImageId = p.ImageId,
+                Price = p.Price.ToString("f2"),
+                Quantity = p.Quantity,
+            })
+            .ToArrayAsync();
+
+        productsModel.AccessoryProducts = await _dbContext
+            .Products
+            .Where(p => p.ProductType == ProductType.Accessory)
+            .OrderByDescending(p => p.CreatedOn)
+            .Take(3)
+            .Select(p => new ProductViewModel()
+            {
+                Id = p.Id.ToString(),
+                Name = p.Name,
+                ImageId = p.ImageId,
+                Price = p.Price.ToString("f2"),
+                Quantity = p.Quantity,
+            })
+            .ToArrayAsync();
+
+        return productsModel;
+    }
 }

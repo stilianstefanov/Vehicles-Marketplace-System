@@ -1,5 +1,4 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@using ThinkElectric.Services.Contracts
 @model CompanyDetailsViewModel
 
 @{
@@ -8,6 +7,8 @@
 
 @{
     bool isUserCompanyOwner = User.HasClaim("companyId", Model.Id.ToLower());
+
+    bool isUserRegisteredAsACompany = User.HasClaim("companyUser", "");
 }
 
 <div class="container py-5">
@@ -75,9 +76,14 @@
                     </div>
                 </div>
             </form>
+            <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Product" asp-action="AllByCompanyId" asp-route-id="@Model.Id">View Products</a>
             @if (isUserCompanyOwner)
             {
                 <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Company" asp-action="Edit" asp-route-id="@Model.Id">Edit Details</a>
+            }
+            @if (!isUserRegisteredAsACompany)
+            {
+                <a type="button" class="btn btn-warning col-md-3 mt-3">Add Review</a>
             }
         </div>
     </div>

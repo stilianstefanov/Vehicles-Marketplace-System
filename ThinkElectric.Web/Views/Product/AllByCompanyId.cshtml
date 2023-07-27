@@ -165,7 +165,7 @@ if (isUserRegisteredAsACompany)
 
                         // Check if isUserRegisteredAsACompany is false, then append "Add Review" and "Add to Cart" links
                         if (!isUserRegisteredAsACompany) {
-                            card += '<a href="/Company/Products/' + product.id + '" class="btn btn-secondary">Add to Cart</a>' +
+                            card += '<a href="/Company/Products/' + product.id + '" class="btn btn-success">Add to Cart</a>' +
                                 '<a href="/Company/Products/' + product.id + '" class="btn btn-info">Add Review</a>';
                         }
                         else if (product.companyId == currentUserCompanyId) 
