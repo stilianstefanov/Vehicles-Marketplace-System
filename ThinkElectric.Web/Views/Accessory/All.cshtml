@@ -1,0 +1,189 @@
+﻿@{
+    ViewBag.Title = "Accessory List";
+}
+
+
+@{
+    bool isUserRegisteredAsACompany = User.HasClaim("companyUser", "");
+}
+
+<div class="text-center mt-3">
+    <h2>Accessories</h2>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 left-section">
+            <div class="input-group mb-3">
+                <input type="text" id="search" class="form-control" placeholder="Search...">
+            </div>
+            <div class="card mb-3 filter-section">
+                <div class="card-header bg-primary text-white">
+                    Filters
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="perPage">Products per Page:</label>
+                        <select class="form-control" id="perPage">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sort">Sort By:</label>
+                        <select class="form-control" id="sort">
+                            <option value="0">Name (Descending)</option>
+                            <option value="1">Name (Ascending)</option>
+                            <option value="2">Price (Descending)</option>
+                            <option value="3">Price (Ascending)</option>
+                            <option value="4">Quantity (Descending)</option>
+                            <option value="5">Quantity (Ascending)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 right-section">
+            <div class="row" id="productsContainer">
+                <!-- The products will be dynamically loaded here -->
+            </div>
+        </div>
+        <div class="text-center mt-5">
+            <button type="button" class="btn btn-primary" id="previousPage">Previous</button>
+            <button type="button" class="btn btn-primary" id="nextPage">Next</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var currentPage = 1; // Initialize current page to 1
+        var isUserRegisteredAsACompany = @isUserRegisteredAsACompany.ToString().ToLower();
+
+        // Initial page load
+        loadData();
+
+        // Search input change event
+        $('#search').on('input', function () {
+            currentPage = 1; // Reset current page to 1
+            loadData();
+        });
+
+        // Sort dropdown change event
+        $('#sort').on('change', function () {
+            currentPage = 1; // Reset current page to 1
+            loadData();
+        });
+
+        // PerPage dropdown change event
+        $('#perPage').on('change', function () {
+            currentPage = 1; // Reset current page to 1
+            loadData();
+        });
+
+        // Previous page button click event
+        $('#previousPage').on('click', function () {
+            if (currentPage > 1) {
+                loadData('previous');
+            }
+        });
+
+        // Next page button click event
+        $('#nextPage').on('click', function () {
+            loadData('next');
+        });
+
+        function loadData(pageDirection) {
+            var search = $('#search').val();
+            var sort = $('#sort').val();
+            var perPage = $('#perPage').val();
+
+            if (pageDirection === 'previous' && currentPage > 1) {
+                currentPage--;
+            } else if (pageDirection === 'next') {
+                currentPage++;
+            }
+
+            $.ajax({
+                url: '/Accessory/AllFilteredAndPaged',
+                type: 'GET',
+                data: {
+                    searchTerm: search,
+                    accessorySorting: sort,
+                    accessoriesPerPage: perPage,
+                    currentPage: currentPage,
+                },
+                success: function (result) {
+                    $('#productsContainer').empty();
+
+                    result.accessories.forEach(function (accessory) {
+                        var card =
+                            '<div class="card mb-3">' +
+                            '<div class="row g-0">' +
+                            '<div class="col-md-4">' +
+                            '<img src="data:' +
+                            accessory.product.image.imageType +
+                            ';base64,' +
+                            accessory.product.image.data +
+                            '" class="img-fluid image-equal" alt="Company Image">' +
+                            '</div>' +
+                            '<div class="col-md-8">' +
+                            '<div class="card-body">' +
+                            '<h5 class="card-title">' +
+                            accessory.product.name +
+                            '</h5>' +
+                            '<p class="card-text">' +
+                            '<strong>Price:</strong> ' +
+                            accessory.product.price +
+                            '<br>' +
+                            '<strong>Quantity:</strong> ' +
+                            accessory.product.quantity +
+                            '<br>' +
+                            '<strong>Brand:</strong> ' +
+                            accessory.brand +
+                            '<br>' +
+                            '<strong>Compatible Brand:</strong> ' +
+                            accessory.compatibleBrand +
+                            '<br>' +
+                            '<strong>Compatible Model:</strong> ' +
+                            accessory.compatibleModel +                           
+                            '<br>' +
+                            '</p>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="card-footer d-flex justify-content-center">' +
+                            '<div class="btn-group" role="group">' +
+                            '<a href="/Accessory/Details/' +
+                            accessory.id +
+                            '" class="btn btn-primary">Details</a>';
+
+                        if (!isUserRegisteredAsACompany) {
+                            card +=
+                                '<a href="/Company/Products/' +
+                                accessory.product.id +
+                                '" class="btn btn-secondary">Add to Cart</a>' +
+                                '<a href="/Company/Products/' +
+                                accessory.product.id +
+                                '" class="btn btn-info">Add Review</a>';
+                        }
+
+                        // Continue building the card string
+                        card += '</div>' + '</div>' + '</div>';
+
+                        $('#productsContainer').append(card);
+                    });
+
+                    // Update previous and next page buttons
+                    $('#previousPage').prop('disabled', currentPage === 1);
+                    $('#nextPage').prop('disabled', currentPage === result.totalPages);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
+</script>
