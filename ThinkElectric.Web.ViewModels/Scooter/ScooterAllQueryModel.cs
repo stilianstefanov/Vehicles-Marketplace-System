@@ -34,6 +34,7 @@ public class ScooterAllQueryModel
 
     public int CurrentPage { get; set; }
 
+    [Range(PerPageMinValue, PerPageMaxValue)]
     public int ScootersPerPage { get; set; }
 
     public int TotalPages { get; set; }

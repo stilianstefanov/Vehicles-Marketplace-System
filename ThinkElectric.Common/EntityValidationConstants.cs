@@ -250,6 +250,10 @@ public static class EntityValidationConstants
         public const int SortingMaxValue = 3;
 
         public const int SortingMinValue = 0;
+
+        public const int PerPageMinValue = 5;
+
+        public const int PerPageMaxValue = 20;
     }
 
     public static class ProductQuery
@@ -263,6 +267,10 @@ public static class EntityValidationConstants
         public const int ProductTypeMaxValue = 3;
 
         public const int ProductTypeMinValue = 0;
+
+        public const int PerPageMinValue = 5;
+
+        public const int PerPageMaxValue = 20;
     }
 
     public static class ScooterQuery
@@ -284,5 +292,18 @@ public static class EntityValidationConstants
         public const int BrakesTypeMaxValue = 3;
 
         public const int BrakesTypeMinValue = 0;
+
+        public const int PerPageMinValue = 5;
+
+        public const int PerPageMaxValue = 20;
+    }
+
+    public static class BikeQuery
+    {
+        public const int SearchTermMaxLength = 100;
+
+        public const int PerPageMinValue = 5;
+
+        public const int PerPageMaxValue = 20;
     }
 }

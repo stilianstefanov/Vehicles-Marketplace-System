@@ -25,6 +25,7 @@ public class CompaniesAllQueryModel
 
     public int CurrentPage { get; set; }
 
+    [Range(PerPageMinValue, PerPageMaxValue)]
     public int CompaniesPerPage { get; set; }
 
     public int TotalPages { get; set; }

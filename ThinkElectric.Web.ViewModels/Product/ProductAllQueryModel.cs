@@ -29,6 +29,7 @@ public class ProductAllQueryModel
 
     public int CurrentPage { get; set; }
 
+    [Range(PerPageMinValue, PerPageMaxValue)]
     public int ProductsPerPage { get; set; }
 
     public int TotalPages { get; set; }
