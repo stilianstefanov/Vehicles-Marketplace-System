@@ -11,4 +11,5 @@ public interface IAccessoryService
     Task<AccessoryEditViewModel> GetAccessoryEditViewModelByIdAsync(string id);
     Task<string> GetProductIdByAccessoryIdAsync(string id);
     Task EditAsync(string id, AccessoryEditViewModel accessoryModel);
+    Task<AccessoryAllQueryModel> GetAllFilteredAndPagedAsync(AccessoryAllQueryModel queryModel);
 }

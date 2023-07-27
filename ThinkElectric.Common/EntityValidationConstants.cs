@@ -330,4 +330,17 @@ public static class EntityValidationConstants
 
         public const int BrakesTypeMinValue = 0;
     }
+
+    public static class AccessoryQuery
+    {
+        public const int SearchTermMaxLength = 100;
+
+        public const int PerPageMinValue = 5;
+
+        public const int PerPageMaxValue = 20;
+
+        public const int SortingMaxValue = 5;
+
+        public const int SortingMinValue = 0;
+    }
 }

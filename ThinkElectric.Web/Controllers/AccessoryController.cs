@@ -216,6 +216,36 @@ public class AccessoryController : Controller
         }
     }
 
+    [HttpGet]
+    [AllowAnonymous]
+    public IActionResult All()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> AllFilteredAndPaged(AccessoryAllQueryModel queryModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        queryModel = await _accessoryService.GetAllFilteredAndPagedAsync(queryModel);
+
+        queryModel.Accessories = queryModel
+            .Accessories
+            .Select(async accessory =>
+            {
+                accessory.Product.Image = await _imageService.GetImageByIdAsync(accessory.Product.ImageId);
+                return accessory;
+            })
+            .Select(t => t.Result).ToList();
+
+        return Json(queryModel);
+    }
+
     private IActionResult GeneralError()
     {
         this.TempData[ErrorMessage] = UnexpectedErrorMessage;
