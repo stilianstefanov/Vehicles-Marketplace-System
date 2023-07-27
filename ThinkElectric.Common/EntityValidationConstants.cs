@@ -305,5 +305,29 @@ public static class EntityValidationConstants
         public const int PerPageMinValue = 5;
 
         public const int PerPageMaxValue = 20;
+
+        public const int SortingMaxValue = 11;
+
+        public const int SortingMinValue = 0;
+
+        public const int BikeTypeMaxValue = 5;
+
+        public const int BikeTypeMinValue = 0;
+
+        public const int SuspensionTypeMaxValue = 4;
+
+        public const int SuspensionTypeMinValue = 0;
+
+        public const int FrameTypeMaxValue = 2;
+
+        public const int FrameTypeMinValue = 0;
+
+        public const int EngineTypeMaxValue = 2;
+
+        public const int EngineTypeMinValue = 0;
+
+        public const int BrakesTypeMaxValue = 3;
+
+        public const int BrakesTypeMinValue = 0;
     }
 }
