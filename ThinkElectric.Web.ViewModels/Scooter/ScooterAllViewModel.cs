@@ -22,5 +22,11 @@ public class ScooterAllViewModel
     [Display(Name = "Brakes Type")]
     public string BrakesType { get; set; } = null!;
 
+    public int Range { get; set; }
+
+    public int MaxSpeed { get; set; }
+
+    public int EnginePower { get; set; }
+
     public ProductViewModel Product { get; set; } = null!;
 }

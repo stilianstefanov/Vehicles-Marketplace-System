@@ -233,6 +233,9 @@ public class ScooterService : IScooterService
                 ScooterType = s.Type.ToString(),
                 EngineType = s.EngineType.ToString(),
                 BrakesType = s.BrakesType.ToString(),
+                Range = s.Range,
+                MaxSpeed = s.TopSpeed,
+                EnginePower = s.EnginePower,
                 Product = new ProductViewModel()
                 {
                     Id = s.ProductId.ToString(),

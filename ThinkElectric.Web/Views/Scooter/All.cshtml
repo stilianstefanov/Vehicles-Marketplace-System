@@ -185,7 +185,7 @@
                             scooter.product.image.imageType +
                             ';base64,' +
                             scooter.product.image.data +
-                            '" class="img-fluid image-equal-2" alt="Company Image">' +
+                            '" class="img-fluid image-equal" alt="Company Image">' +
                             '</div>' +
                             '<div class="col-md-8">' +
                             '<div class="card-body">' +
@@ -193,7 +193,7 @@
                             scooter.product.name +
                             '</h5>' +
                             '<p class="card-text">' +
-                            '<strong>Price: </strong>' +
+                            '<strong>Price:</strong> ' +
                             scooter.product.price +
                             '<br>' +
                             '<strong>Quantity:</strong> ' +
@@ -202,6 +202,15 @@
                             '<strong>Brand:</strong> ' +
                             scooter.brand +
                             '<br>' +
+                            '<strong>Range:</strong> ' +
+                            scooter.range +
+                            ' km<br>' +
+                            '<strong>Max Speed:</strong> ' +
+                            scooter.maxSpeed +
+                            ' km/h<br>' +
+                            '<strong>Engine Power:</strong> ' +
+                            scooter.enginePower +
+                            ' kW<br>' +
                             '<strong>Model:</strong> ' +
                             scooter.model +
                             '<br>' +
@@ -218,6 +227,8 @@
                             scooter.brakesType +
                             '<br>' +
                             '</p>' +
+                            '</div>' +
+                            '</div>' +
                             '</div>' +
                             '<div class="card-footer d-flex justify-content-center">' +
                             '<div class="btn-group" role="group">' +
@@ -236,7 +247,7 @@
                         }
 
                         // Continue building the card string
-                        card += '</div>' + '</div>' + '</div></div>' + '</div>';
+                        card += '</div>' + '</div>' + '</div>';
 
                         $('#productsContainer').append(card);
                     });
