@@ -11,4 +11,5 @@ public interface IBikeService
     Task<BikeEditViewModel> GetBikeEditViewModelByIdAsync(string id);
     Task<string> GetProductIdByBikeIdAsync(string id);
     Task EditAsync(string id, BikeEditViewModel bikeModel);
+    Task<BikeAllQueryModel> GetAllFilteredAndPagedAsync(BikeAllQueryModel queryModel);
 }

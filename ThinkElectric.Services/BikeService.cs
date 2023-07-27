@@ -6,6 +6,8 @@ using Data.Models;
 using Data.Models.Enums.Bike;
 using Microsoft.EntityFrameworkCore;
 using Web.ViewModels.Bike;
+using Web.ViewModels.Bike.Enums;
+using Web.ViewModels.Product;
 
 public class BikeService : IBikeService
 {
@@ -173,5 +175,117 @@ public class BikeService : IBikeService
         bike.EnginePower = bikeModel.EnginePower;
 
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<BikeAllQueryModel> GetAllFilteredAndPagedAsync(BikeAllQueryModel queryModel)
+    {
+        IQueryable<Bike> bikesQuery = _dbContext
+            .Bikes
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(queryModel.SearchTerm))
+        {
+            string wildCardSearchTerm = $"%{queryModel.SearchTerm.ToLower()}%";
+
+            bikesQuery = bikesQuery
+                .Where(s => EF.Functions.Like(s.Product.Name, wildCardSearchTerm) ||
+                            EF.Functions.Like(s.Brand, wildCardSearchTerm) ||
+                            EF.Functions.Like(s.Model, wildCardSearchTerm) ||
+                            EF.Functions.Like(s.Color, wildCardSearchTerm));
+        }
+
+        bikesQuery = queryModel.BikeSorting switch
+        {
+            BikeSorting.NameDescending => bikesQuery.OrderByDescending(s => s.Product.Name),
+            BikeSorting.NameAscending => bikesQuery.OrderBy(s => s.Product.Name),
+            BikeSorting.PriceDescending => bikesQuery.OrderByDescending(s => s.Product.Price),
+            BikeSorting.PriceAscending => bikesQuery.OrderBy(s => s.Product.Price),
+            BikeSorting.QuantityDescending => bikesQuery.OrderByDescending(s => s.Product.Quantity),
+            BikeSorting.QuantityAscending => bikesQuery.OrderBy(s => s.Product.Quantity),
+            BikeSorting.RangeDescending => bikesQuery.OrderByDescending(s => s.Range),
+            BikeSorting.RangeAscending => bikesQuery.OrderBy(s => s.Range),
+            BikeSorting.MaxSpeedDescending => bikesQuery.OrderByDescending(s => s.TopSpeed),
+            BikeSorting.MaxSpeedAscending => bikesQuery.OrderBy(s => s.TopSpeed),
+            BikeSorting.EnginePowerDescending => bikesQuery.OrderByDescending(s => s.EnginePower),
+            BikeSorting.EnginePowerAscending => bikesQuery.OrderBy(s => s.EnginePower),
+            _ => bikesQuery.OrderByDescending(s => s.Product.Name)
+        };
+
+        bikesQuery = queryModel.QueryBikeType switch
+        {
+            QueryBikeType.City => bikesQuery.Where(s => s.Type == BikeType.City),
+            QueryBikeType.Mountain => bikesQuery.Where(s => s.Type == BikeType.Mountain),
+            QueryBikeType.Road => bikesQuery.Where(s => s.Type == BikeType.Road),
+            QueryBikeType.Cargo => bikesQuery.Where(s => s.Type == BikeType.Cargo),
+            QueryBikeType.FatTire => bikesQuery.Where(s => s.Type == BikeType.FatTire),
+            _ => bikesQuery
+        };
+
+        bikesQuery = queryModel.QueryBikeSuspensionType switch
+        {
+            QueryBikeSuspensionType.None => bikesQuery.Where(s => s.SuspensionType == BikeSuspensionType.None),
+            QueryBikeSuspensionType.Front => bikesQuery.Where(s => s.SuspensionType == BikeSuspensionType.Front),
+            QueryBikeSuspensionType.Rear => bikesQuery.Where(s => s.SuspensionType == BikeSuspensionType.Rear),
+            QueryBikeSuspensionType.Full => bikesQuery.Where(s => s.SuspensionType == BikeSuspensionType.Full),
+            _ => bikesQuery
+        };
+
+        bikesQuery = queryModel.QueryBikeFrameType switch
+        {
+            QueryBikeFrameType.Foldable => bikesQuery.Where(s => s.FrameType == BikeFrameType.Foldable),
+            QueryBikeFrameType.NotFoldable => bikesQuery.Where(s => s.FrameType == BikeFrameType.NotFoldable),
+            _ => bikesQuery
+        };
+
+        bikesQuery = queryModel.QueryBikeEngineType switch
+        {
+            QueryBikeEngineType.Rear => bikesQuery.Where(s => s.EngineType == BikeEngineType.Rear),
+            QueryBikeEngineType.Middle => bikesQuery.Where(s => s.EngineType == BikeEngineType.Middle),
+            _ => bikesQuery
+        };
+
+        bikesQuery = queryModel.QueryBikeBrakesType switch
+        {
+            QueryBikeBrakesType.RimBrakes => bikesQuery.Where(s => s.BrakesType == BikeBrakesType.RimBrakes),
+            QueryBikeBrakesType.DiscBrakes => bikesQuery.Where(s => s.BrakesType == BikeBrakesType.DiscBrakes),
+            QueryBikeBrakesType.HydraulicBrakes => bikesQuery.Where(s => s.BrakesType == BikeBrakesType.HydraulicBrakes),
+            _ => bikesQuery
+        };
+
+        IEnumerable<BikeAllViewModel> bikes = await bikesQuery
+            .Skip((queryModel.CurrentPage - 1) * queryModel.BikesPerPage)
+            .Take(queryModel.BikesPerPage)
+            .Select(b => new BikeAllViewModel()
+            {
+                Id = b.Id.ToString(),
+                Brand = b.Brand,
+                Model = b.Model,
+                Color = b.Color,
+                BrakesType = b.BrakesType.ToString(),
+                EngineType = b.EngineType.ToString(),
+                FrameType = b.FrameType.ToString(),
+                SuspensionType = b.SuspensionType.ToString(),
+                BikeType = b.Type.ToString(),
+                Range = b.Range,
+                MaxSpeed = b.TopSpeed,
+                EnginePower = b.EnginePower,
+                Product = new ProductViewModel()
+                {
+                    Id = b.Product.Id.ToString(),
+                    Name = b.Product.Name,
+                    Price = b.Product.Price.ToString("f2"),
+                    Quantity = b.Product.Quantity,
+                    ImageId = b.Product.ImageId
+                }
+            })
+            .ToArrayAsync();
+
+        int totalPages = (int)Math.Ceiling(await bikesQuery.CountAsync() / (double)queryModel.BikesPerPage);
+
+        queryModel.TotalPages = totalPages;
+
+        queryModel.Bikes = bikes;
+
+        return queryModel;
     }
 }

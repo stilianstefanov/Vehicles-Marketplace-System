@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Scooter List";
+    ViewBag.Title = "Bike List";
 }
 
 
@@ -8,7 +8,7 @@
 }
 
 <div class="text-center mt-3">
-    <h2>Scooters</h2>
+    <h2>Bikes</h2>
 </div>
 
 <div class="container mt-5">
@@ -52,29 +52,46 @@
                         <label for="type">Type:</label>
                         <select class="form-control" id="type">
                             <option value="0">All</option>
-                            <option value="1">Lightweight</option>
-                            <option value="2">OffRoad</option>
-                            <option value="3">Vespa Style</option>
-                            <option value="4">Long Range</option>
-                            <option value="5">Performance</option>
-                            <option value="6">Sit Down</option>
+                            <option value="1">City</option>
+                            <option value="2">Mountain</option>
+                            <option value="3">Road</option>
+                            <option value="4">Cargo</option>
+                            <option value="5">FatTire</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="suspensionType">Suspension Type:</label>
+                        <select class="form-control" id="suspensionType">
+                            <option value="0">All</option>
+                            <option value="1">None</option>
+                            <option value="2">Front</option>
+                            <option value="3">Rear</option>
+                            <option value="4">Full</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="frameType">Frame Type:</label>
+                        <select class="form-control" id="frameType">
+                            <option value="0">All</option>
+                            <option value="1">Foldable</option>
+                            <option value="2">NotFoldable</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="engineType">Engine Type:</label>
                         <select class="form-control" id="engineType">
                             <option value="0">All</option>
-                            <option value="1">Single Motor</option>
-                            <option value="2">Dual Motor</option>
+                            <option value="1">Rear</option>
+                            <option value="2">Middle</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="brakesType">Brakes Type:</label>
                         <select class="form-control" id="brakesType">
                             <option value="0">All</option>
-                            <option value="1">Electric</option>
-                            <option value="2">Mechanical</option>
-                            <option value="3">Hydraulic</option>
+                            <option value="1">Rim Brakes</option>
+                            <option value="2">Disc Brakes</option>
+                            <option value="3">Hydraulic Brakes</option>
                         </select>
                     </div>
                 </div>
@@ -133,6 +150,16 @@
             currentPage = 1; // Reset current page to 1
             loadData();
         });
+        
+        $('#suspensionType').on('change', function () {
+            currentPage = 1; // Reset current page to 1
+            loadData();
+        });
+        
+        $('#frameType').on('change', function () {
+            currentPage = 1; // Reset current page to 1
+            loadData();
+        });
 
         // Previous page button click event
         $('#previousPage').on('click', function () {
@@ -153,7 +180,9 @@
             var type = $('#type').val();
             var engineType = $('#engineType').val();
             var brakesType = $('#brakesType').val();
-          
+            var suspensionType = $('#suspensionType').val();
+            var frameType = $('#frameType').val();
+
 
             if (pageDirection === 'previous' && currentPage > 1) {
                 currentPage--;
@@ -162,69 +191,77 @@
             }
 
             $.ajax({
-                url: '/Scooter/AllFilteredAndPaged',
+                url: '/Bike/AllFilteredAndPaged',
                 type: 'GET',
                 data: {
                     searchTerm: search,
-                    scooterSorting: sort,
-                    scootersPerPage: perPage,
+                    bikeSorting: sort,
+                    bikesPerPage: perPage,
                     currentPage: currentPage,
-                    queryScooterType: type,
-                    queryScooterEngineType: engineType, // Changed '=' to ':'
-                    queryScooterBrakesType: brakesType // Changed '=' to ':'
+                    queryBikeType: type,
+                    queryBikeEngineType: engineType, 
+                    queryBikeBrakesType: brakesType, 
+                    queryBikeSuspensionType: suspensionType,
+                    queryBikeFrameType: frameType
                 },
                 success: function (result) {
                     $('#productsContainer').empty();
 
-                    result.scooters.forEach(function (scooter) {
+                    result.bikes.forEach(function (bike) {
                         var card =
                             '<div class="card mb-3">' +
                             '<div class="row g-0">' +
-                            '<div class="col-md-4">' +
+                            '<div class="col-md-5">' +
                             '<img src="data:' +
-                            scooter.product.image.imageType +
+                            bike.product.image.imageType +
                             ';base64,' +
-                            scooter.product.image.data +
+                            bike.product.image.data +
                             '" class="img-fluid image-equal" alt="Company Image">' +
                             '</div>' +
-                            '<div class="col-md-8">' +
+                            '<div class="col-md-7">' +
                             '<div class="card-body">' +
                             '<h5 class="card-title">' +
-                            scooter.product.name +
+                            bike.product.name +
                             '</h5>' +
                             '<p class="card-text">' +
                             '<strong>Price:</strong> ' +
-                            scooter.product.price +
+                            bike.product.price +
                             '<br>' +
                             '<strong>Quantity:</strong> ' +
-                            scooter.product.quantity +
+                            bike.product.quantity +
                             '<br>' +
                             '<strong>Brand:</strong> ' +
-                            scooter.brand +
-                            '<br>' +
-                            '<strong>Model:</strong> ' +
-                            scooter.model +
+                            bike.brand +
                             '<br>' +
                             '<strong>Color:</strong> ' +
-                            scooter.color +
+                            bike.color +
                             '<br>' +
                             '<strong>Range:</strong> ' +
-                            scooter.range +
+                            bike.range +
                             ' km<br>' +
                             '<strong>Max Speed:</strong> ' +
-                            scooter.maxSpeed +
+                            bike.maxSpeed +
                             ' km/h<br>' +
                             '<strong>Engine Power:</strong> ' +
-                            scooter.enginePower +
+                            bike.enginePower +
                             ' kW<br>' +
-                            '<strong>Scooter Type:</strong> ' +
-                            scooter.scooterType +
+                            '<strong>Model:</strong> ' +
+                            bike.model +
+                            '<br>' +                           
+                            '<strong>Bike Type:</strong> ' +
+                            bike.bikeType +
                             '<br>' +
                             '<strong>Engine Type:</strong> ' +
-                            scooter.engineType +
+                            bike.engineType +
                             '<br>' +
                             '<strong>Brakes Type:</strong> ' +
-                            scooter.brakesType +
+                            bike.brakesType +
+                            '<br>' +
+                            '<strong>Suspension Type:</strong> ' +
+                            bike.suspensionType +
+                            '<br>' +
+                            '<strong>Frame Type:</strong> ' +
+                            bike.frameType +
                             '<br>' +
                             '</p>' +
                             '</div>' +
@@ -232,17 +269,17 @@
                             '</div>' +
                             '<div class="card-footer d-flex justify-content-center">' +
                             '<div class="btn-group" role="group">' +
-                            '<a href="/Scooter/Details/' +
-                            scooter.id +
+                            '<a href="/Bike/Details/' +
+                            bike.id +
                             '" class="btn btn-primary">Details</a>';
 
                         if (!isUserRegisteredAsACompany) {
                             card +=
                                 '<a href="/Company/Products/' +
-                                scooter.product.id +
+                                bike.product.id +
                                 '" class="btn btn-secondary">Add to Cart</a>' +
                                 '<a href="/Company/Products/' +
-                                scooter.product.id +
+                                bike.product.id +
                                 '" class="btn btn-info">Add Review</a>';
                         }
 

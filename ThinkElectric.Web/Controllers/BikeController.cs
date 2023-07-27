@@ -221,6 +221,37 @@ public class BikeController : Controller
         }
     }
 
+    [HttpGet]
+    [AllowAnonymous]
+    public IActionResult All()
+    {
+        return View();
+    }
+
+
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> AllFilteredAndPaged(BikeAllQueryModel queryModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        queryModel = await _bikeService.GetAllFilteredAndPagedAsync(queryModel);
+
+        queryModel.Bikes = queryModel
+            .Bikes
+            .Select(async bike =>
+            {
+                bike.Product.Image = await _imageService.GetImageByIdAsync(bike.Product.ImageId);
+                return bike;
+            })
+            .Select(t => t.Result).ToList();
+
+        return Json(queryModel);
+    }
+
     private IActionResult GeneralError()
     {
         this.TempData[ErrorMessage] = UnexpectedErrorMessage;
