@@ -13,8 +13,6 @@ public class CartItem
     [Key]
     public Guid Id { get; set; }
 
-    public int Quantity { get; set; }
-
 
     [ForeignKey(nameof(Product))]
     public Guid ProductId { get; set; }
@@ -25,7 +23,4 @@ public class CartItem
     public Guid CartId { get; set; }
 
     public Cart Cart { get; set; } = null!;
-
-    public decimal TotalSum()
-       => Quantity * Product.Price;
 }

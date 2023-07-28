@@ -1,0 +1,20 @@
+﻿@model IList<CartItemViewModel>
+
+<div class="container mt-5">
+    <h1>Cart Items</h1>
+    <form asp-action="Create" asp-controller="Order" method="post">
+        @for (var i = 0; i < Model.Count(); i++)
+        {
+            <input type="hidden" asp-for="@Model[i].Id" />
+            <div class="form-group">
+                <label asp-for="@Model[i].ProductName">Product Name:</label>
+                <input type="text" asp-for="@Model[i].ProductName" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model[i].Quantity">Quantity:</label>
+                <input type="number" asp-for="@Model[i].Quantity" class="form-control" />
+            </div>
+        }
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

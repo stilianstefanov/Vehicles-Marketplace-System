@@ -229,4 +229,13 @@ public class ProductService : IProductService
 
         return productsModel;
     }
+
+    public async Task<bool> ProductExistsAsync(string id)
+    {
+        bool productExists = await _dbContext
+            .Products
+            .AnyAsync(p => p.Id.ToString() == id);
+
+        return productExists;
+    }
 }

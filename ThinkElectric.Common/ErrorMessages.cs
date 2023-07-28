@@ -50,4 +50,6 @@ public static class ErrorMessages
     public const string ProductNotFoundErrorMessage = "Product with the provided Id does not exist. Please try again!";
 
     public const string UnauthorizedErrorMessage = "You are not authorized to proceed this request!";
+
+    public const string CartItemNotFoundErrorMessage = "Cart item with the provided Id does not exist. Please try again!";
 }

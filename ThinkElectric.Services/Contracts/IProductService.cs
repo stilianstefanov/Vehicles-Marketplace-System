@@ -14,4 +14,5 @@ public interface IProductService
     Task<string> GetImageIdByProductIdAsync(string id);
     Task EditAsync(string id, ProductEditViewModel modelProduct);
     Task<ProductsHomeModel> GetProductsForHomeAsync();
+    Task<bool> ProductExistsAsync(string id);
 }
