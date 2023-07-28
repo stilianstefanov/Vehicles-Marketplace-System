@@ -78,6 +78,37 @@ public class ProductController : Controller
         return GeneralError();
     }
 
+    [HttpGet]
+    [Authorize(Policy = "CompanyOnly")]
+    public async Task<IActionResult> Edit(string id)
+    {
+        var product = await _productService.GetProductByIdAsync(id);
+
+        if (product == null)
+        {
+            TempData[ErrorMessage] = ProductNotFoundErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        if (product.Scooter != null)
+        {
+            return RedirectToAction("Edit", "Scooter", new { product.Scooter.Id });
+        }
+
+        if (product.Bike != null)
+        {
+            return RedirectToAction("Edit", "Bike", new { product.Bike.Id });
+        }
+
+        if (product.Accessory != null)
+        {
+            return RedirectToAction("Edit", "Accessory", new { product.Accessory.Id });
+        }
+
+        return GeneralError();
+    }
+
     private IActionResult GeneralError()
     {
         this.TempData[ErrorMessage] = UnexpectedErrorMessage;

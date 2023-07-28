@@ -1,4 +1,4 @@
-﻿@{
+﻿﻿@{
     ViewBag.Title = "Product List";
 }
 
@@ -7,7 +7,7 @@
 
     string companyId = "";
 
-if (isUserRegisteredAsACompany)
+    if (isUserRegisteredAsACompany)
     {
         companyId = User.Claims.FirstOrDefault(c => c.Type == "companyId")!.Value;
     }
@@ -76,7 +76,7 @@ if (isUserRegisteredAsACompany)
         var isUserRegisteredAsACompany = @isUserRegisteredAsACompany.ToString().ToLower();
 
         var currentUserCompanyId = '@companyId.ToLower()';
-        
+
         var url = window.location.href;
         var parts = url.split('/');
         var companyId = parts.pop();
@@ -95,7 +95,7 @@ if (isUserRegisteredAsACompany)
             currentPage = 1; // Reset current page to 1
             loadData();
         });
-        
+
         // Type dropdown change event
         $('#type').on('change', function () {
             currentPage = 1; // Reset current page to 1
@@ -168,10 +168,9 @@ if (isUserRegisteredAsACompany)
                             card += '<a href="/Company/Products/' + product.id + '" class="btn btn-success">Add to Cart</a>' +
                                 '<a href="/Company/Products/' + product.id + '" class="btn btn-info">Add Review</a>';
                         }
-                        else if (product.companyId == currentUserCompanyId) 
-                        {                                
-                                card += '<a href="/Product/Edit/' + product.id + '" class="btn btn-secondary">Add Quantity</a>' +
-                                    '<a href="/Product/Delete/' + product.id + '" class="btn btn-danger">Delete</a>';                            
+                        else if (product.companyId == currentUserCompanyId) {
+                            card += '<a href="/Product/Edit/' + product.id + '" class="btn btn-warning">Edit</a>' +
+                                '<a href="/Product/Delete/' + product.id + '" class="btn btn-danger">Delete</a>';
                         }
 
                         // Continue building the card string
