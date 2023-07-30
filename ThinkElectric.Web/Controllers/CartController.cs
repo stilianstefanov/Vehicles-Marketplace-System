@@ -7,6 +7,7 @@ using Services.Contracts;
 using ViewModels.Cart;
 using static Common.NotificationsMessagesConstants;
 using static Common.ErrorMessages;
+using static Common.GeneralMessages;
 
 [Authorize(Policy = "BuyerOnly")] // TODO: Add CartUserPolicy
 public class CartController : Controller
@@ -33,9 +34,12 @@ public class CartController : Controller
 
         await _cartService.AddToCartAsync(id, User.GetId()!);
 
+        TempData[SuccessMessage] = ProductAddedToCartSuccessMessage;
+
         return RedirectToAction(nameof(All));
     }
 
+    [HttpPost]
     public async Task<IActionResult> RemoveFromCart(string id)
     {
         bool cartItemExists = await _cartService.CartItemExistsAsync(id);
@@ -57,6 +61,8 @@ public class CartController : Controller
         }
 
         await _cartService.RemoveFromCartAsync(id);
+
+        TempData[SuccessMessage] = CartItemRemovedSuccessMessage;
 
         return RedirectToAction(nameof(All));
     }

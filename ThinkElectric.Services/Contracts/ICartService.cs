@@ -9,5 +9,5 @@ public interface ICartService
     Task<bool> CartItemExistsAsync(string id);
     Task<bool> IsUserAuthorizedAsync(string id, string? getId);
     Task RemoveFromCartAsync(string id);
-    Task<IEnumerable<CartItemViewModel>> GetAllAsync(string getId);
+    Task<IList<CartItemViewModel>> GetAllAsync(string getId);
 }

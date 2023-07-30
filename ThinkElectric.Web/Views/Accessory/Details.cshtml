@@ -81,7 +81,7 @@
             }
             else if (!isUserCompany)
             {
-                <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="" asp-action="" asp-route-id="@Model.ProductId">Add to Cart</a>
+                <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.ProductId">Add to Cart</a>
                 <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="" asp-action="" asp-route-id="@Model.ProductId">Add Review</a>
             }
         </div>

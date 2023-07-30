@@ -17,4 +17,8 @@ public static class GeneralMessages
     public const string BikeEditSuccessMessage = "You have successfully edited the bike!";
 
     public const string AccessoryEditSuccessMessage = "You have successfully edited the accessory!";
+
+    public const string ProductAddedToCartSuccessMessage = "You have successfully added the product to your cart!";
+
+    public const string CartItemRemovedSuccessMessage = "You have successfully removed the product from your cart!";
 }

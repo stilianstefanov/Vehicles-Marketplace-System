@@ -61,7 +61,7 @@
                         <a asp-controller="Product" asp-action="Details" asp-route-id="@scooter.Id" class="btn btn-primary">Details</a>
                         @if (!isUserRegisteredAsACompany)
                         {
-                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@scooter.Id" class="btn btn-primary">Details</a>
+                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@scooter.Id" class="btn btn-success">Add To Cart</a>
                             <button class="btn btn-info">Add A Review</button>
                         }
                     </div>
@@ -92,7 +92,7 @@
                         <a asp-controller="Product" asp-action="Details" asp-route-id="@bike.Id" class="btn btn-primary">Details</a>
                         @if (!isUserRegisteredAsACompany)
                         {
-                            <button class="btn btn-success">Add To Cart</button>
+                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@bike.Id" class="btn btn-success">Add To Cart</a>
                             <button class="btn btn-info">Add A Review</button>
                         }
                     </div>
@@ -123,7 +123,7 @@
                         <a asp-controller="Product" asp-action="Details" asp-route-id="@accessory.Id" class="btn btn-primary">Details</a>
                         @if (!isUserRegisteredAsACompany)
                         {
-                            <button class="btn btn-success">Add To Cart</button>
+                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@accessory.Id" class="btn btn-success">Add To Cart</a>
                             <button class="btn btn-info">Add A Review</button>
                         }
                     </div>

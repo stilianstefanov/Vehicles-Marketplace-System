@@ -2,19 +2,34 @@
 
 <div class="container mt-5">
     <h1>Cart Items</h1>
-    <form asp-action="Create" asp-controller="Order" method="post">
-        @for (var i = 0; i < Model.Count(); i++)
-        {
-            <input type="hidden" asp-for="@Model[i].Id" />
-            <div class="form-group">
-                <label asp-for="@Model[i].ProductName">Product Name:</label>
-                <input type="text" asp-for="@Model[i].ProductName" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model[i].Quantity">Quantity:</label>
-                <input type="number" asp-for="@Model[i].Quantity" class="form-control" />
-            </div>
-        }
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    @if (Model.Any())
+    {
+        <form asp-action="Create" asp-controller="Order" method="post">
+            @for (var i = 0; i < Model.Count(); i++)
+            {
+                <div class="row mb-3">
+                    <div class="col">
+                        <input type="hidden" asp-for="@Model[i].ProductId"/>
+                        <label asp-for="@Model[i].ProductName">Product Name:</label>
+                        <input type="text" asp-for="@Model[i].ProductName" class="form-control" disabled/>
+                    </div>
+                    <div class="col">
+                        <label asp-for="@Model[i].Price">Price:</label>
+                        <input type="number" asp-for="@Model[i].Price" class="form-control" disabled=""/>
+                    </div>
+                    <div class="col">
+                        <label asp-for="@Model[i].Quantity">Quantity:</label>
+                        <input type="number" asp-for="@Model[i].Quantity" class="form-control"/>
+                    </div>
+                    <div class="col mt-4">
+                        <button type="submit" asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@Model[i].Id" class="btn btn-danger">Remove</button>
+                    </div>
+                </div>
+            }
+            <button type="submit" class="btn btn-success">Order</button>
+        </form>
+    }
+    else     {
+        <h3 class="text-center">There are no items in your cart</h3>
+    }
 </div>

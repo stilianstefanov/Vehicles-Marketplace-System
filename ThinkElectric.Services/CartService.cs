@@ -74,15 +74,16 @@ public class CartService : ICartService
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<CartItemViewModel>> GetAllAsync(string getId)
+    public async Task<IList<CartItemViewModel>> GetAllAsync(string getId)
     {
-        IEnumerable<CartItemViewModel> cartItems = await _dbContext.CartItems
+        IList<CartItemViewModel> cartItems = await _dbContext.CartItems
             .Where(ci => ci.Cart.UserId.ToString() == getId)
             .Select(ci => new CartItemViewModel()
             {
-                Id = ci.Id.ToString(), //TODO Return ProductID
+                Id = ci.Id.ToString(),
+                ProductId = ci.ProductId.ToString(), 
                 ProductName = ci.Product.Name,
-                Quantity = 1
+                Price = ci.Product.Price.ToString("f2"),
             })
             .ToArrayAsync();
 
