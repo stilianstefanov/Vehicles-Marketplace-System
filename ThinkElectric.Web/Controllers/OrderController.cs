@@ -27,11 +27,6 @@ public class OrderController : Controller
     [HttpPost]
     public async Task<IActionResult> Create([FromForm] IEnumerable<CartItemViewModel> cartItems)
     {
-        // 1. Create Order entity
-        // 2. create orderItems entities
-        // 3. Redirect to Orders/Details/{id}
-        // 4. Redirect to Home/Index - 2 buttons - Cancel, Confirm
-
         try
         {
             bool areCartItemsValid = await _cartService.AreCartItemsValidAsync(cartItems);
@@ -54,12 +49,6 @@ public class OrderController : Controller
     [HttpGet]
     public async Task<IActionResult> Details(string id)
     {
-        // 1. Get order by id
-        // 2. Get orderItems by orderId
-        // 3. Display order details
-        // 4. Display orderItems details
-        // 5. Display total price
-        // 6. Display button - Cancel
         bool orderExists = await _orderService.OrderExistsAsync(id);
 
         if (!orderExists)
