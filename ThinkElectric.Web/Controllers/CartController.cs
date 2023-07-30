@@ -8,7 +8,7 @@ using ViewModels.Cart;
 using static Common.NotificationsMessagesConstants;
 using static Common.ErrorMessages;
 
-[Authorize] // TODO: Add CartUserPolicy
+[Authorize(Policy = "BuyerOnly")] // TODO: Add CartUserPolicy
 public class CartController : Controller
 {
     private readonly ICartService _cartService;

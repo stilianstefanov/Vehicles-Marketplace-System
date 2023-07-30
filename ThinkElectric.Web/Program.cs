@@ -45,6 +45,11 @@ public class Program
             {
                 policy.RequireClaim("companyId");
             });
+
+            options.AddPolicy("BuyerOnly", policy =>
+            {
+                policy.RequireClaim("cartId");
+            });
         });
 
         builder.Services.Configure<ImageStoreDatabaseSettings>(

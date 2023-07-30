@@ -1,8 +1,10 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ViewModels.Cart;
 
+[Authorize]
 public class OrderController : Controller
 {
     [HttpPost]
