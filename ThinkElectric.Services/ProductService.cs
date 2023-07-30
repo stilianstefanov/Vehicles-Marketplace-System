@@ -247,15 +247,19 @@ public class ProductService : IProductService
            .Where(oi => oi.OrderId.ToString() == orderId)
            .ToArrayAsync();
 
-       IEnumerable<Product> products = await _dbContext
-           .Products
-           .Where(p => orderItems.Any(oi => oi.ProductId == p.Id))
-           .ToArrayAsync();
+        string[] productIds = orderItems
+            .Select(oi => oi.ProductId.ToString())
+            .ToArray();
+
+        IEnumerable<Product> products = await _dbContext
+            .Products
+            .Where(p => productIds.Contains(p.Id.ToString()))
+            .ToArrayAsync();
 
        foreach (Product product in products)
        {
            OrderItem orderItem = orderItems
-               .First(oi => oi.ProductId == product.Id);
+               .First(oi => oi.ProductId.ToString() == product.Id.ToString());
 
            product.Quantity -= orderItem.Quantity;
        }
