@@ -4,12 +4,11 @@ using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
-using ViewModels.Cart;
 using static Common.NotificationsMessagesConstants;
 using static Common.ErrorMessages;
 using static Common.GeneralMessages;
 
-[Authorize(Policy = "BuyerOnly")] // TODO: Add CartUserPolicy
+[Authorize(Policy = "BuyerOnly")]
 public class CartController : Controller
 {
     private readonly ICartService _cartService;
@@ -32,9 +31,24 @@ public class CartController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        await _cartService.AddToCartAsync(id, User.GetId()!);
+        bool productAlreadyAdded = await _cartService.ProductAlreadyAdded(id);
 
-        TempData[SuccessMessage] = ProductAddedToCartSuccessMessage;
+        if (productAlreadyAdded)
+        {
+            TempData[ErrorMessage] = ProductAlreadyAddedToCartErrorMessage;
+            return RedirectToAction(nameof(All));
+        }
+
+        try
+        {
+            await _cartService.AddToCartAsync(id, User.GetId()!);
+
+            TempData[SuccessMessage] = ProductAddedToCartSuccessMessage;
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
 
         return RedirectToAction(nameof(All));
     }
@@ -60,17 +74,38 @@ public class CartController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        await _cartService.RemoveFromCartAsync(id);
+        try
+        {
+            await _cartService.RemoveFromCartAsync(id);
 
-        TempData[SuccessMessage] = CartItemRemovedSuccessMessage;
+            TempData[SuccessMessage] = CartItemRemovedSuccessMessage;
 
-        return RedirectToAction(nameof(All));
+            return RedirectToAction(nameof(All));
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
     }
 
     public async Task<IActionResult> All()
     {
-        var cartItems = await _cartService.GetAllAsync(User.GetId()!);
+        try
+        {
+            var cartItems = await _cartService.GetAllAsync(User.GetId()!);
 
-        return View(cartItems);
+            return View(cartItems);
+        }
+        catch
+        {
+            return GeneralError();
+        }
+    }
+
+    private IActionResult GeneralError()
+    {
+        this.TempData[ErrorMessage] = UnexpectedErrorMessage;
+
+        return RedirectToAction("Index", "Home");
     }
 }

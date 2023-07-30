@@ -25,7 +25,4 @@ public class OrderItem
     public Guid ProductId { get; set; }
 
     public Product Product { get; set; } = null!;
-
-    public decimal TotalSum()
-       => Quantity * Product.Price;
 }

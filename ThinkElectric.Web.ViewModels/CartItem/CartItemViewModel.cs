@@ -1,4 +1,4 @@
-﻿namespace ThinkElectric.Web.ViewModels.Cart;
+﻿namespace ThinkElectric.Web.ViewModels.CartItem;
 
 using static Common.GeneralApplicationConstants;
 
@@ -18,4 +18,6 @@ public class CartItemViewModel
     public string Price { get; set; } = null!;
 
     public int Quantity { get; set; }
+
+    public int AvailableQuantity { get; set; }
 }

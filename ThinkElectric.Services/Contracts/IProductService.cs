@@ -15,4 +15,5 @@ public interface IProductService
     Task EditAsync(string id, ProductEditViewModel modelProduct);
     Task<ProductsHomeModel> GetProductsForHomeAsync();
     Task<bool> ProductExistsAsync(string id);
+    Task DecreaseQuantityAsync(string orderId);
 }

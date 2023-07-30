@@ -21,4 +21,8 @@ public static class GeneralMessages
     public const string ProductAddedToCartSuccessMessage = "You have successfully added the product to your cart!";
 
     public const string CartItemRemovedSuccessMessage = "You have successfully removed the product from your cart!";
+
+    public const string OrderCancelled = "You have successfully cancelled your order!";
+
+    public const string OrderConfirmed = "You have successfully confirmed your order!";
 }

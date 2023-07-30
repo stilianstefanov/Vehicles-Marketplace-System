@@ -6,6 +6,7 @@ using Data.Models;
 using Data.Models.Enums.Product;
 using Microsoft.EntityFrameworkCore;
 using ThinkElectric.Web.ViewModels.Product.Enums;
+using Web.ViewModels.CartItem;
 using Web.ViewModels.Product;
 
 public class ProductService : IProductService
@@ -237,5 +238,28 @@ public class ProductService : IProductService
             .AnyAsync(p => p.Id.ToString() == id);
 
         return productExists;
+    }
+
+    public async Task DecreaseQuantityAsync(string orderId)
+    {
+       IEnumerable<OrderItem> orderItems = await _dbContext
+           .OrderItems
+           .Where(oi => oi.OrderId.ToString() == orderId)
+           .ToArrayAsync();
+
+       IEnumerable<Product> products = await _dbContext
+           .Products
+           .Where(p => orderItems.Any(oi => oi.ProductId == p.Id))
+           .ToArrayAsync();
+
+       foreach (Product product in products)
+       {
+           OrderItem orderItem = orderItems
+               .First(oi => oi.ProductId == product.Id);
+
+           product.Quantity -= orderItem.Quantity;
+       }
+       
+       await _dbContext.SaveChangesAsync();
     }
 }

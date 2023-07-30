@@ -1,6 +1,6 @@
 ﻿namespace ThinkElectric.Services.Contracts;
 
-using Web.ViewModels.Cart;
+using Web.ViewModels.CartItem;
 
 public interface ICartService
 {
@@ -10,4 +10,7 @@ public interface ICartService
     Task<bool> IsUserAuthorizedAsync(string id, string? getId);
     Task RemoveFromCartAsync(string id);
     Task<IList<CartItemViewModel>> GetAllAsync(string getId);
+    Task<bool> ProductAlreadyAdded(string id);
+    Task<bool> AreCartItemsValidAsync(IEnumerable<CartItemViewModel> cartItems);
+    Task ClearAsync(string userId);
 }

@@ -1,4 +1,4 @@
-﻿@model IList<CartItemViewModel>
+﻿@model IList<ThinkElectric.Web.ViewModels.CartItem.CartItemViewModel>
 
 <div class="container mt-5">
     <h1>Cart Items</h1>
@@ -19,7 +19,7 @@
                     </div>
                     <div class="col">
                         <label asp-for="@Model[i].Quantity">Quantity:</label>
-                        <input type="number" asp-for="@Model[i].Quantity" class="form-control"/>
+                        <input type="number" asp-for="@Model[i].Quantity" class="form-control" max="@Model[i].AvailableQuantity" min="1"/>
                     </div>
                     <div class="col mt-4">
                         <button type="submit" asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@Model[i].Id" class="btn btn-danger">Remove</button>

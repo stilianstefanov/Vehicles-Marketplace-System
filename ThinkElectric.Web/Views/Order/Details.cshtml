@@ -1,0 +1,52 @@
+﻿@model OrderDetailsViewModel
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col">
+            <h3>Order Details</h3>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col">
+            <strong>Created On:</strong> @Model.CreatedOn
+        </div>
+        <div class="col">
+            <strong>Total:</strong> @Model.TotalSum
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var orderItem in Model.OrderItems)
+                    {
+                        <tr>
+                            <td>@orderItem.ProductName</td>
+                            <td>@orderItem.Quantity</td>
+                            <td>@orderItem.Price</td>
+                            <td>@orderItem.TotalSum</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col text-center">
+            <form method="post" asp-controller="Order" asp-action="Confirm" asp-route-id="@Model.Id">
+                <button type="submit" class="btn btn-primary">Confirm Order</button>
+            </form>
+            <form method="post" asp-controller="Order" asp-action="Cancel" asp-route-id="@Model.Id">
+                <button type="submit" class="btn btn-danger">Cancel Order</button>
+            </form>
+        </div>
+    </div>
+</div>

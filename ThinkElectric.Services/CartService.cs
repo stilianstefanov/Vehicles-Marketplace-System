@@ -4,7 +4,7 @@ using Contracts;
 using Data;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
-using Web.ViewModels.Cart;
+using Web.ViewModels.CartItem;
 
 public class CartService : ICartService
 {
@@ -84,9 +84,56 @@ public class CartService : ICartService
                 ProductId = ci.ProductId.ToString(), 
                 ProductName = ci.Product.Name,
                 Price = ci.Product.Price.ToString("f2"),
+                AvailableQuantity = ci.Product.Quantity
             })
             .ToArrayAsync();
 
         return cartItems;
+    }
+
+    public async Task<bool> ProductAlreadyAdded(string id)
+    {
+        bool productAlreadyAdded = await _dbContext.CartItems
+            .AnyAsync(ci => ci.ProductId.ToString() == id);
+
+        return productAlreadyAdded;
+    }
+
+    public async Task<bool> AreCartItemsValidAsync(IEnumerable<CartItemViewModel> cartItems)
+    {
+        bool areCartItemsValid = true;
+
+        IEnumerable<Product> products = await _dbContext
+            .Products
+            .ToArrayAsync();
+
+        foreach (CartItemViewModel cartItem in cartItems)
+        {
+            if (products.All(p => p.Id.ToString().ToLower() != cartItem.ProductId.ToLower()))
+            {
+                areCartItemsValid = false;
+                break;
+            }
+
+            if (cartItem.Quantity > products.First(p => p.Id.ToString().ToLower() == cartItem.ProductId.ToLower()).Quantity)
+            {
+                areCartItemsValid = false;
+                break;
+            }
+        }
+
+        return areCartItemsValid;
+    }
+
+    public async Task ClearAsync(string userId)
+    {
+        IEnumerable<CartItem> cartItems = await _dbContext
+            .CartItems
+            .Where(ci => ci.Cart.UserId.ToString() == userId)
+            .ToArrayAsync();
+
+        _dbContext.CartItems.RemoveRange(cartItems);
+
+        await _dbContext.SaveChangesAsync();
     }
 }

@@ -25,5 +25,5 @@ public class Order
 
     public ApplicationUser User { get; set; } = null!;
 
-    ICollection<OrderItem> OrderItems { get; set; }
+    public ICollection<OrderItem> OrderItems { get; set; }
 }

@@ -52,4 +52,8 @@ public static class ErrorMessages
     public const string UnauthorizedErrorMessage = "You are not authorized to proceed this request!";
 
     public const string CartItemNotFoundErrorMessage = "Cart item with the provided Id does not exist. Please try again!";
+
+    public const string ProductAlreadyAddedToCartErrorMessage = "Product is already added to cart!";
+
+    public const string OrderNotFound = "Order with the provided Id does not exist!";
 }
