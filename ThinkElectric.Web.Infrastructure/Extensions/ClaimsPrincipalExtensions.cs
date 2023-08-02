@@ -8,4 +8,9 @@ public static class ClaimsPrincipalExtensions
     {
         return user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
     }
+
+    public static string? GetCompanyId(this ClaimsPrincipal user)
+    {
+        return user.FindFirst("companyId")?.Value;
+    }
 }

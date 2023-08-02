@@ -11,7 +11,7 @@ public class OrderDetailsViewModel
 
     public string TotalSum { get; set; } = null!;
 
-    public IEnumerable<OrderItemViewModel> OrderItems { get; set; } = null!;
+    public IEnumerable<OrderItemBuyerViewModel> OrderItems { get; set; } = null!;
 
     public AddressViewModel? Address { get; set; }
 }

@@ -10,5 +10,5 @@ public class OrderAllViewModel
 
     public string Status { get; set; } = null!;
 
-    public IEnumerable<OrderItemViewModel> OrderItems { get; set; } = null!;
+    public IEnumerable<OrderItemBuyerViewModel> OrderItems { get; set; } = null!;
 }

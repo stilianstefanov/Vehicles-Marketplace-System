@@ -4,6 +4,7 @@ using Contracts;
 using Data;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Web.ViewModels.Address;
 using Web.ViewModels.CartItem;
 using Web.ViewModels.Order;
 using Web.ViewModels.OrderItem;
@@ -53,7 +54,7 @@ public class OrderService : IOrderService
                 Id = o.Id.ToString(),
                 CreatedOn = o.CreatedOn.ToString("dd/MM/yyyy HH:mm"),
                 TotalSum = o.OrderItems.Sum(oi => oi.Product.Price * oi.Quantity).ToString("F2"),
-                OrderItems = o.OrderItems.Select(oi => new OrderItemViewModel()
+                OrderItems = o.OrderItems.Select(oi => new OrderItemBuyerViewModel()
                 {
                     ProductName = oi.Product.Name,
                     Price = oi.Product.Price.ToString("F2"),
@@ -129,18 +130,46 @@ public class OrderService : IOrderService
             {
                 CreatedOn = o.CreatedOn.ToString("dd/MM/yyyy HH:mm"),
                 TotalSum = o.OrderItems.Sum(oi => oi.Product.Price * oi.Quantity).ToString("F2"),
-                Status = o.IsFulfilled ? "Fulfilled" : "Not Fulfilled",
-                OrderItems = o.OrderItems.Select(oi => new OrderItemViewModel()
+                Status = o.OrderItems.Any(o => !o.IsFulfilled) ? "Not Fulfilled" : "Fulfilled",
+                OrderItems = o.OrderItems.Select(oi => new OrderItemBuyerViewModel()
                     {
                         ProductName = oi.Product.Name,
                         Price = oi.Product.Price.ToString("F2"),
                         Quantity = oi.Quantity,
                         TotalSum = (oi.Product.Price * oi.Quantity).ToString("F2"),
+                        Status = oi.IsFulfilled ? "Fulfilled" : "Not Fulfilled",
                     })
                     .ToArray()
             })
             .ToArrayAsync();
 
         return orderModels;
+    }
+
+    public async Task<IEnumerable<OrderItemCompanyViewModel>> GetAllByCompanyAsync(string companyId)
+    {
+        IEnumerable<OrderItemCompanyViewModel> orderItemsModels = await _dbContext
+            .OrderItems
+            .Where(oi => oi.Product.CompanyId.ToString() == companyId && oi.Order.IsConfirmedByUser)
+            .Select(oi => new OrderItemCompanyViewModel()
+            {
+                ProductName = oi.Product.Name,
+                Price = oi.Product.Price.ToString("F2"),
+                Quantity = oi.Quantity,
+                TotalSum = (oi.Product.Price * oi.Quantity).ToString("F2"),
+                Status = oi.IsFulfilled ? "Fulfilled" : "Not Fulfilled",
+                BuyerName = oi.Order.User.FirstName + " " + oi.Order.User.LastName,
+                BuyerPhoneNumber = oi.Order.User.PhoneNumber,
+                Address = new AddressViewModel()
+                {
+                    Country = oi.Order.User.Address!.Country,
+                    City = oi.Order.User.Address.City,
+                    Street = oi.Order.User.Address.Street,
+                    ZipCode = oi.Order.User.Address.ZipCode,
+                },
+            })
+            .ToArrayAsync();
+
+        return orderItemsModels;
     }
 }

@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using ViewModels.CartItem;
-
+using ViewModels.OrderItem;
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
 
-[Authorize(Policy = "BuyerOnly")]
+[Authorize]
 public class OrderController : Controller
 {
     private readonly IOrderService _orderService;
@@ -35,6 +35,7 @@ public class OrderController : Controller
 
 
     [HttpPost]
+    [Authorize(Policy = "BuyerOnly")]
     public async Task<IActionResult> Create([FromForm] IEnumerable<CartItemViewModel> cartItems)
     {
         try
@@ -57,6 +58,7 @@ public class OrderController : Controller
     }
 
     [HttpGet]
+    [Authorize(Policy = "BuyerOnly")]
     public async Task<IActionResult> Details(string id)
     {
         bool orderExists = await _orderService.OrderExistsAsync(id);
@@ -97,6 +99,7 @@ public class OrderController : Controller
     }
 
     [HttpPost]
+    [Authorize(Policy = "BuyerOnly")]
     public async Task<IActionResult> Cancel(string id)
     {
         bool orderExists = await _orderService.OrderExistsAsync(id);
@@ -132,6 +135,7 @@ public class OrderController : Controller
     }
 
     [HttpPost]
+    [Authorize(Policy = "BuyerOnly")]
     public async Task<IActionResult> Confirm(string id)
     {
         bool orderExists = await _orderService.OrderExistsAsync(id);
@@ -152,6 +156,15 @@ public class OrderController : Controller
             return RedirectToAction("Index", "Home");
         }
 
+        bool hasAddress = await _userService.UserHasAddressAsync(User.GetId()!);
+
+        if (!hasAddress)
+        {
+            TempData[ErrorMessage] = UserHasNoAddressErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
         try
         {
             await _cartService.ClearAsync(User.GetId()!);
@@ -162,7 +175,7 @@ public class OrderController : Controller
 
             TempData[SuccessMessage] = OrderConfirmed;
 
-            return RedirectToAction("Index", "Home"); // TODO: Redirect to Order/All/ByUser
+            return RedirectToAction(nameof(AllUserOrders));
         }
         catch (Exception)
         {
@@ -171,6 +184,7 @@ public class OrderController : Controller
     }
 
     [HttpGet]
+    [Authorize(Policy = "BuyerOnly")]
     public async Task<IActionResult> AllUserOrders()
     {
         try
@@ -178,6 +192,22 @@ public class OrderController : Controller
             var orders = await _orderService.GetAllByUserAsync(User.GetId()!);
 
             return View(orders);
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
+    }
+
+    [HttpGet]
+    [Authorize(Policy = "CompanyOnly")]
+    public async Task<IActionResult> All()
+    {
+        try
+        {
+            var orderItems = await _orderService.GetAllByCompanyAsync(User.GetCompanyId()!);
+
+            return View();
         }
         catch (Exception)
         {

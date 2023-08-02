@@ -2,6 +2,7 @@
 
 using Web.ViewModels.CartItem;
 using Web.ViewModels.Order;
+using Web.ViewModels.OrderItem;
 
 public interface IOrderService
 {
@@ -13,4 +14,5 @@ public interface IOrderService
     Task ConfirmAsync(string id);
     Task<bool> IsOrderExisting(string id);
     Task<IEnumerable<OrderAllViewModel>> GetAllByUserAsync(string userId);
+    Task<IEnumerable<OrderItemCompanyViewModel>> GetAllByCompanyAsync(string companyId);
 }

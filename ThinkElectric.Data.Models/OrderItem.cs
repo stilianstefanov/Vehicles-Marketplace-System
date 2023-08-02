@@ -15,6 +15,8 @@ public class OrderItem
 
     public int Quantity { get; set; }
 
+    public bool IsFulfilled { get; set; }
+
 
     [ForeignKey(nameof(Order))]
     public Guid OrderId { get; set; }

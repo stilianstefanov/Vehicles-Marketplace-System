@@ -1,6 +1,6 @@
 ﻿namespace ThinkElectric.Web.ViewModels.OrderItem;
 
-public class OrderItemViewModel
+public class OrderItemBuyerViewModel
 {
     public string ProductName { get; set; } = null!;
 
@@ -9,4 +9,6 @@ public class OrderItemViewModel
     public string Price { get; set; } = null!;
 
     public string TotalSum { get; set; } = null!;
+
+    public string Status { get; set; } = null!;
 }
