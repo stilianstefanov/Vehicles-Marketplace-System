@@ -29,4 +29,6 @@ public static class GeneralMessages
     public const string AddressCreatedSuccessMessage = "You have successfully added an address!";
 
     public const string AddressEditedSuccessMessage = "You have successfully edited the address!";
+
+    public const string OrderItemMarkedAsFulfilled = "You have successfully marked the item as fulfilled!";
 }

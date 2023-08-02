@@ -201,13 +201,47 @@ public class OrderController : Controller
 
     [HttpGet]
     [Authorize(Policy = "CompanyOnly")]
-    public async Task<IActionResult> All()
+    public async Task<IActionResult> AllCompanyOrders()
     {
         try
         {
             var orderItems = await _orderService.GetAllByCompanyAsync(User.GetCompanyId()!);
 
-            return View();
+            return View(orderItems);
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
+    }
+
+    [HttpPost]
+    [Authorize(Policy = "CompanyOnly")]
+    public async Task<IActionResult> MarkAsFulfilled(string orderItemId)
+    {
+        bool orderItemExists = await _orderService.OrderItemExistsAsync(orderItemId);
+
+        if (!orderItemExists)
+        {
+            return GeneralError();
+        }
+
+        bool isOrderItemFromCompany = await _orderService.IsOrderItemFromCompanyAsync(orderItemId, User.GetCompanyId()!);
+
+        if (!isOrderItemFromCompany)
+        {
+            TempData[ErrorMessage] = UnauthorizedErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        try
+        {
+            await _orderService.MarkAsFulfilledAsync(orderItemId);
+
+            TempData[SuccessMessage] = OrderItemMarkedAsFulfilled;
+
+            return RedirectToAction(nameof(AllCompanyOrders));
         }
         catch (Exception)
         {

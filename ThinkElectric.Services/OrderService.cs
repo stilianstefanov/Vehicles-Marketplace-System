@@ -153,6 +153,7 @@ public class OrderService : IOrderService
             .Where(oi => oi.Product.CompanyId.ToString() == companyId && oi.Order.IsConfirmedByUser)
             .Select(oi => new OrderItemCompanyViewModel()
             {
+                Id = oi.Id.ToString(),
                 ProductName = oi.Product.Name,
                 Price = oi.Product.Price.ToString("F2"),
                 Quantity = oi.Quantity,
@@ -171,5 +172,32 @@ public class OrderService : IOrderService
             .ToArrayAsync();
 
         return orderItemsModels;
+    }
+
+    public async Task<bool> OrderItemExistsAsync(string orderItemId)
+    {
+        bool orderItemExists = await _dbContext.OrderItems
+            .AnyAsync(oi => oi.Id.ToString() == orderItemId);
+
+        return orderItemExists;
+    }
+
+    public async Task<bool> IsOrderItemFromCompanyAsync(string orderItemId, string companyId)
+    {
+        bool isOrderItemFromCompany = await _dbContext.OrderItems
+            .AnyAsync(oi => oi.Id.ToString() == orderItemId && oi.Product.CompanyId.ToString() == companyId);
+
+        return isOrderItemFromCompany;
+    }
+
+    public async Task MarkAsFulfilledAsync(string orderItemId)
+    {
+        OrderItem orderItem = await _dbContext.OrderItems
+            .Where(oi => oi.Id.ToString() == orderItemId)
+            .FirstAsync();
+
+        orderItem.IsFulfilled = true;
+
+        await _dbContext.SaveChangesAsync();
     }
 }

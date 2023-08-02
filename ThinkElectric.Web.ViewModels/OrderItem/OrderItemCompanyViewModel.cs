@@ -4,6 +4,8 @@ using Address;
 
 public class OrderItemCompanyViewModel
 {
+    public string Id { get; set; } = null!;
+
     public string ProductName { get; set; } = null!;
 
     public int Quantity { get; set; }

@@ -27,7 +27,7 @@
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Company</a>
             <div class="dropdown-menu">
                 <a class="dropdown-item" asp-controller="Product" asp-action="AllByCompanyId" asp-route-id="@User.FindFirst("companyId")!.Value">Products</a>
-                <a class="dropdown-item" href="#">Orders</a>
+                <a class="dropdown-item" asp-controller="Order" asp-action="AllCompanyOrders">Orders</a>
                 <a class="dropdown-item" asp-controller="Company" asp-action="Details" asp-route-id="@User.FindFirst("companyId")!.Value">Company Details</a>
             </div>
         </li>

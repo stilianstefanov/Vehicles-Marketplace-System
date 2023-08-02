@@ -1,0 +1,61 @@
+﻿@model IEnumerable<OrderItemCompanyViewModel>
+
+@{
+    ViewBag.Title = "My Orders";
+}
+
+<div class="container mt-5">
+    <h3 class="text-center mb-3">My Orders</h3>
+    @if (!@Model.Any())
+    {
+        <h3 class="text-center mt-5">You have no orders yet!</h3>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total Sum</th>
+                    <th>Status</th>
+                    <th>Buyer Name</th>
+                    <th>Buyer Phone Number</th>
+                    <th>Country</th>
+                    <th>City</th>
+                    <th>Street</th>
+                    <th>Zip Code</th>
+                    <th>Action</th> <!-- Add a new header column for the action button -->
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var orderItem in Model)
+                {
+                    <tr>
+                        <td>@orderItem.ProductName</td>
+                        <td>@orderItem.Quantity</td>
+                        <td>@orderItem.Price</td>
+                        <td>@orderItem.TotalSum</td>
+                        <td>@orderItem.Status</td>
+                        <td>@orderItem.BuyerName</td>
+                        <td>@orderItem.BuyerPhoneNumber</td>
+                        <td>@orderItem.Address.Country</td>
+                        <td>@orderItem.Address.City</td>
+                        <td>@orderItem.Address.Street</td>
+                        <td>@orderItem.Address.ZipCode</td>
+                        <td>
+                            @if (orderItem.Status != "Fulfilled")
+                            {
+                                <form method="post" asp-controller="Order" asp-action="MarkAsFulfilled">
+                                    <input type="hidden" name="orderItemId" value="@orderItem.Id" />
+                                    <button type="submit" class="btn btn-warning">Fulfill</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
