@@ -18,10 +18,7 @@ public class Order
 
     public DateTime CreatedOn { get; set; }
 
-    public bool IsFulfilled { get; set; }
-
     public bool IsConfirmedByUser { get; set; }
-
 
 
     [ForeignKey(nameof(User))]

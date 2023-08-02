@@ -28,25 +28,29 @@
                     <div class="col">
                         <table class="table table-striped">
                             <thead>
-                            <tr>
-                                <th>Product Name</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Total Price</th>
-                                <th>Status</th>
-                            </tr>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total Price</th>
+                                    <th>Company</th>
+                                    <th>Status</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            @foreach (var orderItem in order.OrderItems)
-                            {
-                                <tr>
-                                    <td>@orderItem.ProductName</td>
-                                    <td>@orderItem.Quantity</td>
-                                    <td>@orderItem.Price</td>
-                                    <td>@orderItem.TotalSum</td>
-                                    <td>@orderItem.Status</td>
-                                </tr>
-                            }
+                                @foreach (var orderItem in order.OrderItems)
+                                {
+                                    <tr>
+                                        <td>@orderItem.ProductName</td>
+                                        <td>@orderItem.Quantity</td>
+                                        <td>@orderItem.Price</td>
+                                        <td>@orderItem.TotalSum</td>
+                                        <td>
+                                            <a asp-controller="Company" asp-action="Details" asp-route-id="@orderItem.CompanyId">@orderItem.CompanyName</a>
+                                        </td>
+                                        <td>@orderItem.Status</td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>

@@ -60,6 +60,7 @@ public class OrderService : IOrderService
                     Price = oi.Product.Price.ToString("F2"),
                     Quantity = oi.Quantity,
                     TotalSum = (oi.Product.Price * oi.Quantity).ToString("F2"),
+                    CompanyName = oi.Product.Company.Name
                 })
                     .ToArray()
             })
@@ -138,6 +139,8 @@ public class OrderService : IOrderService
                         Quantity = oi.Quantity,
                         TotalSum = (oi.Product.Price * oi.Quantity).ToString("F2"),
                         Status = oi.IsFulfilled ? "Fulfilled" : "Not Fulfilled",
+                        CompanyName = oi.Product.Company.Name,
+                        CompanyId = oi.Product.CompanyId.ToString(),
                     })
                     .ToArray()
             })

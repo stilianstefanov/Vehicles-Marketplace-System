@@ -11,4 +11,8 @@ public class OrderItemBuyerViewModel
     public string TotalSum { get; set; } = null!;
 
     public string Status { get; set; } = null!;
+
+    public string CompanyId { get; set; } = null!;
+
+    public string CompanyName { get; set; } = null!;
 }
