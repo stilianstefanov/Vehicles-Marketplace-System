@@ -91,10 +91,10 @@ public class CartService : ICartService
         return cartItems;
     }
 
-    public async Task<bool> ProductAlreadyAdded(string id)
+    public async Task<bool> ProductAlreadyAdded(string id, string userId)
     {
         bool productAlreadyAdded = await _dbContext.CartItems
-            .AnyAsync(ci => ci.ProductId.ToString() == id);
+            .AnyAsync(ci => ci.ProductId.ToString() == id && ci.Cart.UserId.ToString() == userId);
 
         return productAlreadyAdded;
     }

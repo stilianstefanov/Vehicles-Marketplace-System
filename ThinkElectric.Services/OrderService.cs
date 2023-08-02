@@ -110,4 +110,12 @@ public class OrderService : IOrderService
 
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<bool> IsOrderExisting(string id)
+    {
+        bool isOrderExisting = await _dbContext.Orders
+            .AnyAsync(o => o.Id.ToString() == id);
+
+        return isOrderExisting;
+    }
 }

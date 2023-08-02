@@ -10,7 +10,7 @@ public interface ICartService
     Task<bool> IsUserAuthorizedAsync(string id, string? getId);
     Task RemoveFromCartAsync(string id);
     Task<IList<CartItemViewModel>> GetAllAsync(string getId);
-    Task<bool> ProductAlreadyAdded(string id);
+    Task<bool> ProductAlreadyAdded(string id, string userId);
     Task<bool> AreCartItemsValidAsync(IEnumerable<CartItemViewModel> cartItems);
     Task ClearAsync(string userId);
 }

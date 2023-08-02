@@ -6,7 +6,6 @@ using Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Web.ViewModels.User;
-using static ThinkElectric.Common.EntityValidationConstants;
 
 public class UserService : IUserService
 {
@@ -100,5 +99,34 @@ public class UserService : IUserService
         }
 
         return true;
+    }
+
+    public async Task<string?> GetAddressIdByUserIdAsync(string userId)
+    {
+        string? addressId = await _userManager
+            .Users
+            .Where(u => u.Id.ToString() == userId)
+            .Select(u => u.AddressId.ToString())
+            .FirstOrDefaultAsync();
+
+        return addressId;
+    }
+
+    public async Task<bool> UserHasAddressAsync(string userId)
+    {
+        bool isUserHasAddress = await _userManager
+            .Users
+            .AnyAsync(u => u.Id.ToString() == userId && !string.IsNullOrWhiteSpace(u.AddressId.ToString()));
+
+        return isUserHasAddress;
+    }
+
+    public async Task AddAddressToUserAsync(string userId, string addressId)
+    {
+        ApplicationUser user = await _userManager.FindByIdAsync(userId);
+
+        user.AddressId = Guid.Parse(addressId);
+
+        await _userManager.UpdateAsync(user);
     }
 }

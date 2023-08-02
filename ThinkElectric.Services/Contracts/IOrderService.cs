@@ -11,4 +11,5 @@ public interface IOrderService
     Task<bool> IsOrderFromUserAsync(string id, string userId);
     Task CancelAsync(string id);
     Task ConfirmAsync(string id);
+    Task<bool> IsOrderExisting(string id);
 }

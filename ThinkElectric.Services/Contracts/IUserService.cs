@@ -15,4 +15,7 @@ public interface IUserService
     Task AddClaimAsync(string userId, string key, string value);
     Task<bool> IsRegisteredAsCompanyAsync(string userId);
     Task<bool> UserExistsByIdAsync(string userId);
+    Task<string?> GetAddressIdByUserIdAsync(string userId);
+    Task<bool> UserHasAddressAsync(string userId);
+    Task AddAddressToUserAsync(string userId, string addressId);
 }

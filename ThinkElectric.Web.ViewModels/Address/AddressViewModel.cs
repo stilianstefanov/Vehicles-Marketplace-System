@@ -2,6 +2,8 @@
 
 public class AddressViewModel
 {
+    public string Id { get; set; } = null!;
+
     public string Country { get; set; } = null!;
 
     public string City { get; set; } = null!;

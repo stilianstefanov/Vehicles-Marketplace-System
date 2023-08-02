@@ -15,12 +15,21 @@ public class OrderController : Controller
     private readonly IOrderService _orderService;
     private readonly ICartService _cartService;
     private readonly IProductService _productService;
+    private readonly IAddressService _addressService;
+    private readonly IUserService _userService;
 
-    public OrderController(IOrderService orderService, ICartService cartService, IProductService productService)
+    public OrderController(
+        IOrderService orderService, 
+        ICartService cartService, 
+        IProductService productService,
+        IAddressService addressService,
+        IUserService userService)
     {
         _orderService = orderService;
         _cartService = cartService;
         _productService = productService;
+        _addressService = addressService;
+        _userService = userService;
     }
 
 
@@ -70,6 +79,13 @@ public class OrderController : Controller
         try
         {
             var orderDetailsViewModel = await _orderService.GetOrderDetailsAsync(id);
+
+            var addressId = await _userService.GetAddressIdByUserIdAsync(User.GetId()!);
+
+            if (!string.IsNullOrWhiteSpace(addressId))
+            {
+                orderDetailsViewModel.Address = await _addressService.GetAddressDetailsByIdAsync(addressId);
+            }
 
             return View(orderDetailsViewModel);
         }

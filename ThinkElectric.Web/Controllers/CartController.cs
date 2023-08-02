@@ -39,7 +39,7 @@ public class CartController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool productAlreadyAdded = await _cartService.ProductAlreadyAdded(id);
+        bool productAlreadyAdded = await _cartService.ProductAlreadyAdded(id, User.GetId()!);
 
         if (productAlreadyAdded)
         {

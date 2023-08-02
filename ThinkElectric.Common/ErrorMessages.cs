@@ -58,4 +58,10 @@ public static class ErrorMessages
     public const string OrderNotFound = "Order with the provided Id does not exist!";
 
     public const string ProductOutOfStockErrorMessage = "The product is out of stock!";
+
+    public const string OrderNotFoundErrorMessage = "Order with the provided Id does not exist!";
+
+    public const string UserAlreadyHasAddressErrorMessage = "You already have address!";
+
+    public const string UserHasNoAddressErrorMessage = "You have no address!";
 }

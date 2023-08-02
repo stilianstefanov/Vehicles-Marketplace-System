@@ -1,5 +1,6 @@
 ﻿namespace ThinkElectric.Web.ViewModels.Order;
 
+using Address;
 using OrderItem;
 
 public class OrderDetailsViewModel
@@ -11,4 +12,6 @@ public class OrderDetailsViewModel
     public string TotalSum { get; set; } = null!;
 
     public IEnumerable<OrderItemViewModel> OrderItems { get; set; } = null!;
+
+    public AddressViewModel? Address { get; set; }
 }

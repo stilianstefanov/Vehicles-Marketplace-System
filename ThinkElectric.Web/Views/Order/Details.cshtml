@@ -1,5 +1,9 @@
 ﻿@model OrderDetailsViewModel
 
+@{
+    ViewBag.Title = "Order Details";
+}
+
 <div class="container mt-4">
     <div class="row">
         <div class="col">
@@ -18,32 +22,70 @@
         <div class="col">
             <table class="table table-striped">
                 <thead>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total Price</th>
-                    </tr>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total Price</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var orderItem in Model.OrderItems)
-                    {
-                        <tr>
-                            <td>@orderItem.ProductName</td>
-                            <td>@orderItem.Quantity</td>
-                            <td>@orderItem.Price</td>
-                            <td>@orderItem.TotalSum</td>
-                        </tr>
-                    }
+                @foreach (var orderItem in Model.OrderItems)
+                {
+                    <tr>
+                        <td>@orderItem.ProductName</td>
+                        <td>@orderItem.Quantity</td>
+                        <td>@orderItem.Price</td>
+                        <td>@orderItem.TotalSum</td>
+                    </tr>
+                }
                 </tbody>
             </table>
         </div>
     </div>
+    @if(Model.Address != null)
+    {
+        <div class="row mt-4">
+            <div class="col">
+                <h3>Delivery Address: </h3>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col">
+                <strong>Country:</strong> @Model.Address.Country
+            </div>
+            <div class="col">
+                <strong>Street:</strong> @Model.Address.Street
+            </div>
+            <div class="col">
+                <strong>City:</strong> @Model.Address.City
+            </div>
+            <div class="col">
+                <strong>Zip Code:</strong> @Model.Address.ZipCode
+            </div>
+        </div>
+        <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Address" asp-action="EditUserAddress" asp-route-id="@Model.Id">Edit Address</a>
+    }
+    else
+    {
+        <div class="row mt-4">
+            <div class="col">
+                <h3>Delivery Address: </h3>
+                <h4>Please add your address to complete the order!</h4>
+            </div>
+        </div>
+        <a type="button" class="btn btn-success col-md-3 mt-3" asp-controller="Address" asp-action="CreateUserAddress" asp-route-id="@Model.Id">Add Address</a>
+    }
     <div class="row mt-4">
+        @if (Model.Address != null)
+        {
+            <div class="col text-center">
+                <form method="post" asp-controller="Order" asp-action="Confirm" asp-route-id="@Model.Id">
+                    <button type="submit" class="btn btn-success">Confirm Order</button>
+                </form>
+            </div>
+        }
         <div class="col text-center">
-            <form method="post" asp-controller="Order" asp-action="Confirm" asp-route-id="@Model.Id">
-                <button type="submit" class="btn btn-primary">Confirm Order</button>
-            </form>
             <form method="post" asp-controller="Order" asp-action="Cancel" asp-route-id="@Model.Id">
                 <button type="submit" class="btn btn-danger">Cancel Order</button>
             </form>

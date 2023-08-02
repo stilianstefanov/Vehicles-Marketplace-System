@@ -25,4 +25,8 @@ public static class GeneralMessages
     public const string OrderCancelled = "You have successfully cancelled your order!";
 
     public const string OrderConfirmed = "You have successfully confirmed your order!";
+
+    public const string AddressCreatedSuccessMessage = "You have successfully added an address!";
+
+    public const string AddressEditedSuccessMessage = "You have successfully edited the address!";
 }
