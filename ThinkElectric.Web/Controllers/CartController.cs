@@ -31,6 +31,14 @@ public class CartController : Controller
             return RedirectToAction("Index", "Home");
         }
 
+        bool hasProductQuantity = await _productService.HasProductQuantityAsync(id);
+
+        if (!hasProductQuantity)
+        {
+            TempData[ErrorMessage] = ProductOutOfStockErrorMessage;
+            return RedirectToAction("Index", "Home");
+        }
+
         bool productAlreadyAdded = await _cartService.ProductAlreadyAdded(id);
 
         if (productAlreadyAdded)
@@ -88,6 +96,7 @@ public class CartController : Controller
         }
     }
 
+    [HttpGet]
     public async Task<IActionResult> All()
     {
         try

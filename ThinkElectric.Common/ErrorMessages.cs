@@ -56,4 +56,6 @@ public static class ErrorMessages
     public const string ProductAlreadyAddedToCartErrorMessage = "Product is already added to cart!";
 
     public const string OrderNotFound = "Order with the provided Id does not exist!";
+
+    public const string ProductOutOfStockErrorMessage = "The product is out of stock!";
 }

@@ -266,4 +266,13 @@ public class ProductService : IProductService
        
        await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<bool> HasProductQuantityAsync(string id)
+    {
+        bool hasProductQuantity = await _dbContext
+            .Products
+            .AnyAsync(p => p.Id.ToString() == id && p.Quantity > 0);
+
+        return hasProductQuantity;
+    }
 }

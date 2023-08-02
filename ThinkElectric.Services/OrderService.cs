@@ -99,4 +99,15 @@ public class OrderService : IOrderService
 
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task ConfirmAsync(string id)
+    {
+        Order order = await _dbContext.Orders
+            .Where(o => o.Id.ToString() == id)
+            .FirstAsync();
+
+        order.IsConfirmedByUser = true;
+
+        await _dbContext.SaveChangesAsync();
+    }
 }

@@ -141,6 +141,8 @@ public class OrderController : Controller
 
             await _productService.DecreaseQuantityAsync(id);
 
+            await _orderService.ConfirmAsync(id);
+
             TempData[SuccessMessage] = OrderConfirmed;
 
             return RedirectToAction("Index", "Home"); // TODO: Redirect to Order/All/ByUser

@@ -18,6 +18,8 @@ public class Order
 
     public bool IsFulfilled { get; set; }
 
+    public bool IsConfirmedByUser { get; set; }
+
 
 
     [ForeignKey(nameof(User))]

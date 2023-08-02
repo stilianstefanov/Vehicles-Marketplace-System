@@ -16,4 +16,5 @@ public interface IProductService
     Task<ProductsHomeModel> GetProductsForHomeAsync();
     Task<bool> ProductExistsAsync(string id);
     Task DecreaseQuantityAsync(string orderId);
+    Task<bool> HasProductQuantityAsync(string id);
 }
