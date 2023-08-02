@@ -1,7 +1,7 @@
 ﻿@model IList<ThinkElectric.Web.ViewModels.CartItem.CartItemViewModel>
 
 <div class="container mt-5">
-    <h1>Cart Items</h1>
+    <h2 class="text-center mb-4">Cart Items</h2>
     @if (Model.Any())
     {
         <form asp-action="Create" asp-controller="Order" method="post">

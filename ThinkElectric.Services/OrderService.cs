@@ -60,6 +60,7 @@ public class OrderService : IOrderService
                     Quantity = oi.Quantity,
                     TotalSum = (oi.Product.Price * oi.Quantity).ToString("F2"),
                 })
+                    .ToArray()
             })
             .FirstAsync();
 
@@ -117,5 +118,29 @@ public class OrderService : IOrderService
             .AnyAsync(o => o.Id.ToString() == id);
 
         return isOrderExisting;
+    }
+
+    public async Task<IEnumerable<OrderAllViewModel>> GetAllByUserAsync(string userId)
+    {
+        IEnumerable<OrderAllViewModel> orderModels = await _dbContext
+            .Orders
+            .Where(o => o.UserId.ToString() == userId && o.IsConfirmedByUser)
+            .Select(o => new OrderAllViewModel()
+            {
+                CreatedOn = o.CreatedOn.ToString("dd/MM/yyyy HH:mm"),
+                TotalSum = o.OrderItems.Sum(oi => oi.Product.Price * oi.Quantity).ToString("F2"),
+                Status = o.IsFulfilled ? "Fulfilled" : "Not Fulfilled",
+                OrderItems = o.OrderItems.Select(oi => new OrderItemViewModel()
+                    {
+                        ProductName = oi.Product.Name,
+                        Price = oi.Product.Price.ToString("F2"),
+                        Quantity = oi.Quantity,
+                        TotalSum = (oi.Product.Price * oi.Quantity).ToString("F2"),
+                    })
+                    .ToArray()
+            })
+            .ToArrayAsync();
+
+        return orderModels;
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using ViewModels.CartItem;
+
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
@@ -162,6 +163,21 @@ public class OrderController : Controller
             TempData[SuccessMessage] = OrderConfirmed;
 
             return RedirectToAction("Index", "Home"); // TODO: Redirect to Order/All/ByUser
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> AllUserOrders()
+    {
+        try
+        {
+            var orders = await _orderService.GetAllByUserAsync(User.GetId()!);
+
+            return View(orders);
         }
         catch (Exception)
         {

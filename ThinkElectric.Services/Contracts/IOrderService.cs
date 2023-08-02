@@ -12,4 +12,5 @@ public interface IOrderService
     Task CancelAsync(string id);
     Task ConfirmAsync(string id);
     Task<bool> IsOrderExisting(string id);
+    Task<IEnumerable<OrderAllViewModel>> GetAllByUserAsync(string userId);
 }
