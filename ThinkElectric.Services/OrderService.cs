@@ -127,6 +127,7 @@ public class OrderService : IOrderService
         IEnumerable<OrderAllViewModel> orderModels = await _dbContext
             .Orders
             .Where(o => o.UserId.ToString() == userId && o.IsConfirmedByUser)
+            .OrderByDescending(o => o.CreatedOn)
             .Select(o => new OrderAllViewModel()
             {
                 CreatedOn = o.CreatedOn.ToString("dd/MM/yyyy HH:mm"),
@@ -154,6 +155,7 @@ public class OrderService : IOrderService
         IEnumerable<OrderItemCompanyViewModel> orderItemsModels = await _dbContext
             .OrderItems
             .Where(oi => oi.Product.CompanyId.ToString() == companyId && oi.Order.IsConfirmedByUser)
+            .OrderByDescending(oi => oi.Order.CreatedOn)
             .Select(oi => new OrderItemCompanyViewModel()
             {
                 Id = oi.Id.ToString(),
