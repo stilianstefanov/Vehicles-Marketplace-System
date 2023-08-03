@@ -90,9 +90,65 @@ public class ReviewController : Controller
     }
 
     [HttpGet]
-    public IActionResult AddToCompany(string id)
+    public async Task<IActionResult> AddToCompany(string id)
     {
+        bool companyExists = await _companyService.CompanyExistsByIdAsync(id);
+
+        if (!companyExists)
+        {
+            TempData[ErrorMessage] = CompanyNotFoundErrorMessage;
+            return RedirectToAction("Index", "Home");
+        }
+
+        bool alreadyReviewed = await _reviewService.AlreadyReviewedCompanyAsync(id, User.GetId()!);
+
+        if (alreadyReviewed)
+        {
+            TempData[ErrorMessage] = AlreadyReviewedCompanyErrorMessage;
+
+            return RedirectToAction("Details", "Company", new { id });
+        }
+
         return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddToCompany(ReviewAddViewModel reviewModel, string id)
+    {
+        bool companyExists = await _companyService.CompanyExistsByIdAsync(id);
+
+        if (!companyExists)
+        {
+            TempData[ErrorMessage] = CompanyNotFoundErrorMessage;
+            return RedirectToAction("Index", "Home");
+        }
+
+        bool alreadyReviewed = await _reviewService.AlreadyReviewedCompanyAsync(id, User.GetId()!);
+
+        if (alreadyReviewed)
+        {
+            TempData[ErrorMessage] = AlreadyReviewedCompanyErrorMessage;
+
+            return RedirectToAction("Details", "Company", new { id });
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return View(reviewModel);
+        }
+
+        try
+        {
+            await _reviewService.AddToCompanyAsync(reviewModel, id, User.GetId()!);
+
+            TempData[SuccessMessage] = ReviewAddedSuccessMessage;
+
+            return RedirectToAction("Details", "Company", new { id });
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
     }
 
     private IActionResult GeneralError()

@@ -74,4 +74,29 @@ public class ReviewService : IReviewService
 
         return alreadyReviewed;
     }
+
+    public async Task<bool> AlreadyReviewedCompanyAsync(string id, string userId)
+    {
+        bool alreadyReviewed = await _dbContext
+            .Reviews
+            .AnyAsync(r => r.CompanyId.ToString() == id && r.UserId.ToString() == userId);
+
+        return alreadyReviewed;
+    }
+
+    public async Task AddToCompanyAsync(ReviewAddViewModel reviewModel, string id, string userId)
+    {
+        Review review = new Review()
+        {
+            Content = reviewModel.Content,
+            Rating = reviewModel.Rating,
+            CompanyId = Guid.Parse(id),
+            UserId = Guid.Parse(userId),
+            CreatedOn = DateTime.UtcNow
+        };
+
+        await _dbContext.Reviews.AddAsync(review);
+
+        await _dbContext.SaveChangesAsync();
+    }
 }

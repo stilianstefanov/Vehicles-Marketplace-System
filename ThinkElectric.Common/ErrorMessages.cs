@@ -66,4 +66,6 @@ public static class ErrorMessages
     public const string UserHasNoAddressErrorMessage = "You have no address!";
 
     public const string AlreadyReviewedProductErrorMessage = "You have already reviewed this product!";
+
+    public const string AlreadyReviewedCompanyErrorMessage = "You have already reviewed this company!";
 }
