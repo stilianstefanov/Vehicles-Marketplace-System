@@ -83,7 +83,7 @@
             }
             @if (!isUserRegisteredAsACompany)
             {
-                <a type="button" class="btn btn-warning col-md-3 mt-3">Add Review</a>
+                <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Review" asp-action="AddToCompany" asp-route-id="@Model.Id">Add Review</a>
             }
         </div>
     </div>

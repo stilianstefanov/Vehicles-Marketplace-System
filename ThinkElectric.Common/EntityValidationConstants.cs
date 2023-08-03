@@ -222,6 +222,10 @@ public static class EntityValidationConstants
         public const int ContentMaxLength = 1000;
 
         public const int ContentMinLength = 10;
+
+        public const int RatingMaxValue = 10;
+
+        public const int RatingMinValue = 1;
     }
 
     public static class User

@@ -2,6 +2,7 @@
 
 using Contracts;
 using Data;
+using Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Web.ViewModels.Review;
 
@@ -47,5 +48,30 @@ public class ReviewService : IReviewService
             .ToArrayAsync();
 
         return reviews;
+    }
+
+    public async Task AddToProductAsync(ReviewAddViewModel reviewModel, string id, string userId)
+    {
+        Review review = new Review()
+        {
+            Content = reviewModel.Content,
+            Rating = reviewModel.Rating,
+            ProductId = Guid.Parse(id),
+            UserId = Guid.Parse(userId),
+            CreatedOn = DateTime.UtcNow
+        };
+
+        await _dbContext.Reviews.AddAsync(review);
+
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<bool> AlreadyReviewedProductAsync(string id, string userId)
+    {
+        bool alreadyReviewed = await _dbContext
+            .Reviews
+            .AnyAsync(r => r.ProductId.ToString() == id && r.UserId.ToString() == userId);
+
+        return alreadyReviewed;
     }
 }
