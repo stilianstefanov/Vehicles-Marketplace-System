@@ -33,4 +33,8 @@ public static class GeneralMessages
     public const string OrderItemMarkedAsFulfilled = "You have successfully marked the item as fulfilled!";
 
     public const string ReviewAddedSuccessMessage = "You have successfully added a review!";
+
+    public const string ReviewDeletedSuccessMessage = "You have successfully deleted a review!";
+
+    public const string ReviewEditedSuccessMessage = "You have successfully edited a review!";
 }

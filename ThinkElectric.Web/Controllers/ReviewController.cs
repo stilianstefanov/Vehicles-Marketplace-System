@@ -151,6 +151,124 @@ public class ReviewController : Controller
         }
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Mine()
+    {
+        try
+        {
+            var reviews = await _reviewService.GetMineAsync(User.GetId()!);
+
+            return View(reviews);
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(string id)
+    {
+        bool reviewExists = await _reviewService.ReviewExistsAsync(id);
+
+        if (!reviewExists)
+        {
+            TempData[ErrorMessage] = ReviewNotFoundErrorMessage;
+            return RedirectToAction("Index", "Home");
+        }
+
+        bool isUserAuthorized = await _reviewService.IsUserAuthorizedAsync(id, User.GetId()!);
+
+        if (!isUserAuthorized)
+        {
+            TempData[ErrorMessage] = UnauthorizedErrorMessage;
+            return RedirectToAction("Index", "Home");
+        }
+
+        try
+        {
+            var review = await _reviewService.GetForEditAsync(id);
+
+            return View(review);
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(ReviewEditViewModel reviewModel, string id)
+    {
+        bool reviewExists = await _reviewService.ReviewExistsAsync(id);
+
+        if (!reviewExists)
+        {
+            TempData[ErrorMessage] = ReviewNotFoundErrorMessage;
+            return RedirectToAction("Index", "Home");
+        }
+
+        bool isUserAuthorized = await _reviewService.IsUserAuthorizedAsync(id, User.GetId()!);
+
+        if (!isUserAuthorized)
+        {
+            TempData[ErrorMessage] = UnauthorizedErrorMessage;
+            return RedirectToAction("Index", "Home");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return View(reviewModel);
+        }
+
+        try
+        {
+            await _reviewService.EditAsync(reviewModel, id);
+
+            TempData[SuccessMessage] = ReviewEditedSuccessMessage;
+
+            return RedirectToAction("Mine");
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(string id)
+    {
+        bool reviewExists = await _reviewService.ReviewExistsAsync(id);
+
+        if (!reviewExists)
+        {
+            TempData[ErrorMessage] = ReviewNotFoundErrorMessage;
+            return RedirectToAction("Index", "Home");
+        }
+
+        bool isUserAuthorized = await _reviewService.IsUserAuthorizedAsync(id, User.GetId()!);
+
+        if (!isUserAuthorized)
+        {
+            TempData[ErrorMessage] = UnauthorizedErrorMessage;
+            return RedirectToAction("Index", "Home");
+        }
+
+        try
+        {
+            await _reviewService.DeleteAsync(id);
+
+            TempData[SuccessMessage] = ReviewDeletedSuccessMessage;
+
+            return RedirectToAction("Mine");
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
+    }
+
     private IActionResult GeneralError()
     {
         this.TempData[ErrorMessage] = UnexpectedErrorMessage;

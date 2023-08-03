@@ -99,4 +99,81 @@ public class ReviewService : IReviewService
 
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<IEnumerable<ReviewMineViewModel>> GetMineAsync(string userId)
+    {
+        IEnumerable<ReviewMineViewModel> reviews = await _dbContext
+            .Reviews
+            .Where(r => r.UserId.ToString() == userId)
+            .Select(r => new ReviewMineViewModel()
+            {
+                Id = r.Id.ToString(),
+                Content = r.Content,
+                CreatedOn = r.CreatedOn.ToString("MM/dd/yyyy H:mm"),
+                Rating = r.Rating,
+                ProductId = string.IsNullOrEmpty(r.ProductId.ToString()) ? null : r.ProductId.ToString(),
+                ProductName = string.IsNullOrEmpty(r.ProductId.ToString()) ? null : r.Product!.Name,
+                CompanyId = string.IsNullOrEmpty(r.CompanyId.ToString()) ? null : r.CompanyId.ToString(),
+                CompanyName = string.IsNullOrEmpty(r.CompanyId.ToString()) ? null : r.Company!.Name
+            })
+            .ToArrayAsync();
+
+        return reviews;
+    }
+
+    public async Task<bool> ReviewExistsAsync(string id)
+    {
+        bool reviewExists = await _dbContext
+            .Reviews
+            .AnyAsync(r => r.Id.ToString() == id);
+
+        return reviewExists;
+    }
+
+    public async Task<bool> IsUserAuthorizedAsync(string id, string userId)
+    {
+        bool isAuthorized = await _dbContext
+            .Reviews
+            .AnyAsync(r => r.Id.ToString() == id && r.UserId.ToString() == userId);
+
+        return isAuthorized;
+    }
+
+    public async Task DeleteAsync(string id)
+    {
+        Review review = await _dbContext
+            .Reviews
+            .FirstAsync(r => r.Id.ToString() == id);
+
+        _dbContext.Reviews.Remove(review);
+
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<ReviewEditViewModel> GetForEditAsync(string id)
+    {
+        ReviewEditViewModel model = await _dbContext
+            .Reviews
+            .Where(r => r.Id.ToString() == id)
+            .Select(r => new ReviewEditViewModel()
+            {
+                Content = r.Content,
+                Rating = Convert.ToInt32(r.Rating)
+            })
+            .FirstAsync();
+
+        return model;
+    }
+
+    public async Task EditAsync(ReviewEditViewModel reviewModel, string id)
+    {
+        Review review = await _dbContext
+            .Reviews
+            .FirstAsync(r => r.Id.ToString() == id);
+
+        review.Content = reviewModel.Content;
+        review.Rating = reviewModel.Rating;
+
+        await _dbContext.SaveChangesAsync();
+    }
 }

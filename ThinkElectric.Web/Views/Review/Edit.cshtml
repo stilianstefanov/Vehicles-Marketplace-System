@@ -1,0 +1,30 @@
+﻿@model ReviewEditViewModel
+
+@{
+    ViewBag.Title = "Edit Review";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mt-4 mb-4">Edit Review</h2>
+            <form asp-controller="Review" asp-action="Edit" method="post">
+                <div class="form-group">
+                    <label asp-for="Content">Content:</label>
+                    <textarea asp-for="Content" class="form-control" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Rating">Rating:</label>
+                    <select asp-for="Rating" class="form-control" required>
+                        <option value="" disabled selected>Select a rating</option>
+                        @for (int i = 1; i <= 10; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-warning btn-block mt-3">Apply Changes</button>
+            </form>
+        </div>
+    </div>
+</div>

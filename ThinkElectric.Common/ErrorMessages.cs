@@ -68,4 +68,6 @@ public static class ErrorMessages
     public const string AlreadyReviewedProductErrorMessage = "You have already reviewed this product!";
 
     public const string AlreadyReviewedCompanyErrorMessage = "You have already reviewed this company!";
+
+    public const string ReviewNotFoundErrorMessage = "Review with the provided Id does not exist!";
 }
