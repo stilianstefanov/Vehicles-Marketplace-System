@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Data;
 using Data.Models;
 using Infrastructure.Extensions;
+using Infrastructure.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using ThinkElectric.Data.MongoDb.Models;
@@ -64,6 +65,7 @@ public class Program
         builder.Services.AddControllersWithViews()
             .AddMvcOptions(options =>
             {
+                options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
                 options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
             });
 
