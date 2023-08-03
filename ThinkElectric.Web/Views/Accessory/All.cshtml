@@ -47,7 +47,6 @@
         </div>
         <div class="col-md-8 right-section">
             <div class="row" id="productsContainer">
-                <!-- The products will be dynamically loaded here -->
             </div>
         </div>
         <div class="text-center mt-5">
@@ -59,38 +58,36 @@
 
 <script>
     $(document).ready(function () {
-        var currentPage = 1; // Initialize current page to 1
+        var currentPage = 1;
         var isUserRegisteredAsACompany = @isUserRegisteredAsACompany.ToString().ToLower();
 
-        // Initial page load
         loadData();
 
-        // Search input change event
         $('#search').on('input', function () {
-            currentPage = 1; // Reset current page to 1
+            currentPage = 1;
             loadData();
         });
 
-        // Sort dropdown change event
+      
         $('#sort').on('change', function () {
-            currentPage = 1; // Reset current page to 1
+            currentPage = 1; 
             loadData();
         });
 
-        // PerPage dropdown change event
+       
         $('#perPage').on('change', function () {
-            currentPage = 1; // Reset current page to 1
+            currentPage = 1; 
             loadData();
         });
 
-        // Previous page button click event
+        
         $('#previousPage').on('click', function () {
             if (currentPage > 1) {
                 loadData('previous');
             }
         });
 
-        // Next page button click event
+       
         $('#nextPage').on('click', function () {
             loadData('next');
         });
@@ -165,18 +162,18 @@
                                 '<a href="/Cart/AddToCart/' +
                                 accessory.product.id +
                                 '" class="btn btn-success">Add to Cart</a>' +
-                                '<a href="/Company/Products/' +
+                                '<a href="/Review/AddToProduct/' +
                                 accessory.product.id +
                                 '" class="btn btn-info">Add Review</a>';
                         }
 
-                        // Continue building the card string
+                       
                         card += '</div>' + '</div>' + '</div>';
 
                         $('#productsContainer').append(card);
                     });
 
-                    // Update previous and next page buttons
+                
                     $('#previousPage').prop('disabled', currentPage === 1);
                     $('#nextPage').prop('disabled', currentPage === result.totalPages);
                 },

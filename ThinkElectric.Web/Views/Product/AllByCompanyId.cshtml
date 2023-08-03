@@ -71,7 +71,7 @@
 
 <script>
     $(document).ready(function () {
-        var currentPage = 1; // Initialize current page to 1
+        var currentPage = 1; 
 
         var isUserRegisteredAsACompany = @isUserRegisteredAsACompany.ToString().ToLower();
 
@@ -81,41 +81,37 @@
         var parts = url.split('/');
         var companyId = parts.pop();
 
-        // Initial page load
         loadData();
 
-        // Search input change event
         $('#search').on('input', function () {
-            currentPage = 1; // Reset current page to 1
+            currentPage = 1;
             loadData();
         });
 
-        // Sort dropdown change event
         $('#sort').on('change', function () {
-            currentPage = 1; // Reset current page to 1
+            currentPage = 1; 
             loadData();
         });
 
-        // Type dropdown change event
         $('#type').on('change', function () {
-            currentPage = 1; // Reset current page to 1
+            currentPage = 1; 
             loadData();
         });
 
-        // PerPage dropdown change event
+    
         $('#perPage').on('change', function () {
-            currentPage = 1; // Reset current page to 1
+            currentPage = 1; 
             loadData();
         });
 
-        // Previous page button click event
+        
         $('#previousPage').on('click', function () {
             if (currentPage > 1) {
                 loadData('previous');
             }
         });
 
-        // Next page button click event
+        
         $('#nextPage').on('click', function () {
             loadData('next');
         });
@@ -163,17 +159,17 @@
                             '<div class="btn-group" role="group">' +
                             '<a href="/Product/Details/' + product.id + '" class="btn btn-primary">Details</a>';
 
-                        // Check if isUserRegisteredAsACompany is false, then append "Add Review" and "Add to Cart" links
+                        
                         if (!isUserRegisteredAsACompany) {
                             card += '<a href="/Cart/AddToCart/' + product.id + '" class="btn btn-success">Add to Cart</a>' +
-                                '<a href="/Company/Products/' + product.id + '" class="btn btn-info">Add Review</a>';
+                                '<a href="/Review/AddToProduct/' + product.id + '" class="btn btn-info">Add Review</a>';
                         }
                         else if (product.companyId == currentUserCompanyId) {
                             card += '<a href="/Product/Edit/' + product.id + '" class="btn btn-warning">Edit</a>' +
                                 '<a href="/Product/Delete/' + product.id + '" class="btn btn-danger">Delete</a>';
                         }
 
-                        // Continue building the card string
+                       
                         card += '</div>' +
                             '</div>' +
                             '</div></div>';
@@ -181,7 +177,7 @@
                         $('#productContainer').append(card);
                     });
 
-                    // Update previous and next page buttons
+                    
                     $('#previousPage').prop('disabled', currentPage === 1);
                     $('#nextPage').prop('disabled', currentPage === result.totalPages);
                 },
