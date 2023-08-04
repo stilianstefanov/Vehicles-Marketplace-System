@@ -51,7 +51,7 @@ public class ScooterService : IScooterService
     {
         ScooterDetailsViewModel? model = await _dbContext
             .Scooters
-            .Where(s => s.Id.ToString() == id)
+            .Where(s => s.Id.ToString() == id && !s.Product.IsDeleted)
             .Select(s => new ScooterDetailsViewModel()
             {
                 Id = s.Id.ToString(),
@@ -81,7 +81,7 @@ public class ScooterService : IScooterService
     {
         bool isScooterExisting = _dbContext
             .Scooters
-            .Any(s => s.Id.ToString() == id);
+            .Any(s => s.Id.ToString() == id && !s.Product.IsDeleted);
 
         return isScooterExisting;
     }
@@ -164,6 +164,7 @@ public class ScooterService : IScooterService
     {
         IQueryable<Scooter> scootersQuery = _dbContext
             .Scooters
+            .Where(s => !s.Product.IsDeleted)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(queryModel.SearchTerm))

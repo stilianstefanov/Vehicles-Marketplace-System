@@ -34,6 +34,8 @@ public class Product
 
     public ProductType ProductType { get; set; }
 
+    public bool IsDeleted { get; set; }
+
 
 
     [ForeignKey(nameof(Company))]

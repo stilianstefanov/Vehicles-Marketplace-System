@@ -40,7 +40,7 @@ public class AccessoryService : IAccessoryService
     {
         AccessoryDetailsViewModel? model = await _dbContext
             .Accessories
-            .Where(a => a.Id.ToString() == id)
+            .Where(a => a.Id.ToString() == id && !a.Product.IsDeleted)
             .Select(a => new AccessoryDetailsViewModel()
             {
                 Id = a.Id.ToString(),
@@ -59,7 +59,7 @@ public class AccessoryService : IAccessoryService
     {
         bool isAccessoryExisting = await _dbContext
             .Accessories
-            .AnyAsync(a => a.Id.ToString() == id);
+            .AnyAsync(a => a.Id.ToString() == id && !a.Product.IsDeleted);
 
         return isAccessoryExisting;
     }
@@ -121,6 +121,7 @@ public class AccessoryService : IAccessoryService
     {
         IQueryable<Accessory> accessoriesQuery = _dbContext
             .Accessories
+            .Where(a => !a.Product.IsDeleted)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(queryModel.SearchTerm))

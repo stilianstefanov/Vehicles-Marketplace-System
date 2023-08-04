@@ -55,7 +55,7 @@ public class BikeService : IBikeService
     {
         BikeDetailsViewModel? model = await _dbContext
             .Bikes
-            .Where(b => b.Id.ToString() == id)
+            .Where(b => b.Id.ToString() == id && !b.Product.IsDeleted)
             .Select(b => new BikeDetailsViewModel()
             {
                 Id = b.Id.ToString(),
@@ -89,7 +89,7 @@ public class BikeService : IBikeService
     {
         bool isExisting = await _dbContext
             .Bikes
-            .AnyAsync(b => b.Id.ToString() == id);
+            .AnyAsync(b => b.Id.ToString() == id && !b.Product.IsDeleted);
 
         return isExisting;
     }
@@ -181,6 +181,7 @@ public class BikeService : IBikeService
     {
         IQueryable<Bike> bikesQuery = _dbContext
             .Bikes
+            .Where(b => !b.Product.IsDeleted)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(queryModel.SearchTerm))

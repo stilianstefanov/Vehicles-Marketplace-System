@@ -15,6 +15,5 @@ public interface ICompanyService
     Task<string> GetImageIdByCompanyIdAsync(string id);
     Task<string> GetAddressIdByCompanyIdAsync(string id);
     Task EditAsync(CompanyEditViewModel model, string id);
-
     Task<CompaniesAllQueryModel> AllAsync(CompaniesAllQueryModel queryModel);
 }

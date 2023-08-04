@@ -1,22 +1,26 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
+using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using ViewModels.Product;
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
+using static Common.GeneralMessages;
 
 [Authorize]
 public class ProductController : Controller
 {
     private readonly IProductService _productService;
     private readonly IImageService _imageService;
+    private readonly ICompanyService _companyService;
 
-    public ProductController(IProductService productService, IImageService imageService)
+    public ProductController(IProductService productService, IImageService imageService, ICompanyService companyService)
     {
         _productService = productService;
         _imageService = imageService;
+        _companyService = companyService;
     }
 
     [HttpGet]
@@ -31,6 +35,13 @@ public class ProductController : Controller
     public async Task<IActionResult> AllByCompanyIdFilteredAndPaged(ProductAllQueryModel queryModel)
     {
         if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        bool companyExists = await _companyService.CompanyExistsByIdAsync(queryModel.CompanyId!);
+
+        if (!companyExists)
         {
             return BadRequest();
         }
@@ -107,6 +118,42 @@ public class ProductController : Controller
         }
 
         return GeneralError();
+    }
+
+    [HttpPost]
+    [Authorize(Policy = "CompanyOnly")]
+    public async Task<IActionResult> Delete(string id)
+    {
+        bool productExists = await _productService.ProductExistsAsync(id);
+
+        if (!productExists)
+        {
+            TempData[ErrorMessage] = ProductNotFoundErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        bool isUserAuthorized = await _productService.IsUserAuthorizedAsync(id, User.GetCompanyId()!);
+
+        if (!isUserAuthorized)
+        {
+            TempData[ErrorMessage] = UnauthorizedErrorMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        try
+        {
+            await _productService.DeleteAsync(id);
+
+            TempData[SuccessMessage] = ProductDeletedSuccessfullyMessage;
+
+            return RedirectToAction("Index", "Home");
+        }
+        catch
+        {
+            return GeneralError();
+        }
     }
 
     private IActionResult GeneralError()

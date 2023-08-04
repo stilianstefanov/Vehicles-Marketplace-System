@@ -17,4 +17,6 @@ public interface IProductService
     Task<bool> ProductExistsAsync(string id);
     Task DecreaseQuantityAsync(string orderId);
     Task<bool> HasProductQuantityAsync(string id);
+    Task<bool> IsUserAuthorizedAsync(string id, string companyId);
+    Task DeleteAsync(string id);
 }

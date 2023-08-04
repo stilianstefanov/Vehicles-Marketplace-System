@@ -69,7 +69,7 @@
     <button type="button" class="btn btn-primary" id="nextPage">Next</button>
 </div>
 
-<script>
+ <script>
     $(document).ready(function () {
         var currentPage = 1; 
 
@@ -166,7 +166,7 @@
                         }
                         else if (product.companyId == currentUserCompanyId) {
                             card += '<a href="/Product/Edit/' + product.id + '" class="btn btn-warning">Edit</a>' +
-                                '<a href="/Product/Delete/' + product.id + '" class="btn btn-danger">Delete</a>';
+                                '<a href="/Product/Details/' + product.id + '" class="btn btn-danger">Delete</a>';
                         }
 
                        

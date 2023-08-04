@@ -41,7 +41,7 @@ public class ProductService : IProductService
     public async Task<ProductAllQueryModel> AllByCompanyIdAsync(ProductAllQueryModel queryModel)
     {
         IQueryable<Product> productsQuery = _dbContext.Products
-            .Where(p => p.CompanyId.ToString() == queryModel.CompanyId)
+            .Where(p => p.CompanyId.ToString() == queryModel.CompanyId && !p.IsDeleted)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(queryModel.SearchTerm))
@@ -131,7 +131,7 @@ public class ProductService : IProductService
             .Include(p => p.Scooter)
             .Include(p => p.Bike)
             .Include(p => p.Accessory)
-            .Where(p => p.Id.ToString() == id)
+            .Where(p => p.Id.ToString() == id && !p.IsDeleted)
             .FirstOrDefaultAsync();
 
         return product;
@@ -185,7 +185,7 @@ public class ProductService : IProductService
 
         productsModel.ScooterProducts = await _dbContext
             .Products
-            .Where(p => p.ProductType == ProductType.Scooter)
+            .Where(p => p.ProductType == ProductType.Scooter && !p.IsDeleted)
             .OrderByDescending(p => p.CreatedOn)
             .Take(3)
             .Select(p => new ProductViewModel()
@@ -200,7 +200,7 @@ public class ProductService : IProductService
 
         productsModel.BikeProducts = await _dbContext
             .Products
-            .Where(p => p.ProductType == ProductType.Bike)
+            .Where(p => p.ProductType == ProductType.Bike && !p.IsDeleted)
             .OrderByDescending(p => p.CreatedOn)
             .Take(3)
             .Select(p => new ProductViewModel()
@@ -215,7 +215,7 @@ public class ProductService : IProductService
 
         productsModel.AccessoryProducts = await _dbContext
             .Products
-            .Where(p => p.ProductType == ProductType.Accessory)
+            .Where(p => p.ProductType == ProductType.Accessory && !p.IsDeleted)
             .OrderByDescending(p => p.CreatedOn)
             .Take(3)
             .Select(p => new ProductViewModel()
@@ -235,7 +235,7 @@ public class ProductService : IProductService
     {
         bool productExists = await _dbContext
             .Products
-            .AnyAsync(p => p.Id.ToString() == id);
+            .AnyAsync(p => p.Id.ToString() == id && !p.IsDeleted);
 
         return productExists;
     }
@@ -274,5 +274,26 @@ public class ProductService : IProductService
             .AnyAsync(p => p.Id.ToString() == id && p.Quantity > 0);
 
         return hasProductQuantity;
+    }
+
+    public async Task<bool> IsUserAuthorizedAsync(string id, string companyId)
+    {
+        bool isUserAuthorized = await _dbContext
+            .Products
+            .AnyAsync(p => p.Id.ToString() == id && p.CompanyId.ToString() == companyId);
+
+        return isUserAuthorized;
+    }
+
+    public async Task DeleteAsync(string id)
+    {
+        Product product = await _dbContext
+            .Products
+            .Where(p => p.Id.ToString() == id)
+            .FirstAsync();
+
+        product.IsDeleted = true;
+
+        await _dbContext.SaveChangesAsync();
     }
 }
