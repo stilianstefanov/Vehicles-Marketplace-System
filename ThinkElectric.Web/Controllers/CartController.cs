@@ -58,7 +58,7 @@ public class CartController : Controller
             return GeneralError();
         }
 
-        return RedirectToAction(nameof(All));
+        return Redirect(Request.Headers["Referer"].ToString());
     }
 
     [HttpPost]
