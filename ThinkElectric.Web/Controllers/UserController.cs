@@ -68,11 +68,16 @@ public class UserController : Controller
     }
 
     [HttpGet]
-    public async  Task<IActionResult> Login()
+    public async  Task<IActionResult> Login(string? returnUrl = null)
     {
         await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-        return View();
+        LoginViewModel model = new LoginViewModel()
+        {
+            ReturnUrl = returnUrl
+        };
+
+        return View(model);
     }
 
     [HttpPost]
@@ -96,7 +101,7 @@ public class UserController : Controller
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                return Redirect(model.ReturnUrl ?? "/Home/Index");
             }
         }
 

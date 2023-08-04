@@ -52,13 +52,21 @@ public class CartController : Controller
             await _cartService.AddToCartAsync(id, User.GetId()!);
 
             TempData[SuccessMessage] = ProductAddedToCartSuccessMessage;
+
+            var referer = Request.Headers["Referer"].ToString();
+
+            if (referer.Contains("AddToCart"))
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            return Redirect(referer);
+
         }
         catch (Exception)
         {
             return GeneralError();
         }
-
-        return Redirect(Request.Headers["Referer"].ToString());
     }
 
     [HttpPost]
