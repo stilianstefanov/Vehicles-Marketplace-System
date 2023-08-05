@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThinkElectric.Data;
 
@@ -11,9 +12,10 @@ using ThinkElectric.Data;
 namespace ThinkElectric.Data.Migrations
 {
     [DbContext(typeof(ThinkElectricDbContext))]
-    partial class ThinkElectricDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230805144959_SeedScootersTest")]
+    partial class SeedScootersTest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,35 +194,6 @@ namespace ThinkElectric.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Accessories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("58605343-b867-4905-bfa3-364a8d3940d3"),
-                            Brand = "Kaabo",
-                            CompatibleBrand = "Kaabo",
-                            CompatibleModel = "Mantis",
-                            Description = "Original Kaabo bag for the your Kaabo Mantis scooter!",
-                            ProductId = new Guid("3e044b98-8123-4273-b51f-9cf0dfc13760")
-                        },
-                        new
-                        {
-                            Id = new Guid("9318d0ea-30db-4431-9c30-ae1993f17728"),
-                            Brand = "Kaabo",
-                            CompatibleBrand = "Kaabo",
-                            CompatibleModel = "Wolf Warrior",
-                            Description = "Original Kaabo lock for your kaabo wolf warrior scooter!",
-                            ProductId = new Guid("d2ab0180-a9b8-470e-8a0f-9acaccb0c9bc")
-                        },
-                        new
-                        {
-                            Id = new Guid("ae2bbad3-a635-4860-b2c0-3260f87ce97b"),
-                            Brand = "SideTech",
-                            CompatibleBrand = "Xiaomi",
-                            CompatibleModel = "Pro 2",
-                            Description = "High quality side mirrors for Xiaomi Pro2 scooters!",
-                            ProductId = new Guid("8fe19082-5089-4ac5-88d9-51fdfa48fe10")
-                        });
                 });
 
             modelBuilder.Entity("ThinkElectric.Data.Models.Address", b =>
@@ -359,7 +332,7 @@ namespace ThinkElectric.Data.Migrations
                         {
                             Id = new Guid("ec09bd2a-4c64-476d-9997-e732562b0ab1"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a46e132d-4ee3-49ac-834c-51844173bc98",
+                            ConcurrencyStamp = "c8ca88e0-7e3b-415f-b3ee-00d3718f5f2d",
                             Email = "admin@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -367,7 +340,7 @@ namespace ThinkElectric.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ABV.BG",
                             NormalizedUserName = "ADMIN@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKb7Qx4YK6ELQXnjB1/s3BAZDQJGqFpGdoJEndm1rXZmZ0Nsi06A7UmJKpvN5YNODQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHWWQCeGkdgpph4dTBBtshhSVh35a4dMdYdMNdl9DpmlBRwl40fmxy/Z2o8jrEUdew==",
                             PhoneNumber = "0888888888",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -377,7 +350,7 @@ namespace ThinkElectric.Data.Migrations
                         {
                             Id = new Guid("95f65567-3392-47fd-ae6a-95d16dfdbfe2"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8e3ccd79-0f37-4d41-846d-26049ab5ef9e",
+                            ConcurrencyStamp = "29951fed-0e6d-4266-a0af-236d4709db94",
                             Email = "companyuser1@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "CompanyUser1",
@@ -385,7 +358,7 @@ namespace ThinkElectric.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "COMPANYUSER1@ABV.BG",
                             NormalizedUserName = "COMPANYUSER1@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEI/IUOmYtlzc1coyLwU6fjHYm9qT1ncBResrAxWMd/qyEZy+wT60q+bQcMcrD5x0Ig==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMueCRFVIjSmaASIRATSRI77Juq+81qXZTqCs/Xez1tn+Ts43wcFjWCxyMRKKq2Vnw==",
                             PhoneNumber = "0999999999",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -395,7 +368,7 @@ namespace ThinkElectric.Data.Migrations
                         {
                             Id = new Guid("553d4978-b893-4670-8808-3c91d6165c82"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7a912009-36c0-4e44-9135-37b9f16fcb0a",
+                            ConcurrencyStamp = "8b239f01-944c-4f37-afa6-3e66540addc9",
                             Email = "companyuser2@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "CompanyUser2",
@@ -403,7 +376,7 @@ namespace ThinkElectric.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "COMPANYUSER2@ABV.BG",
                             NormalizedUserName = "COMPANYUSER2@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEECMjd0byedN+mCeJFMawRkU9Hh4hYK2Ij8PBWhBk57N9kIrzEpzcDXjYIeVvgvRcw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDssV6acLaX2FlgMdqCNhL25UrpeZdT6TAr8d1eOzgSUmv/3GQd5uscBeWNNRtNehQ==",
                             PhoneNumber = "0777777777",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -413,7 +386,7 @@ namespace ThinkElectric.Data.Migrations
                         {
                             Id = new Guid("a44dad0e-bd5f-4394-9f8d-ad5a31e5c24b"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "76d3245f-92b2-4416-86b0-96d80cce8b24",
+                            ConcurrencyStamp = "53b91ec1-def8-4bfe-97d9-c3c393b7726a",
                             Email = "buyeruser@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "BuyerUser",
@@ -421,7 +394,7 @@ namespace ThinkElectric.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "BUYERUSER@ABV.BG",
                             NormalizedUserName = "BUYERUSER@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDfgds79U7lB7y85vTB//9LFjmqHA6tEVD6fhHWfcLQEhG1lbKX0lXbAz2pSCWvG/g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENizNsJ/HDZXH08TyjvtP4DgD1ZvR0pbYfuA0DiclgDcD4W7GIdDavcmd8Ycm1CRUg==",
                             PhoneNumber = "0666666666",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -511,80 +484,6 @@ namespace ThinkElectric.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Bikes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("2c2a92ec-55d2-46e0-841b-9024c1659cb1"),
-                            Battery = "48V 13Ah",
-                            BrakesType = 3,
-                            Brand = "ADO",
-                            ChargingTime = 6,
-                            Color = "Black",
-                            EnginePower = 250,
-                            EngineType = 1,
-                            FrameMaterial = "Aluminum",
-                            FrameSize = 20,
-                            FrameType = 1,
-                            GearsCount = 7,
-                            MaxLoad = 120,
-                            Model = "A16XE",
-                            ProductId = new Guid("0d233dd0-bd97-4bee-bc9e-dd96ccef5d12"),
-                            Range = 60,
-                            SuspensionType = 2,
-                            TopSpeed = 25,
-                            Type = 1,
-                            Weight = 25,
-                            WheelSize = 15
-                        },
-                        new
-                        {
-                            Id = new Guid("e56a719f-ad51-4bfa-b24b-ead6ef17192c"),
-                            Battery = "48V 15Ah",
-                            BrakesType = 2,
-                            Brand = "ADO",
-                            ChargingTime = 7,
-                            Color = "Gray",
-                            EnginePower = 300,
-                            EngineType = 2,
-                            FrameMaterial = "Aluminum",
-                            FrameSize = 18,
-                            FrameType = 1,
-                            GearsCount = 6,
-                            MaxLoad = 100,
-                            Model = "A20 AIR",
-                            ProductId = new Guid("f6b1216e-e1a6-4b83-a2b4-dc58f30d0e8e"),
-                            Range = 50,
-                            SuspensionType = 2,
-                            TopSpeed = 35,
-                            Type = 1,
-                            Weight = 20,
-                            WheelSize = 14
-                        },
-                        new
-                        {
-                            Id = new Guid("5d9ec56d-d23a-49cb-b7e8-39ebd8f5c302"),
-                            Battery = "48V 20Ah",
-                            BrakesType = 3,
-                            Brand = "ADO",
-                            ChargingTime = 9,
-                            Color = "Black",
-                            EnginePower = 600,
-                            EngineType = 1,
-                            FrameMaterial = "Carbon",
-                            FrameSize = 22,
-                            FrameType = 2,
-                            GearsCount = 10,
-                            MaxLoad = 150,
-                            Model = "20 F Beast",
-                            ProductId = new Guid("485b227b-69d8-4a3c-bf73-7f25007225c5"),
-                            Range = 70,
-                            SuspensionType = 4,
-                            TopSpeed = 40,
-                            Type = 2,
-                            Weight = 35,
-                            WheelSize = 18
-                        });
                 });
 
             modelBuilder.Entity("ThinkElectric.Data.Models.Cart", b =>
@@ -809,7 +708,7 @@ namespace ThinkElectric.Data.Migrations
                         {
                             Id = new Guid("bd96c711-32e7-483b-b1fe-9c19c1e0a936"),
                             CompanyId = new Guid("c0781351-133e-4383-81e7-c95e20fa1273"),
-                            CreatedOn = new DateTime(2023, 7, 25, 8, 45, 25, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTime(2023, 8, 5, 14, 49, 58, 960, DateTimeKind.Utc).AddTicks(8021),
                             ImageId = "64ce5c39ad51218262de3f60",
                             IsDeleted = false,
                             Name = "Kaabo Wolf Warrior 10",
@@ -821,132 +720,12 @@ namespace ThinkElectric.Data.Migrations
                         {
                             Id = new Guid("1728dc0c-96d8-4869-886e-4829db33a103"),
                             CompanyId = new Guid("c0781351-133e-4383-81e7-c95e20fa1273"),
-                            CreatedOn = new DateTime(2023, 7, 24, 8, 45, 25, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTime(2023, 8, 5, 14, 49, 58, 960, DateTimeKind.Utc).AddTicks(8029),
                             ImageId = "64ce5f7abd83b3123fc9ab71",
                             IsDeleted = false,
                             Name = "Kaabo Mantis King",
                             Price = 2999.99m,
                             ProductType = 1,
-                            Quantity = 15
-                        },
-                        new
-                        {
-                            Id = new Guid("67245662-bc0a-4f41-b53e-a9fb4bbdaa9f"),
-                            CompanyId = new Guid("c0781351-133e-4383-81e7-c95e20fa1273"),
-                            CreatedOn = new DateTime(2023, 7, 20, 7, 45, 25, 0, DateTimeKind.Unspecified),
-                            ImageId = "64ce64743037f396fd344914",
-                            IsDeleted = false,
-                            Name = "Kaabo Mantis 10 Pro",
-                            Price = 1500.99m,
-                            ProductType = 1,
-                            Quantity = 20
-                        },
-                        new
-                        {
-                            Id = new Guid("253a48e4-63c2-4564-b911-b098f37d8370"),
-                            CompanyId = new Guid("5d652ebf-7b4d-430c-9af8-0c02b0256575"),
-                            CreatedOn = new DateTime(2023, 5, 25, 8, 45, 25, 0, DateTimeKind.Unspecified),
-                            ImageId = "64ce66572b18cc1f74d4f76b",
-                            IsDeleted = false,
-                            Name = "Xiaomi Mi Pro 2",
-                            Price = 500.99m,
-                            ProductType = 1,
-                            Quantity = 15
-                        },
-                        new
-                        {
-                            Id = new Guid("d96bb9ea-2cea-4d39-bb90-e8a94d58a819"),
-                            CompanyId = new Guid("5d652ebf-7b4d-430c-9af8-0c02b0256575"),
-                            CreatedOn = new DateTime(2023, 2, 26, 8, 45, 25, 0, DateTimeKind.Unspecified),
-                            ImageId = "64ce67d918f465b345e8e244",
-                            IsDeleted = false,
-                            Name = "Xiaomi Mi 365",
-                            Price = 450.99m,
-                            ProductType = 1,
-                            Quantity = 30
-                        },
-                        new
-                        {
-                            Id = new Guid("d3b10c99-12e3-4e69-9771-70dafac10bb3"),
-                            CompanyId = new Guid("5d652ebf-7b4d-430c-9af8-0c02b0256575"),
-                            CreatedOn = new DateTime(2023, 5, 25, 8, 25, 25, 0, DateTimeKind.Unspecified),
-                            ImageId = "64ce68eaffdd5b60bd0f0da6",
-                            IsDeleted = false,
-                            Name = "Xiaomi 365 Amg",
-                            Price = 799.99m,
-                            ProductType = 1,
-                            Quantity = 5
-                        },
-                        new
-                        {
-                            Id = new Guid("0d233dd0-bd97-4bee-bc9e-dd96ccef5d12"),
-                            CompanyId = new Guid("c0781351-133e-4383-81e7-c95e20fa1273"),
-                            CreatedOn = new DateTime(2023, 3, 15, 8, 45, 25, 0, DateTimeKind.Unspecified),
-                            ImageId = "64ce6ac5332b4fcd3cfbf213",
-                            IsDeleted = false,
-                            Name = "ADO A16XE",
-                            Price = 1100.99m,
-                            ProductType = 2,
-                            Quantity = 15
-                        },
-                        new
-                        {
-                            Id = new Guid("f6b1216e-e1a6-4b83-a2b4-dc58f30d0e8e"),
-                            CompanyId = new Guid("c0781351-133e-4383-81e7-c95e20fa1273"),
-                            CreatedOn = new DateTime(2023, 7, 11, 4, 45, 25, 0, DateTimeKind.Unspecified),
-                            ImageId = "64ce6e7274be46075f7f39ef",
-                            IsDeleted = false,
-                            Name = "ADO A20 AIR",
-                            Price = 1000.99m,
-                            ProductType = 2,
-                            Quantity = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("485b227b-69d8-4a3c-bf73-7f25007225c5"),
-                            CompanyId = new Guid("5d652ebf-7b4d-430c-9af8-0c02b0256575"),
-                            CreatedOn = new DateTime(2023, 7, 17, 8, 25, 25, 0, DateTimeKind.Unspecified),
-                            ImageId = "64ce6fc7a61cf5992be7bf4f",
-                            IsDeleted = false,
-                            Name = "ADO 20 F BEAST",
-                            Price = 2000.99m,
-                            ProductType = 2,
-                            Quantity = 5
-                        },
-                        new
-                        {
-                            Id = new Guid("3e044b98-8123-4273-b51f-9cf0dfc13760"),
-                            CompanyId = new Guid("5d652ebf-7b4d-430c-9af8-0c02b0256575"),
-                            CreatedOn = new DateTime(2023, 3, 3, 8, 45, 25, 0, DateTimeKind.Unspecified),
-                            ImageId = "64ce7219abc83a6ff8f1da33",
-                            IsDeleted = false,
-                            Name = "Kaabo Bag",
-                            Price = 50.99m,
-                            ProductType = 3,
-                            Quantity = 35
-                        },
-                        new
-                        {
-                            Id = new Guid("d2ab0180-a9b8-470e-8a0f-9acaccb0c9bc"),
-                            CompanyId = new Guid("c0781351-133e-4383-81e7-c95e20fa1273"),
-                            CreatedOn = new DateTime(2023, 7, 8, 8, 19, 25, 0, DateTimeKind.Unspecified),
-                            ImageId = "64ce737583efd7dc2360de20",
-                            IsDeleted = false,
-                            Name = "Kaabo Disc Lock",
-                            Price = 70.99m,
-                            ProductType = 3,
-                            Quantity = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("8fe19082-5089-4ac5-88d9-51fdfa48fe10"),
-                            CompanyId = new Guid("c0781351-133e-4383-81e7-c95e20fa1273"),
-                            CreatedOn = new DateTime(2023, 6, 16, 6, 45, 25, 0, DateTimeKind.Unspecified),
-                            ImageId = "64ce74f819d865ac7cfd73e6",
-                            IsDeleted = false,
-                            Name = "Xiaomi Side Mirrors",
-                            Price = 40.99m,
-                            ProductType = 3,
                             Quantity = 15
                         });
                 });
@@ -1076,7 +855,7 @@ namespace ThinkElectric.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b0163142-364a-4b15-9bfc-65e381180ad9"),
+                            Id = new Guid("1f884fce-c41c-4489-b249-46c69fe929a2"),
                             Battery = "Li-Ion 60V 24.5Ah",
                             BrakesType = 3,
                             Brand = "Kaabo",
@@ -1092,82 +871,6 @@ namespace ThinkElectric.Data.Migrations
                             TopSpeed = 70,
                             Type = 2,
                             Weight = 40
-                        },
-                        new
-                        {
-                            Id = new Guid("2d93c875-2fda-43b9-b90a-9dc238b8b00f"),
-                            Battery = "Li-Ion 60V 18.5Ah",
-                            BrakesType = 2,
-                            Brand = "Kaabo",
-                            ChargingTime = 9,
-                            Color = "Red",
-                            EnginePower = 1000,
-                            EngineType = 2,
-                            MaxLoad = 120,
-                            Model = "Mantis 10 Pro",
-                            ProductId = new Guid("67245662-bc0a-4f41-b53e-a9fb4bbdaa9f"),
-                            Range = 70,
-                            TireSize = 10,
-                            TopSpeed = 60,
-                            Type = 5,
-                            Weight = 30
-                        },
-                        new
-                        {
-                            Id = new Guid("6ed9a802-c17a-41ce-938d-767c8b9e4ef5"),
-                            Battery = "Li-Ion 47V 12.5Ah",
-                            BrakesType = 1,
-                            Brand = "Xiaomi",
-                            ChargingTime = 6,
-                            Color = "Black",
-                            EnginePower = 350,
-                            EngineType = 1,
-                            MaxLoad = 100,
-                            Model = "Mi Pro 2",
-                            ProductId = new Guid("253a48e4-63c2-4564-b911-b098f37d8370"),
-                            Range = 45,
-                            TireSize = 8,
-                            TopSpeed = 25,
-                            Type = 1,
-                            Weight = 18
-                        },
-                        new
-                        {
-                            Id = new Guid("e199e336-52be-41b3-807e-d705ebc6108b"),
-                            Battery = "Li-Ion 47V 10.5Ah",
-                            BrakesType = 1,
-                            Brand = "Xiaomi",
-                            ChargingTime = 6,
-                            Color = "White",
-                            EnginePower = 300,
-                            EngineType = 1,
-                            MaxLoad = 100,
-                            Model = "Mi 365",
-                            ProductId = new Guid("d96bb9ea-2cea-4d39-bb90-e8a94d58a819"),
-                            Range = 35,
-                            TireSize = 8,
-                            TopSpeed = 25,
-                            Type = 1,
-                            Weight = 17
-                        },
-                        new
-                        {
-                            Id = new Guid("dd309c19-77ea-487f-bf2c-10df6deb4706"),
-                            Battery = "Li-Ion 47V 13.5Ah",
-                            BrakesType = 1,
-                            Brand = "Xiaomi",
-                            ChargingTime = 7,
-                            Color = "Gray",
-                            EnginePower = 400,
-                            EngineType = 1,
-                            MaxLoad = 120,
-                            Model = "Mi Amg",
-                            ProductId = new Guid("d3b10c99-12e3-4e69-9771-70dafac10bb3"),
-                            Range = 40,
-                            TireSize = 8,
-                            TopSpeed = 25,
-                            Type = 1,
-                            Weight = 18
                         });
                 });
 

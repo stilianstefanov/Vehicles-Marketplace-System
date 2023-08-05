@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Data;
 using Data.Models;
+using Data.MongoDb;
 using Infrastructure.Extensions;
 using Infrastructure.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using ThinkElectric.Data.MongoDb.Models;
+using Microsoft.Extensions.Options;
 
 public class Program
 {
@@ -56,6 +58,7 @@ public class Program
         builder.Services.Configure<ImageStoreDatabaseSettings>(
             builder.Configuration.GetSection("ImageStoreDatabase"));
 
+
         builder.Services.AddScoped<UserManager<ApplicationUser>>();
         builder.Services.AddScoped<SignInManager<ApplicationUser>>();
 
@@ -70,6 +73,8 @@ public class Program
             });
 
         var app = builder.Build();
+
+        SeedMongoDbData(builder.Configuration);
 
         if (app.Environment.IsDevelopment())
         {
@@ -99,5 +104,14 @@ public class Program
         });
 
         app.Run();
+    }
+
+    private static void SeedMongoDbData(IConfiguration configuration)
+    {
+        var mongoDbSettings = configuration.GetSection("ImageStoreDatabase").Get<ImageStoreDatabaseSettings>();
+
+        var seeder = new ImageSeeder(Options.Create(mongoDbSettings));
+
+        seeder.SeedData();
     }
 }

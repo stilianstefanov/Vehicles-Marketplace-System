@@ -3,7 +3,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+using Configurations;
 using Models;
 
 
@@ -39,10 +39,14 @@ public class ThinkElectricDbContext : IdentityDbContext<ApplicationUser, Identit
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        var configAssembly = Assembly.GetAssembly(typeof(ThinkElectricDbContext)) ??
-                             Assembly.GetExecutingAssembly();
-
-        builder.ApplyConfigurationsFromAssembly(configAssembly);
+        builder.ApplyConfiguration(new UserConfiguration());
+        builder.ApplyConfiguration(new CartConfiguration());
+        builder.ApplyConfiguration(new AddressConfiguration());
+        builder.ApplyConfiguration(new CompanyConfiguration());
+        builder.ApplyConfiguration(new ProductEntityConfiguration());
+        builder.ApplyConfiguration(new ScooterConfiguration());
+        builder.ApplyConfiguration(new BikeConfiguration());
+        builder.ApplyConfiguration(new AccessoryConfiguration());
 
         base.OnModelCreating(builder);
     }
