@@ -1,7 +1,9 @@
 ﻿namespace ThinkElectric.Web.ViewModels.Scooter;
 
 using System.ComponentModel.DataAnnotations;
+
 using Product;
+
 using static ThinkElectric.Common.EntityValidationConstants.Scooter;
 using static Common.ErrorMessages;
 

@@ -1,22 +1,28 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
-using Infrastructure.Extensions;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Services.Contracts;
 using ViewModels.Address;
+using Infrastructure.Extensions;
+
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
 
 [Authorize(Policy = "BuyerOnly")]
-public class AddressController : Controller
+public class AddressController : BaseController
 {
     private readonly IAddressService _addressService;
     private readonly IOrderService _orderService;
     private readonly IUserService _userService;
 
-    public AddressController(IAddressService addressService, IOrderService orderService, IUserService userService)
+    public AddressController(
+        IAddressService addressService,
+        IOrderService orderService,
+        IUserService userService)
     {
         _addressService = addressService;
         _orderService = orderService;
@@ -26,7 +32,7 @@ public class AddressController : Controller
     [HttpGet]
     public async Task<IActionResult> CreateUserAddress(string id)
     {
-        bool isOrderExisting = await _orderService.IsOrderExisting(id);
+        var isOrderExisting = await _orderService.IsOrderExisting(id);
 
         if (!isOrderExisting)
         {
@@ -35,7 +41,7 @@ public class AddressController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool alreadyHasAddress = await _userService.UserHasAddressAsync(User.GetId()!);
+        var alreadyHasAddress = await _userService.UserHasAddressAsync(User.GetId()!);
 
         if (alreadyHasAddress)
         {
@@ -50,7 +56,7 @@ public class AddressController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateUserAddress(AddressCreateViewModel addressModel, string id)
     {
-        bool isOrderExisting = await _orderService.IsOrderExisting(id);
+        var isOrderExisting = await _orderService.IsOrderExisting(id);
 
         if (!isOrderExisting)
         {
@@ -59,7 +65,7 @@ public class AddressController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool alreadyHasAddress = await _userService.UserHasAddressAsync(User.GetId()!);
+        var alreadyHasAddress = await _userService.UserHasAddressAsync(User.GetId()!);
 
         if (alreadyHasAddress)
         {
@@ -92,7 +98,7 @@ public class AddressController : Controller
     [HttpGet]
     public async Task<IActionResult> EditUserAddress(string id)
     {
-        bool isOrderExisting = await _orderService.IsOrderExisting(id);
+        var isOrderExisting = await _orderService.IsOrderExisting(id);
 
         if (!isOrderExisting)
         {
@@ -101,7 +107,7 @@ public class AddressController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool hasAddress = await _userService.UserHasAddressAsync(User.GetId()!);
+        var hasAddress = await _userService.UserHasAddressAsync(User.GetId()!);
 
         if (!hasAddress)
         {
@@ -127,7 +133,7 @@ public class AddressController : Controller
     [HttpPost]
     public async Task<IActionResult> EditUserAddress(AddressEditViewModel addressModel, string id)
     {
-        bool isOrderExisting = await _orderService.IsOrderExisting(id);
+        var isOrderExisting = await _orderService.IsOrderExisting(id);
 
         if (!isOrderExisting)
         {
@@ -136,7 +142,7 @@ public class AddressController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool hasAddress = await _userService.UserHasAddressAsync(User.GetId()!);
+        var hasAddress = await _userService.UserHasAddressAsync(User.GetId()!);
 
         if (!hasAddress)
         {
@@ -164,12 +170,5 @@ public class AddressController : Controller
         {
             return GeneralError();
         }
-    }
-
-    private IActionResult GeneralError()
-    {
-        this.TempData[ErrorMessage] = UnexpectedErrorMessage;
-
-        return RedirectToAction("Index", "Home");
     }
 }

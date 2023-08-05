@@ -1,6 +1,7 @@
 ﻿namespace ThinkElectric.Web.ViewModels.Product;
 
 using System.ComponentModel.DataAnnotations;
+
 using Enums;
 using static Common.EntityValidationConstants.ProductQuery;
 using static Common.GeneralApplicationConstants;

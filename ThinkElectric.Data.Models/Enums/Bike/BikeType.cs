@@ -1,15 +1,14 @@
-﻿namespace ThinkElectric.Data.Models.Enums.Bike
+﻿namespace ThinkElectric.Data.Models.Enums.Bike;
+
+public enum BikeType
 {
-    public enum BikeType
-    {
-        City = 1,
+    City = 1,
 
-        Mountain = 2,
+    Mountain = 2,
 
-        Road = 3,
+    Road = 3,
 
-        Cargo = 4,
+    Cargo = 4,
 
-        FatTire = 5
-    }
+    FatTire = 5
 }

@@ -1,12 +1,12 @@
 ﻿namespace ThinkElectric.Services;
 
+using Microsoft.EntityFrameworkCore;
+
 using Contracts;
 using Data;
 using Data.Models;
 using Data.Models.Enums.Product;
-using Microsoft.EntityFrameworkCore;
-using ThinkElectric.Web.ViewModels.Product.Enums;
-using Web.ViewModels.CartItem;
+using Web.ViewModels.Product.Enums;
 using Web.ViewModels.Product;
 
 public class ProductService : IProductService

@@ -1,20 +1,24 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
-using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Services.Contracts;
+using Infrastructure.Extensions;
+
 using static Common.NotificationsMessagesConstants;
 using static Common.ErrorMessages;
 using static Common.GeneralMessages;
 
 [Authorize(Policy = "BuyerOnly")]
-public class CartController : Controller
+public class CartController : BaseController
 {
     private readonly ICartService _cartService;
     private readonly IProductService _productService;
 
-    public CartController(ICartService cartService, IProductService productService)
+    public CartController(
+        ICartService cartService, 
+        IProductService productService)
     {
         _cartService = cartService;
         _productService = productService;
@@ -23,7 +27,7 @@ public class CartController : Controller
     [HttpGet]
     public async Task<IActionResult> AddToCart(string id)
     {
-        bool productExists = await _productService.ProductExistsAsync(id);
+        var productExists = await _productService.ProductExistsAsync(id);
 
         if (!productExists)
         {
@@ -31,7 +35,7 @@ public class CartController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool hasProductQuantity = await _productService.HasProductQuantityAsync(id);
+        var hasProductQuantity = await _productService.HasProductQuantityAsync(id);
 
         if (!hasProductQuantity)
         {
@@ -39,12 +43,12 @@ public class CartController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool productAlreadyAdded = await _cartService.ProductAlreadyAdded(id, User.GetId()!);
+        var productAlreadyAdded = await _cartService.ProductAlreadyAdded(id, User.GetId()!);
 
         if (productAlreadyAdded)
         {
             TempData[ErrorMessage] = ProductAlreadyAddedToCartErrorMessage;
-            return RedirectToAction(nameof(All));
+            return RedirectToAction("All");
         }
 
         try
@@ -57,7 +61,7 @@ public class CartController : Controller
 
             if (referer.Contains("AddToCart"))
             {
-                return RedirectToAction(nameof(All));
+                return RedirectToAction("All");
             }
 
             return Redirect(referer);
@@ -72,7 +76,7 @@ public class CartController : Controller
     [HttpPost]
     public async Task<IActionResult> RemoveFromCart(string id)
     {
-        bool cartItemExists = await _cartService.CartItemExistsAsync(id);
+        var cartItemExists = await _cartService.CartItemExistsAsync(id);
 
         if (!cartItemExists)
         {
@@ -81,7 +85,7 @@ public class CartController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool isUserAuthorized = await _cartService.IsUserAuthorizedAsync(id, User.GetId());
+        var isUserAuthorized = await _cartService.IsUserAuthorizedAsync(id, User.GetId());
 
         if (!isUserAuthorized)
         {
@@ -96,7 +100,7 @@ public class CartController : Controller
 
             TempData[SuccessMessage] = CartItemRemovedSuccessMessage;
 
-            return RedirectToAction(nameof(All));
+            return RedirectToAction("All");
         }
         catch (Exception)
         {
@@ -117,12 +121,5 @@ public class CartController : Controller
         {
             return GeneralError();
         }
-    }
-
-    private IActionResult GeneralError()
-    {
-        this.TempData[ErrorMessage] = UnexpectedErrorMessage;
-
-        return RedirectToAction("Index", "Home");
     }
 }

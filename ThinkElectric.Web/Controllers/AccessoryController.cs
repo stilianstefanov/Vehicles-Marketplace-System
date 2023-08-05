@@ -2,15 +2,17 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Services.Contracts;
 using ViewModels.Accessory;
+using Data.Models.Enums.Product;
+
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
-using Data.Models.Enums.Product;
 
-[Authorize]
-public class AccessoryController : Controller
+
+public class AccessoryController : BaseController
 {
     private readonly IAccessoryService _accessoryService;
     private readonly IProductService _productService;
@@ -112,7 +114,7 @@ public class AccessoryController : Controller
     [Authorize(Policy = "CompanyOnly")]
     public async Task<IActionResult> Edit(string id)
     {
-        bool isAccessoryExisting = await _accessoryService.IsAccessoryExistingAsync(id);
+        var isAccessoryExisting = await _accessoryService.IsAccessoryExistingAsync(id);
 
         if (!isAccessoryExisting)
         {
@@ -121,7 +123,7 @@ public class AccessoryController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool isUserAuthorized = await _accessoryService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+        var isUserAuthorized = await _accessoryService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
 
         if (!isUserAuthorized)
         {
@@ -149,7 +151,7 @@ public class AccessoryController : Controller
     [Authorize(Policy = "CompanyOnly")]
     public async Task<IActionResult> Edit([FromForm]AccessoryEditViewModel accessoryModel, string id)
     {
-        bool isAccessoryExisting = await _accessoryService.IsAccessoryExistingAsync(id);
+        var isAccessoryExisting = await _accessoryService.IsAccessoryExistingAsync(id);
 
         if (!isAccessoryExisting)
         {
@@ -158,7 +160,7 @@ public class AccessoryController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool isUserAuthorized = await _accessoryService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+        var isUserAuthorized = await _accessoryService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
 
         if (!isUserAuthorized)
         {
@@ -244,12 +246,5 @@ public class AccessoryController : Controller
             .Select(t => t.Result).ToList();
 
         return Json(queryModel);
-    }
-
-    private IActionResult GeneralError()
-    {
-        this.TempData[ErrorMessage] = UnexpectedErrorMessage;
-
-        return RedirectToAction("Index", "Home");
     }
 }

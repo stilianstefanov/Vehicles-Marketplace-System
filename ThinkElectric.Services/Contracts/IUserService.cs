@@ -1,7 +1,7 @@
 ﻿namespace ThinkElectric.Services.Contracts;
 
 using Microsoft.AspNetCore.Identity;
-using ThinkElectric.Web.ViewModels.User;
+using Web.ViewModels.User;
 
 using Data.Models;
 

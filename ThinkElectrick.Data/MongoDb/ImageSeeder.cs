@@ -1,9 +1,10 @@
 ﻿namespace ThinkElectric.Data.MongoDb;
 
 using Microsoft.Extensions.Options;
-using Models;
-using MongoDB.Bson;
 using MongoDB.Driver;
+
+using Models;
+
 
 public class ImageSeeder
 {

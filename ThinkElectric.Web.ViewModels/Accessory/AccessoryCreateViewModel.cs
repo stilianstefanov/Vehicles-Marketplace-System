@@ -1,7 +1,8 @@
 ﻿namespace ThinkElectric.Web.ViewModels.Accessory;
 
-using Product;
 using System.ComponentModel.DataAnnotations;
+
+using Product;
 using static ThinkElectric.Common.EntityValidationConstants.Accessory;
 
 public class AccessoryCreateViewModel

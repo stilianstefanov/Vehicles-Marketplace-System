@@ -1,22 +1,27 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
-using Infrastructure.Extensions;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Services.Contracts;
 using ViewModels.Product;
+using Infrastructure.Extensions;
+
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
 
-[Authorize]
-public class ProductController : Controller
+public class ProductController : BaseController
 {
     private readonly IProductService _productService;
     private readonly IImageService _imageService;
     private readonly ICompanyService _companyService;
 
-    public ProductController(IProductService productService, IImageService imageService, ICompanyService companyService)
+    public ProductController(
+        IProductService productService,
+        IImageService imageService,
+        ICompanyService companyService)
     {
         _productService = productService;
         _imageService = imageService;
@@ -39,7 +44,7 @@ public class ProductController : Controller
             return BadRequest();
         }
 
-        bool companyExists = await _companyService.CompanyExistsByIdAsync(queryModel.CompanyId!);
+        var companyExists = await _companyService.CompanyExistsByIdAsync(queryModel.CompanyId!);
 
         if (!companyExists)
         {
@@ -124,7 +129,7 @@ public class ProductController : Controller
     [Authorize(Policy = "CompanyOnly")]
     public async Task<IActionResult> Delete(string id)
     {
-        bool productExists = await _productService.ProductExistsAsync(id);
+        var productExists = await _productService.ProductExistsAsync(id);
 
         if (!productExists)
         {
@@ -133,7 +138,7 @@ public class ProductController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool isUserAuthorized = await _productService.IsUserAuthorizedAsync(id, User.GetCompanyId()!);
+        var isUserAuthorized = await _productService.IsUserAuthorizedAsync(id, User.GetCompanyId()!);
 
         if (!isUserAuthorized)
         {
@@ -154,12 +159,5 @@ public class ProductController : Controller
         {
             return GeneralError();
         }
-    }
-
-    private IActionResult GeneralError()
-    {
-        this.TempData[ErrorMessage] = UnexpectedErrorMessage;
-
-        return RedirectToAction("Index", "Home");
     }
 }

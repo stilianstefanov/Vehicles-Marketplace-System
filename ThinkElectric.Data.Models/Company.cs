@@ -1,7 +1,7 @@
 ﻿namespace ThinkElectric.Data.Models;
 
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+
 using static ThinkElectric.Common.EntityValidationConstants.Company;
 
 public class Company

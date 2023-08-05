@@ -1,9 +1,10 @@
 ﻿namespace ThinkElectric.Services;
 
+using Microsoft.EntityFrameworkCore;
+
 using Contracts;
 using Data;
 using Data.Models;
-using Microsoft.EntityFrameworkCore;
 using Web.ViewModels.Address;
 using Web.ViewModels.CartItem;
 using Web.ViewModels.Order;

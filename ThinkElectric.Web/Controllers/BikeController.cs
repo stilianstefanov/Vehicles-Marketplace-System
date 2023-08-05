@@ -1,18 +1,17 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
-using Data.Models.Enums.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ThinkElectric.Services.Contracts;
+
+using Data.Models.Enums.Product;
+using Services.Contracts;
 using ViewModels.Bike;
+
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
-using ThinkElectric.Services;
 
-
-[Authorize]
-public class BikeController : Controller
+public class BikeController : BaseController
 {
     private readonly IBikeService _bikeService;
     private readonly IProductService _productService;
@@ -114,7 +113,7 @@ public class BikeController : Controller
     [Authorize(Policy = "CompanyOnly")]
     public async Task<IActionResult> Edit(string id)
     {
-        bool isBikeExisting = await _bikeService.IsBikeExistingAsync(id);
+        var isBikeExisting = await _bikeService.IsBikeExistingAsync(id);
 
         if (!isBikeExisting)
         {
@@ -123,7 +122,7 @@ public class BikeController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool isUserAuthorized = await _bikeService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+        var isUserAuthorized = await _bikeService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
 
         if (!isUserAuthorized)
         {
@@ -152,7 +151,7 @@ public class BikeController : Controller
     [Authorize(Policy = "CompanyOnly")]
     public async Task<IActionResult> Edit([FromForm] BikeEditViewModel bikeModel, string id)
     {
-        bool isBikeExisting = await _bikeService.IsBikeExistingAsync(id);
+        var isBikeExisting = await _bikeService.IsBikeExistingAsync(id);
 
         if (!isBikeExisting)
         {
@@ -161,7 +160,7 @@ public class BikeController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool isUserAuthorized = await _bikeService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+        var isUserAuthorized = await _bikeService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
 
         if (!isUserAuthorized)
         {
@@ -250,12 +249,5 @@ public class BikeController : Controller
             .Select(t => t.Result).ToList();
 
         return Json(queryModel);
-    }
-
-    private IActionResult GeneralError()
-    {
-        this.TempData[ErrorMessage] = UnexpectedErrorMessage;
-
-        return RedirectToAction("Index", "Home");
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace ThinkElectric.Web.ViewModels.Bike;
 
 using System.ComponentModel.DataAnnotations;
+
 using Product;
 
 public class BikeAllViewModel

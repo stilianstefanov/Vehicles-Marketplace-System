@@ -1,10 +1,11 @@
 ﻿namespace ThinkElectric.Services
 {
+    using Microsoft.EntityFrameworkCore;
+
     using Contracts;
     using Data;
     using Data.Models;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
     using Web.ViewModels.Company;
     using Web.ViewModels.Company.Enums;
 

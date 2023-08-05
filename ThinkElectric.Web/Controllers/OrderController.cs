@@ -1,16 +1,18 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
-using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Services.Contracts;
 using ViewModels.CartItem;
+using Infrastructure.Extensions;
+
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
 
-[Authorize]
-public class OrderController : Controller
+
+public class OrderController : BaseController
 {
     private readonly IOrderService _orderService;
     private readonly ICartService _cartService;
@@ -39,14 +41,14 @@ public class OrderController : Controller
     {
         try
         {
-            bool areCartItemsValid = await _cartService.AreCartItemsValidAsync(cartItems);
+            var areCartItemsValid = await _cartService.AreCartItemsValidAsync(cartItems);
 
             if (!areCartItemsValid)
             {
                 return GeneralError();
             }
 
-            string orderId = await _orderService.CreateAsync(cartItems, User.GetId()!);
+            var orderId = await _orderService.CreateAsync(cartItems, User.GetId()!);
 
             return RedirectToAction("Details", "Order", new { id = orderId });
         }
@@ -60,7 +62,7 @@ public class OrderController : Controller
     [Authorize(Policy = "BuyerOnly")]
     public async Task<IActionResult> Details(string id)
     {
-        bool orderExists = await _orderService.OrderExistsAsync(id);
+        var orderExists = await _orderService.OrderExistsAsync(id);
 
         if (!orderExists)
         {
@@ -69,7 +71,7 @@ public class OrderController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool isOrderFromUser = await _orderService.IsOrderFromUserAsync(id, User.GetId()!);
+        var isOrderFromUser = await _orderService.IsOrderFromUserAsync(id, User.GetId()!);
 
         if (!isOrderFromUser)
         {
@@ -101,7 +103,7 @@ public class OrderController : Controller
     [Authorize(Policy = "BuyerOnly")]
     public async Task<IActionResult> Cancel(string id)
     {
-        bool orderExists = await _orderService.OrderExistsAsync(id);
+        var orderExists = await _orderService.OrderExistsAsync(id);
 
         if (!orderExists)
         {
@@ -110,7 +112,7 @@ public class OrderController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool isOrderFromUser = await _orderService.IsOrderFromUserAsync(id, User.GetId()!);
+        var isOrderFromUser = await _orderService.IsOrderFromUserAsync(id, User.GetId()!);
 
         if (!isOrderFromUser)
         {
@@ -137,7 +139,7 @@ public class OrderController : Controller
     [Authorize(Policy = "BuyerOnly")]
     public async Task<IActionResult> Confirm(string id)
     {
-        bool orderExists = await _orderService.OrderExistsAsync(id);
+        var orderExists = await _orderService.OrderExistsAsync(id);
 
         if (!orderExists)
         {
@@ -146,7 +148,7 @@ public class OrderController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool isOrderFromUser = await _orderService.IsOrderFromUserAsync(id, User.GetId()!);
+        var isOrderFromUser = await _orderService.IsOrderFromUserAsync(id, User.GetId()!);
 
         if (!isOrderFromUser)
         {
@@ -155,7 +157,7 @@ public class OrderController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool hasAddress = await _userService.UserHasAddressAsync(User.GetId()!);
+        var hasAddress = await _userService.UserHasAddressAsync(User.GetId()!);
 
         if (!hasAddress)
         {
@@ -218,14 +220,14 @@ public class OrderController : Controller
     [Authorize(Policy = "CompanyOnly")]
     public async Task<IActionResult> MarkAsFulfilled(string orderItemId)
     {
-        bool orderItemExists = await _orderService.OrderItemExistsAsync(orderItemId);
+        var orderItemExists = await _orderService.OrderItemExistsAsync(orderItemId);
 
         if (!orderItemExists)
         {
             return GeneralError();
         }
 
-        bool isOrderItemFromCompany = await _orderService.IsOrderItemFromCompanyAsync(orderItemId, User.GetCompanyId()!);
+        var isOrderItemFromCompany = await _orderService.IsOrderItemFromCompanyAsync(orderItemId, User.GetCompanyId()!);
 
         if (!isOrderItemFromCompany)
         {
@@ -246,12 +248,5 @@ public class OrderController : Controller
         {
             return GeneralError();
         }
-    }
-
-    private IActionResult GeneralError()
-    {
-        this.TempData[ErrorMessage] = UnexpectedErrorMessage;
-
-        return RedirectToAction("Index", "Home");
     }
 }

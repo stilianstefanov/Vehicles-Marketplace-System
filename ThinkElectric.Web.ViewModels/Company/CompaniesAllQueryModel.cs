@@ -1,8 +1,8 @@
 ﻿namespace ThinkElectric.Web.ViewModels.Company;
 
 using System.ComponentModel.DataAnnotations;
-using Enums;
 
+using Enums;
 using static Common.GeneralApplicationConstants;
 using static Common.EntityValidationConstants.CompanyQuery;
 

@@ -1,6 +1,5 @@
 ﻿namespace ThinkElectric.Services.Contracts;
 
-using Data.Models;
 using Web.ViewModels.Company;
 
 public interface ICompanyService

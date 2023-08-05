@@ -1,6 +1,7 @@
 ﻿namespace ThinkElectric.Data.Models;
 
 using System.ComponentModel.DataAnnotations;
+
 using Enums.Bike;
 using static Common.EntityValidationConstants.Bike;
 

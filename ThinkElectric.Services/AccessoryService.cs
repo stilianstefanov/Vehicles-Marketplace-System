@@ -1,10 +1,11 @@
 ﻿namespace ThinkElectric.Services;
 
+using Microsoft.EntityFrameworkCore;
+
 using Contracts;
 using Data;
 using Data.Models;
-using Microsoft.EntityFrameworkCore;
-using ThinkElectric.Web.ViewModels.Accessory.Enums;
+using Web.ViewModels.Accessory.Enums;
 using Web.ViewModels.Accessory;
 using Web.ViewModels.Product;
 

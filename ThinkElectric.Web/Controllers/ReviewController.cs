@@ -1,16 +1,19 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
-using Infrastructure.Extensions;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Services.Contracts;
 using ViewModels.Review;
+using Infrastructure.Extensions;
+
 using static Common.NotificationsMessagesConstants;
 using static Common.ErrorMessages;
 using static Common.GeneralMessages;
 
 [Authorize(Policy = "BuyerOnly")]
-public class ReviewController : Controller
+public class ReviewController : BaseController
 {
     private readonly IReviewService _reviewService;
     private readonly IProductService _productService;
@@ -29,7 +32,7 @@ public class ReviewController : Controller
     [HttpGet]
     public async Task<IActionResult> AddToProduct(string id)
     {
-        bool productExists = await _productService.ProductExistsAsync(id);
+        var productExists = await _productService.ProductExistsAsync(id);
 
         if (!productExists)
         {
@@ -37,7 +40,7 @@ public class ReviewController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool alreadyReviewed = await _reviewService.AlreadyReviewedProductAsync(id, User.GetId()!);
+        var alreadyReviewed = await _reviewService.AlreadyReviewedProductAsync(id, User.GetId()!);
 
         if (alreadyReviewed)
         {
@@ -53,7 +56,7 @@ public class ReviewController : Controller
     public async Task<IActionResult> AddToProduct(ReviewAddViewModel reviewModel, string id)
     {
 
-        bool productExists = await _productService.ProductExistsAsync(id);
+        var productExists = await _productService.ProductExistsAsync(id);
 
         if (!productExists)
         {
@@ -61,7 +64,7 @@ public class ReviewController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool alreadyReviewed = await _reviewService.AlreadyReviewedProductAsync(id, User.GetId()!);
+        var alreadyReviewed = await _reviewService.AlreadyReviewedProductAsync(id, User.GetId()!);
 
         if (alreadyReviewed)
         {
@@ -92,7 +95,7 @@ public class ReviewController : Controller
     [HttpGet]
     public async Task<IActionResult> AddToCompany(string id)
     {
-        bool companyExists = await _companyService.CompanyExistsByIdAsync(id);
+        var companyExists = await _companyService.CompanyExistsByIdAsync(id);
 
         if (!companyExists)
         {
@@ -100,7 +103,7 @@ public class ReviewController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool alreadyReviewed = await _reviewService.AlreadyReviewedCompanyAsync(id, User.GetId()!);
+        var alreadyReviewed = await _reviewService.AlreadyReviewedCompanyAsync(id, User.GetId()!);
 
         if (alreadyReviewed)
         {
@@ -115,7 +118,7 @@ public class ReviewController : Controller
     [HttpPost]
     public async Task<IActionResult> AddToCompany(ReviewAddViewModel reviewModel, string id)
     {
-        bool companyExists = await _companyService.CompanyExistsByIdAsync(id);
+        var companyExists = await _companyService.CompanyExistsByIdAsync(id);
 
         if (!companyExists)
         {
@@ -123,7 +126,7 @@ public class ReviewController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool alreadyReviewed = await _reviewService.AlreadyReviewedCompanyAsync(id, User.GetId()!);
+        var alreadyReviewed = await _reviewService.AlreadyReviewedCompanyAsync(id, User.GetId()!);
 
         if (alreadyReviewed)
         {
@@ -169,7 +172,7 @@ public class ReviewController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(string id)
     {
-        bool reviewExists = await _reviewService.ReviewExistsAsync(id);
+        var reviewExists = await _reviewService.ReviewExistsAsync(id);
 
         if (!reviewExists)
         {
@@ -177,7 +180,7 @@ public class ReviewController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool isUserAuthorized = await _reviewService.IsUserAuthorizedAsync(id, User.GetId()!);
+        var isUserAuthorized = await _reviewService.IsUserAuthorizedAsync(id, User.GetId()!);
 
         if (!isUserAuthorized)
         {
@@ -200,7 +203,7 @@ public class ReviewController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(ReviewEditViewModel reviewModel, string id)
     {
-        bool reviewExists = await _reviewService.ReviewExistsAsync(id);
+        var reviewExists = await _reviewService.ReviewExistsAsync(id);
 
         if (!reviewExists)
         {
@@ -208,7 +211,7 @@ public class ReviewController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool isUserAuthorized = await _reviewService.IsUserAuthorizedAsync(id, User.GetId()!);
+        var isUserAuthorized = await _reviewService.IsUserAuthorizedAsync(id, User.GetId()!);
 
         if (!isUserAuthorized)
         {
@@ -239,7 +242,7 @@ public class ReviewController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete(string id)
     {
-        bool reviewExists = await _reviewService.ReviewExistsAsync(id);
+        var reviewExists = await _reviewService.ReviewExistsAsync(id);
 
         if (!reviewExists)
         {
@@ -247,7 +250,7 @@ public class ReviewController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool isUserAuthorized = await _reviewService.IsUserAuthorizedAsync(id, User.GetId()!);
+        var isUserAuthorized = await _reviewService.IsUserAuthorizedAsync(id, User.GetId()!);
 
         if (!isUserAuthorized)
         {
@@ -267,12 +270,5 @@ public class ReviewController : Controller
         {
             return GeneralError();
         }
-    }
-
-    private IActionResult GeneralError()
-    {
-        this.TempData[ErrorMessage] = UnexpectedErrorMessage;
-
-        return RedirectToAction("Index", "Home");
     }
 }

@@ -1,11 +1,12 @@
 ﻿namespace ThinkElectric.Services
 {
-    using Contracts;
-    using Data.MongoDb.Models;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Options;
     using MongoDB.Bson;
     using MongoDB.Driver;
+
+    using Contracts;
+    using Data.MongoDb.Models;
     using Web.ViewModels;
 
     public class ImageService : IImageService

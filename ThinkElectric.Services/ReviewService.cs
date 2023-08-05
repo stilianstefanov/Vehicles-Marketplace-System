@@ -1,9 +1,10 @@
 ﻿namespace ThinkElectric.Services;
 
+using Microsoft.EntityFrameworkCore;
+
 using Contracts;
 using Data;
 using Data.Models;
-using Microsoft.EntityFrameworkCore;
 using Web.ViewModels.Review;
 
 public class ReviewService : IReviewService

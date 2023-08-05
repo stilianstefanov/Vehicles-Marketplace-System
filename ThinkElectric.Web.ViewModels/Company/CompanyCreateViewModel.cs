@@ -1,8 +1,10 @@
 ﻿namespace ThinkElectric.Web.ViewModels.Company;
 
 using System.ComponentModel.DataAnnotations;
-using Address;
 using Microsoft.AspNetCore.Http;
+
+using Address;
+
 using static ThinkElectric.Common.EntityValidationConstants.Company;
 using static Common.ErrorMessages;
 

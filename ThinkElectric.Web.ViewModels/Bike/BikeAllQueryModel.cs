@@ -1,6 +1,7 @@
 ﻿namespace ThinkElectric.Web.ViewModels.Bike;
 
 using System.ComponentModel.DataAnnotations;
+
 using Enums;
 using static Common.EntityValidationConstants.BikeQuery;
 using static Common.GeneralApplicationConstants;

@@ -1,10 +1,11 @@
 ﻿namespace ThinkElectric.Services;
 
-using System.Security.Claims;
-using Contracts;
-using Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+
+using Contracts;
+using Data.Models;
 using Web.ViewModels.User;
 
 public class UserService : IUserService

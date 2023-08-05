@@ -1,8 +1,8 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
+
 using Services.Contracts;
-using ViewModels.Product;
 
 public class HomeController : Controller
 {
@@ -17,6 +17,7 @@ public class HomeController : Controller
        _imageService = imageService;
     }
 
+    [HttpGet]
     public async Task<IActionResult> Index()
     {
         var products = await _productService.GetProductsForHomeAsync();
@@ -56,12 +57,12 @@ public class HomeController : Controller
     {
         if (statusCode == 400 || statusCode == 404)
         {
-            return this.View("Error404");
+            return View("Error404");
         }
 
         if (statusCode == 401)
         {
-            return this.View("Error401");
+            return View("Error401");
         }
 
         return View();

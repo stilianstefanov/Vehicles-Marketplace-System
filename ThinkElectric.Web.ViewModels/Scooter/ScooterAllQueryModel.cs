@@ -1,6 +1,7 @@
 ﻿namespace ThinkElectric.Web.ViewModels.Scooter;
 
 using System.ComponentModel.DataAnnotations;
+
 using Enums;
 using static Common.GeneralApplicationConstants;
 using static Common.EntityValidationConstants.ScooterQuery;

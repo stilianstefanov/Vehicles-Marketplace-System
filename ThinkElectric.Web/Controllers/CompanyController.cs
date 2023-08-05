@@ -1,17 +1,19 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
-using Infrastructure.Extensions;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Services.Contracts;
 using ViewModels.Company;
+using Infrastructure.Extensions;
+
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
 
 
-[Authorize]
-public class CompanyController : Controller
+public class CompanyController : BaseController
 {
     private readonly IImageService _imageService;
     private readonly ICompanyService _companyService;
@@ -39,7 +41,7 @@ public class CompanyController : Controller
     {
         try
         {
-            bool userExists = await _userService.UserExistsByIdAsync(id);
+            var userExists = await _userService.UserExistsByIdAsync(id);
 
             if (!userExists)
             {
@@ -51,7 +53,7 @@ public class CompanyController : Controller
             return GeneralError();
         }
 
-        bool isCompany = await _userService.IsRegisteredAsCompanyAsync(id);
+        var isCompany = await _userService.IsRegisteredAsCompanyAsync(id);
 
         if (!isCompany)
         {
@@ -60,7 +62,7 @@ public class CompanyController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool hasAlreadyCreatedCompany = await _companyService.HasAlreadyCreatedCompanyAsync(id);
+        var hasAlreadyCreatedCompany = await _companyService.HasAlreadyCreatedCompanyAsync(id);
 
         if (hasAlreadyCreatedCompany)
         {
@@ -87,7 +89,7 @@ public class CompanyController : Controller
     {
         try
         {
-            bool userExists = await _userService.UserExistsByIdAsync(id);
+            var userExists = await _userService.UserExistsByIdAsync(id);
 
             if (!userExists)
             {
@@ -99,7 +101,7 @@ public class CompanyController : Controller
             return GeneralError();
         }
 
-        bool isCompany = await _userService.IsRegisteredAsCompanyAsync(id);
+        var isCompany = await _userService.IsRegisteredAsCompanyAsync(id);
 
         if (!isCompany)
         {
@@ -108,7 +110,7 @@ public class CompanyController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool hasAlreadyCreatedCompany = await _companyService.HasAlreadyCreatedCompanyAsync(id);
+        var hasAlreadyCreatedCompany = await _companyService.HasAlreadyCreatedCompanyAsync(id);
 
         if (hasAlreadyCreatedCompany)
         {
@@ -195,7 +197,7 @@ public class CompanyController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(string id)
     {
-        bool companyExists = await _companyService.CompanyExistsByIdAsync(id);
+        var companyExists = await _companyService.CompanyExistsByIdAsync(id);
 
         if (!companyExists)
         {
@@ -204,7 +206,7 @@ public class CompanyController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool isUserCompanyOwner = await _companyService.IsUserCompanyOwnerAsync(id, User.GetId()!);
+        var isUserCompanyOwner = await _companyService.IsUserCompanyOwnerAsync(id, User.GetId()!);
 
         if (!isUserCompanyOwner)
         {
@@ -233,7 +235,7 @@ public class CompanyController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit([FromForm] CompanyEditViewModel model, string id)
     {
-        bool companyExists = await _companyService.CompanyExistsByIdAsync(id);
+        var companyExists = await _companyService.CompanyExistsByIdAsync(id);
 
         if (!companyExists)
         {
@@ -242,7 +244,7 @@ public class CompanyController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool isUserCompanyOwner = await _companyService.IsUserCompanyOwnerAsync(id, User.GetId()!);
+        var isUserCompanyOwner = await _companyService.IsUserCompanyOwnerAsync(id, User.GetId()!);
 
         if (!isUserCompanyOwner)
         {
@@ -275,7 +277,7 @@ public class CompanyController : Controller
 
             if (imageType != "image/jpg" && imageType != "image/jpeg" && imageType != "image/png")
             {
-                string imageId = await _companyService.GetImageIdByCompanyIdAsync(id);
+                var imageId = await _companyService.GetImageIdByCompanyIdAsync(id);
 
                 model.CurrentImage = await _imageService.GetImageByIdAsync(imageId);
 
@@ -293,7 +295,7 @@ public class CompanyController : Controller
                 await _imageService.UpdateAsync(imageId, model.NewImage);
             }
 
-            string addressId = await _companyService.GetAddressIdByCompanyIdAsync(id);
+            var addressId = await _companyService.GetAddressIdByCompanyIdAsync(id);
 
             await _addressService.EditAsync(addressId, model.Address);
 
@@ -337,12 +339,5 @@ public class CompanyController : Controller
             .Select(t => t.Result).ToList();
 
         return Json(queryModel);
-    }
-
-    private IActionResult GeneralError()
-    {
-        this.TempData[ErrorMessage] = UnexpectedErrorMessage;
-
-        return RedirectToAction("Index", "Home");
     }
 }

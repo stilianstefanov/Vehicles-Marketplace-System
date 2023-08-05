@@ -2,6 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
 using static ThinkElectric.Common.EntityValidationConstants.Review;
 
 public class Review

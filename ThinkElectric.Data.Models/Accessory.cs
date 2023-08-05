@@ -1,6 +1,7 @@
 ﻿namespace ThinkElectric.Data.Models;
 
 using System.ComponentModel.DataAnnotations;
+
 using static ThinkElectric.Common.EntityValidationConstants.Accessory;
 
 public class Accessory

@@ -1,16 +1,17 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
-using Data.Models.Enums.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using Data.Models.Enums.Product;
 using Services.Contracts;
 using ViewModels.Scooter;
+
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
 
-[Authorize]
-public class ScooterController : Controller
+public class ScooterController : BaseController
 {
     private readonly IScooterService _scooterService;
     private readonly IProductService _productService;
@@ -111,7 +112,7 @@ public class ScooterController : Controller
     [Authorize(Policy = "CompanyOnly")]
     public async Task<IActionResult> Edit(string id)
     {
-        bool isScooterExisting = await _scooterService.IsScooterExistingAsync(id);
+        var isScooterExisting = await _scooterService.IsScooterExistingAsync(id);
 
         if (!isScooterExisting)
         {
@@ -119,7 +120,7 @@ public class ScooterController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool isUserAuthorized = await _scooterService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+        var isUserAuthorized = await _scooterService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
 
         if (!isUserAuthorized)
         {
@@ -147,7 +148,7 @@ public class ScooterController : Controller
     [Authorize(Policy = "CompanyOnly")]
     public async Task<IActionResult> Edit([FromForm] ScooterEditViewModel scooterModel, string id)
     {
-        bool isScooterExisting = await _scooterService.IsScooterExistingAsync(id);
+        var isScooterExisting = await _scooterService.IsScooterExistingAsync(id);
 
         if (!isScooterExisting)
         {
@@ -155,7 +156,7 @@ public class ScooterController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        bool isUserAuthorized = await _scooterService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+        var isUserAuthorized = await _scooterService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
 
         if (!isUserAuthorized)
         {
@@ -241,12 +242,5 @@ public class ScooterController : Controller
             .Select(t => t.Result).ToList();
 
         return Json(queryModel);
-    }
-
-    private IActionResult GeneralError()
-    {
-        this.TempData[ErrorMessage] = UnexpectedErrorMessage;
-
-        return RedirectToAction("Index", "Home");
     }
 }

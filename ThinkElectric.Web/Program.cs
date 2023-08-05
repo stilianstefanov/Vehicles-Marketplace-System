@@ -2,15 +2,17 @@ namespace ThinkElectric.Web;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+
 using Data;
 using Data.Models;
 using Data.MongoDb;
 using Infrastructure.Extensions;
 using Infrastructure.ModelBinders;
-using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
-using ThinkElectric.Data.MongoDb.Models;
-using Microsoft.Extensions.Options;
+using Data.MongoDb.Models;
+
 
 public class Program
 {

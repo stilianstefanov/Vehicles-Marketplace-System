@@ -1,14 +1,17 @@
 ﻿namespace ThinkElectric.Web.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+
 using Services.Contracts;
 using ViewModels.User;
 
 using static Common.NotificationsMessagesConstants;
 using static Common.ErrorMessages;
 using static Common.GeneralMessages;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
+
 
 public class UserController : Controller
 {
@@ -45,12 +48,12 @@ public class UserController : Controller
             {
                 await _userService.AddClaimAsync(user!.Id.ToString(), "companyUser", "");
 
-                return RedirectToAction("Create", "Company", new { id = user!.Id.ToString() });
+                return RedirectToAction("Create", "Company", new { id = user.Id.ToString() });
             }
 
             var cartId = await _cartService.CreateAsync(user!.Id);
 
-            await _userService.AddClaimAsync(user.Id.ToString(), "cartId", cartId.ToString());
+            await _userService.AddClaimAsync(user.Id.ToString(), "cartId", cartId);
 
             await _userService.SignInAsync(user, model.Password, false, false);
 
@@ -72,7 +75,7 @@ public class UserController : Controller
     {
         await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-        LoginViewModel model = new LoginViewModel()
+        var model = new LoginViewModel()
         {
             ReturnUrl = returnUrl
         };
@@ -110,6 +113,8 @@ public class UserController : Controller
         return View(model);
     }
 
+    [HttpPost]
+    [Authorize]
     public async Task<IActionResult> Logout()
     {
         await _userService.SignOutAsync();

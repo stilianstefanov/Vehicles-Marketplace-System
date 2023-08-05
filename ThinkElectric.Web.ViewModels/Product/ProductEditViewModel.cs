@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
+
 using static ThinkElectric.Common.EntityValidationConstants.Product;
 
 public class ProductEditViewModel

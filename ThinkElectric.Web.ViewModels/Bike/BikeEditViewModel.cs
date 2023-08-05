@@ -1,7 +1,8 @@
 ﻿namespace ThinkElectric.Web.ViewModels.Bike;
 
 using System.ComponentModel.DataAnnotations;
-using ThinkElectric.Web.ViewModels.Product;
+
+using Product;
 using static Common.ErrorMessages;
 using static ThinkElectric.Common.EntityValidationConstants.Bike;
 

@@ -1,9 +1,8 @@
-﻿namespace ThinkElectric.Data.Models.Enums.Bike
-{
-    public enum BikeEngineType
-    {
-        Rear = 1,
+﻿namespace ThinkElectric.Data.Models.Enums.Bike;
 
-        Middle = 2
-    }
+public enum BikeEngineType
+{
+    Rear = 1,
+
+    Middle = 2
 }

@@ -1,6 +1,7 @@
 ﻿namespace ThinkElectric.Web.ViewModels.Review;
 
 using System.ComponentModel.DataAnnotations;
+
 using static Common.EntityValidationConstants.Review;
 
 public class ReviewAddViewModel

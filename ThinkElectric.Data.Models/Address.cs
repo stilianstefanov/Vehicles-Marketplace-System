@@ -1,6 +1,7 @@
 ﻿namespace ThinkElectric.Data.Models;
 
 using System.ComponentModel.DataAnnotations;
+
 using static ThinkElectric.Common.EntityValidationConstants.Address;
 
 public class Address
