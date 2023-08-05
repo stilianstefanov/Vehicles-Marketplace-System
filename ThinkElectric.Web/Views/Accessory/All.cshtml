@@ -1,13 +1,23 @@
-﻿@{
+﻿@using ThinkElectric.Web.Infrastructure.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@{
     ViewBag.Title = "Accessory List";
 }
 
 
 @{
     bool isUserRegisteredAsACompany = User.HasClaim("companyUser", "");
+
+    string currentUserCompanyId = "";
+
+    if (isUserRegisteredAsACompany)
+    {
+        currentUserCompanyId = User.GetCompanyId()!;
+    }
 }
 
 <input type="hidden" id="isUserRegisteredAsACompany" value="@isUserRegisteredAsACompany.ToString().ToLower()" />
+<input type="hidden" id="currentUserCompanyId" value="@currentUserCompanyId.ToLower()" />
 
 <div class="text-center mt-3">
     <h2>Accessories</h2>

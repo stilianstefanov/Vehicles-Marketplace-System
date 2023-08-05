@@ -1,6 +1,9 @@
 ﻿$(document).ready(function () {
     var currentPage = 1;
+
     var isUserRegisteredAsACompany = $('#isUserRegisteredAsACompany').val() === 'true';
+
+    var currentUserCompanyId = $('#currentUserCompanyId').val();
 
     loadData();
 
@@ -106,6 +109,10 @@
                             '<a href="/Review/AddToProduct/' +
                             accessory.product.id +
                             '" class="btn btn-info">Add Review</a>';
+                    }
+                    else if (accessory.product.companyId.toLowerCase() == currentUserCompanyId) {
+                        card += '<a href="/Product/Edit/' + accessory.product.id + '" class="btn btn-warning">Edit</a>' +
+                            '<a href="/Product/Details/' + accessory.product.id + '" class="btn btn-danger">Delete</a>';
                     }
 
 

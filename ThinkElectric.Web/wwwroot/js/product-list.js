@@ -92,7 +92,7 @@
                         card += '<a href="/Cart/AddToCart/' + product.id + '" class="btn btn-success">Add to Cart</a>' +
                             '<a href="/Review/AddToProduct/' + product.id + '" class="btn btn-info">Add Review</a>';
                     }
-                    else if (product.companyId == currentUserCompanyId) {
+                    else if (product.companyId.toLowerCase() == currentUserCompanyId) {
                         card += '<a href="/Product/Edit/' + product.id + '" class="btn btn-warning">Edit</a>' +
                             '<a href="/Product/Details/' + product.id + '" class="btn btn-danger">Delete</a>';
                     }

@@ -276,6 +276,7 @@ public class BikeService : IBikeService
                     Name = b.Product.Name,
                     Price = b.Product.Price.ToString("f2"),
                     Quantity = b.Product.Quantity,
+                    CompanyId = b.Product.CompanyId.ToString(),
                     ImageId = b.Product.ImageId
                 }
             })

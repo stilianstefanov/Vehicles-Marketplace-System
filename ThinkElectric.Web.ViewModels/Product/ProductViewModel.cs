@@ -10,6 +10,8 @@ public class ProductViewModel
 
     public int Quantity { get; set; }
 
+    public string CompanyId { get; set; } = null!;
+
     public string ImageId { get; set; } = null!;
 
     public ImageViewModel Image { get; set; } = null!;

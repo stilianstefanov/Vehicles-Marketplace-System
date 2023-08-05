@@ -192,6 +192,7 @@ public class ProductService : IProductService
             {
                 Id = p.Id.ToString(),
                 Name = p.Name,
+                CompanyId = p.CompanyId.ToString(),
                 ImageId = p.ImageId,
                 Price = p.Price.ToString("f2"),
                 Quantity = p.Quantity,
@@ -207,6 +208,7 @@ public class ProductService : IProductService
             {
                 Id = p.Id.ToString(),
                 Name = p.Name,
+                CompanyId = p.CompanyId.ToString(),
                 ImageId = p.ImageId,
                 Price = p.Price.ToString("f2"),
                 Quantity = p.Quantity,
@@ -222,6 +224,7 @@ public class ProductService : IProductService
             {
                 Id = p.Id.ToString(),
                 Name = p.Name,
+                CompanyId = p.CompanyId.ToString(),
                 ImageId = p.ImageId,
                 Price = p.Price.ToString("f2"),
                 Quantity = p.Quantity,

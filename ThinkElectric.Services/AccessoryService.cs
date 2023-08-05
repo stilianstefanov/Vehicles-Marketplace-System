@@ -161,7 +161,8 @@ public class AccessoryService : IAccessoryService
                     Name = a.Product.Name,
                     Price = a.Product.Price.ToString("f2"),
                     Quantity = a.Product.Quantity,
-                    ImageId = a.Product.ImageId.ToString()
+                    ImageId = a.Product.ImageId.ToString(),
+                    CompanyId = a.Product.CompanyId.ToString(),
                 }
             })
             .ToArrayAsync();

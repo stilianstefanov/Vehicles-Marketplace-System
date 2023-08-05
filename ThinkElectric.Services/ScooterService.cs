@@ -243,6 +243,7 @@ public class ScooterService : IScooterService
                     Name = s.Product.Name,
                     Price = s.Product.Price.ToString("f2"),
                     Quantity = s.Product.Quantity,
+                    CompanyId = s.Product.CompanyId.ToString(),
                     ImageId = s.Product.ImageId
                 }
             })

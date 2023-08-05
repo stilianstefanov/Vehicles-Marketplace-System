@@ -1,4 +1,6 @@
-﻿@model ProductsHomeModel
+﻿@using ThinkElectric.Web.Infrastructure.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ProductsHomeModel
 
 @{
     ViewBag.Title = "Home";
@@ -6,6 +8,13 @@
 
 @{
     bool isUserRegisteredAsACompany = User.HasClaim("companyUser", "");
+
+    string currentUserCompanyId = "";
+
+    if (isUserRegisteredAsACompany)
+    {
+        currentUserCompanyId = User.GetCompanyId()!.ToLower();
+    }
 }
 
 <div class="mb-5"></div>
@@ -46,21 +55,26 @@
     </div>
 </div>
 <div class="row">
-    @foreach (var scooter in Model.ScooterProducts)
+    @foreach (var scooterProduct in Model.ScooterProducts)
     {
         <div class="col-md-4 mb-4">
             <div class="card">
-                <img src="data:@scooter.Image.ImageType;base64,@Convert.ToBase64String(scooter.Image.Data)" alt="Product image" class="img-fluid image-equal" />
+                <img src="data:@scooterProduct.Image.ImageType;base64,@Convert.ToBase64String(scooterProduct.Image.Data)" alt="Product image" class="img-fluid image-equal" />
                 <div class="card-body">
-                    <h5 class="card-title">@scooter.Name</h5>
-                    <p class="card-text">Price: @scooter.Price</p>
-                    <p class="card-text">Quantity: @scooter.Quantity</p>
+                    <h5 class="card-title">@scooterProduct.Name</h5>
+                    <p class="card-text">Price: @scooterProduct.Price</p>
+                    <p class="card-text">Quantity: @scooterProduct.Quantity</p>
                     <div class="text-center mt-2">
-                        <a asp-controller="Product" asp-action="Details" asp-route-id="@scooter.Id" class="btn btn-primary">Details</a>
+                        <a asp-controller="Product" asp-action="Details" asp-route-id="@scooterProduct.Id" class="btn btn-primary">Details</a>
                         @if (!isUserRegisteredAsACompany)
                         {
-                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@scooter.Id" class="btn btn-success">Add To Cart</a>
-                            <a asp-controller="Review" asp-action="AddToProduct" asp-route-id="@scooter.Id" class="btn btn-info">Add Review</a>
+                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@scooterProduct.Id" class="btn btn-success">Add To Cart</a>
+                            <a asp-controller="Review" asp-action="AddToProduct" asp-route-id="@scooterProduct.Id" class="btn btn-info">Add Review</a>
+                        }
+                        else if (scooterProduct.CompanyId.ToLower() == currentUserCompanyId.ToLower())
+                        {
+                            <a asp-controller="Product" asp-action="Edit" asp-route-id="@scooterProduct.Id" class="btn btn-warning">Edit</a>
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@scooterProduct.Id" class="btn btn-danger">Delete</a>
                         }
                     </div>
                 </div>
@@ -75,21 +89,26 @@
     </div>
 </div>
 <div class="row">
-    @foreach (var bike in Model.BikeProducts)
+    @foreach (var bikeProduct in Model.BikeProducts)
     {
         <div class="col-md-4 mb-4">
             <div class="card">
-                <img src="data:@bike.Image.ImageType;base64,@Convert.ToBase64String(bike.Image.Data)" alt="Product image" class="img-fluid image-equal" />
+                <img src="data:@bikeProduct.Image.ImageType;base64,@Convert.ToBase64String(bikeProduct.Image.Data)" alt="Product image" class="img-fluid image-equal" />
                 <div class="card-body">
-                    <h5 class="card-title">@bike.Name</h5>
-                    <p class="card-text">Price: @bike.Price</p>
-                    <p class="card-text">Quantity: @bike.Quantity</p>
+                    <h5 class="card-title">@bikeProduct.Name</h5>
+                    <p class="card-text">Price: @bikeProduct.Price</p>
+                    <p class="card-text">Quantity: @bikeProduct.Quantity</p>
                     <div class="text-center mt-2">
-                        <a asp-controller="Product" asp-action="Details" asp-route-id="@bike.Id" class="btn btn-primary">Details</a>
+                        <a asp-controller="Product" asp-action="Details" asp-route-id="@bikeProduct.Id" class="btn btn-primary">Details</a>
                         @if (!isUserRegisteredAsACompany)
                         {
-                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@bike.Id" class="btn btn-success">Add To Cart</a>
-                            <a asp-controller="Review" asp-action="AddToProduct" asp-route-id="@bike.Id" class="btn btn-info">Add Review</a>
+                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@bikeProduct.Id" class="btn btn-success">Add To Cart</a>
+                            <a asp-controller="Review" asp-action="AddToProduct" asp-route-id="@bikeProduct.Id" class="btn btn-info">Add Review</a>
+                        }
+                        else if (bikeProduct.CompanyId.ToLower() == currentUserCompanyId.ToLower())
+                        {
+                            <a asp-controller="Product" asp-action="Edit" asp-route-id="@bikeProduct.Id" class="btn btn-warning">Edit</a>
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@bikeProduct.Id" class="btn btn-danger">Delete</a>
                         }
                     </div>
                 </div>
@@ -104,21 +123,26 @@
     </div>
 </div>
 <div class="row">
-    @foreach (var accessory in Model.AccessoryProducts)
+    @foreach (var accessoryProduct in Model.AccessoryProducts)
     {
         <div class="col-md-4 mb-4">
             <div class="card">
-                <img src="data:@accessory.Image.ImageType;base64,@Convert.ToBase64String(accessory.Image.Data)" alt="Product image" class="img-fluid image-equal" />
+                <img src="data:@accessoryProduct.Image.ImageType;base64,@Convert.ToBase64String(accessoryProduct.Image.Data)" alt="Product image" class="img-fluid image-equal" />
                 <div class="card-body">
-                    <h5 class="card-title">@accessory.Name</h5>
-                    <p class="card-text">Price: @accessory.Price</p>
-                    <p class="card-text">Quantity: @accessory.Quantity</p>
+                    <h5 class="card-title">@accessoryProduct.Name</h5>
+                    <p class="card-text">Price: @accessoryProduct.Price</p>
+                    <p class="card-text">Quantity: @accessoryProduct.Quantity</p>
                     <div class="text-center mt-2">
-                        <a asp-controller="Product" asp-action="Details" asp-route-id="@accessory.Id" class="btn btn-primary">Details</a>
+                        <a asp-controller="Product" asp-action="Details" asp-route-id="@accessoryProduct.Id" class="btn btn-primary">Details</a>
                         @if (!isUserRegisteredAsACompany)
                         {
-                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@accessory.Id" class="btn btn-success">Add To Cart</a>
-                            <a asp-controller="Review" asp-action="AddToProduct" asp-route-id="@accessory.Id" class="btn btn-info">Add Review</a>
+                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@accessoryProduct.Id" class="btn btn-success">Add To Cart</a>
+                            <a asp-controller="Review" asp-action="AddToProduct" asp-route-id="@accessoryProduct.Id" class="btn btn-info">Add Review</a>
+                        }
+                        else if (accessoryProduct.CompanyId.ToLower() == currentUserCompanyId.ToLower())
+                        {
+                            <a asp-controller="Product" asp-action="Edit" asp-route-id="@accessoryProduct.Id" class="btn btn-warning">Edit</a>
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@accessoryProduct.Id" class="btn btn-danger">Delete</a>
                         }
                     </div>
                 </div>

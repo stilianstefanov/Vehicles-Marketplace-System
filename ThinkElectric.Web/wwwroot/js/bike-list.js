@@ -1,6 +1,9 @@
 ﻿$(document).ready(function () {
     var currentPage = 1;
+
     var isUserRegisteredAsACompany = $('#isUserRegisteredAsACompany').val() === 'true';
+
+    var currentUserCompanyId = $('#currentUserCompanyId').val();
 
     loadData();
 
@@ -166,6 +169,10 @@
                             '<a href="/Review/AddToProduct/' +
                             bike.product.id +
                             '" class="btn btn-info">Add Review</a>';
+                    }
+                    else if (bike.product.companyId.toLowerCase() == currentUserCompanyId) {
+                        card += '<a href="/Product/Edit/' + bike.product.id + '" class="btn btn-warning">Edit</a>' +
+                            '<a href="/Product/Details/' + bike.product.id + '" class="btn btn-danger">Delete</a>';
                     }
 
 
