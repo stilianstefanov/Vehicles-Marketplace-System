@@ -12,9 +12,10 @@ using Infrastructure.Extensions;
 using Infrastructure.ModelBinders;
 using Services.Contracts;
 using Data.MongoDb.Models;
+using Infrastructure.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 using static Common.GeneralApplicationConstants;
-
 
 public class Program
 {
@@ -49,20 +50,27 @@ public class Program
 
         builder.Services.AddAuthorization(options =>
         {
-            options.AddPolicy("CompanyOnly", policy =>
+            options.AddPolicy(CompanyOnlyPolicyName, policy =>
             {
                 policy.RequireClaim("companyId");
             });
 
-            options.AddPolicy("BuyerOnly", policy =>
+            options.AddPolicy(BuyerOrAdminPolicyName, policy =>
             {
                 policy.RequireClaim("cartId");
             });
+
+            options.AddPolicy(CompanyOrAdminPolicyName, policy =>
+            {
+                policy.RequireAuthenticatedUser();
+                policy.Requirements.Add(new CompanyOrAdminRequirement());
+            });
         });
+
+        builder.Services.AddScoped<IAuthorizationHandler, CompanyOrAdminAuthorizationHandler>();
 
         builder.Services.Configure<ImageStoreDatabaseSettings>(
             builder.Configuration.GetSection("ImageStoreDatabase"));
-
 
         builder.Services.AddScoped<UserManager<ApplicationUser>>();
         builder.Services.AddScoped<SignInManager<ApplicationUser>>();
@@ -102,7 +110,7 @@ public class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.SeedAdministrator(DevelopmentAdminEmail);
+        app.SeedAdministrator();
 
         app.UseEndpoints(config =>
         {

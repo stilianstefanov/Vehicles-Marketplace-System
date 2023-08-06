@@ -1,7 +1,7 @@
 ﻿namespace ThinkElectric.Web.Infrastructure.Extensions;
 
 using System.Reflection;
-
+using System.Security.Claims;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -40,7 +40,7 @@ public static class WebApplicationBuilderExtensions
         }
     }
 
-    public static IApplicationBuilder SeedAdministrator(this IApplicationBuilder app, string email)
+    public static IApplicationBuilder SeedAdministrator(this IApplicationBuilder app)
     {
         using var serviceScope = app.ApplicationServices.CreateScope();
 
@@ -61,9 +61,14 @@ public static class WebApplicationBuilderExtensions
 
             await roleManager.CreateAsync(role);
 
-            var adminUser = await userManager.FindByEmailAsync(email);
+            var adminUser = await userManager.FindByEmailAsync(DevelopmentAdminEmail);
 
             await userManager.AddToRoleAsync(adminUser, AdminRoleName);
+
+            await userManager.AddClaimAsync(adminUser, new Claim("cartId", "3226EE7E-6E28-4C7C-B338-9EA6DF852957"));
+
+            await userManager.AddClaimAsync(adminUser,
+                new Claim("FullName", $"{adminUser.FirstName} {adminUser.LastName}"));
         })
         .GetAwaiter()
         .GetResult();

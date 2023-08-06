@@ -10,6 +10,7 @@ using Infrastructure.Extensions;
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
+using static Common.GeneralApplicationConstants;
 
 
 public class OrderController : BaseController
@@ -36,7 +37,7 @@ public class OrderController : BaseController
 
 
     [HttpPost]
-    [Authorize(Policy = "BuyerOnly")]
+    [Authorize(Policy = BuyerOrAdminPolicyName)]
     public async Task<IActionResult> Create([FromForm] IEnumerable<CartItemViewModel> cartItems)
     {
         try
@@ -59,7 +60,7 @@ public class OrderController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Policy = "BuyerOnly")]
+    [Authorize(Policy = BuyerOrAdminPolicyName)]
     public async Task<IActionResult> Details(string id)
     {
         var orderExists = await _orderService.OrderExistsAsync(id);
@@ -100,7 +101,7 @@ public class OrderController : BaseController
     }
 
     [HttpPost]
-    [Authorize(Policy = "BuyerOnly")]
+    [Authorize(Policy = BuyerOrAdminPolicyName)]
     public async Task<IActionResult> Cancel(string id)
     {
         var orderExists = await _orderService.OrderExistsAsync(id);
@@ -136,7 +137,7 @@ public class OrderController : BaseController
     }
 
     [HttpPost]
-    [Authorize(Policy = "BuyerOnly")]
+    [Authorize(Policy = BuyerOrAdminPolicyName)]
     public async Task<IActionResult> Confirm(string id)
     {
         var orderExists = await _orderService.OrderExistsAsync(id);
@@ -185,7 +186,7 @@ public class OrderController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Policy = "BuyerOnly")]
+    [Authorize(Policy = BuyerOrAdminPolicyName)]
     public async Task<IActionResult> AllUserOrders()
     {
         try
@@ -201,7 +202,7 @@ public class OrderController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Policy = "CompanyOnly")]
+    [Authorize(Policy = CompanyOnlyPolicyName)]
     public async Task<IActionResult> AllCompanyOrders()
     {
         try
@@ -217,7 +218,7 @@ public class OrderController : BaseController
     }
 
     [HttpPost]
-    [Authorize(Policy = "CompanyOnly")]
+    [Authorize(Policy = CompanyOnlyPolicyName)]
     public async Task<IActionResult> MarkAsFulfilled(string orderItemId)
     {
         var orderItemExists = await _orderService.OrderItemExistsAsync(orderItemId);

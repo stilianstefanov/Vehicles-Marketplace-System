@@ -28,6 +28,14 @@ public class CartConfiguration : IEntityTypeConfiguration<Cart>
 
         carts.Add(cart);
 
+        cart = new Cart()
+        {
+            Id = Guid.Parse("3226EE7E-6E28-4C7C-B338-9EA6DF852957"),
+            UserId = Guid.Parse("EC09BD2A-4C64-476D-9997-E732562B0AB1"),
+        };
+
+        carts.Add(cart);
+
         return carts;
     }
 }

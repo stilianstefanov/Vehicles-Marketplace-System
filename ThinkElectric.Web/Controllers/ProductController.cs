@@ -11,6 +11,7 @@ using Infrastructure.Extensions;
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
+using static Common.GeneralApplicationConstants;
 
 public class ProductController : BaseController
 {
@@ -95,7 +96,7 @@ public class ProductController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Policy = "CompanyOnly")]
+    [Authorize(Policy = CompanyOrAdminPolicyName)]
     public async Task<IActionResult> Edit(string id)
     {
         var product = await _productService.GetProductByIdAsync(id);
@@ -126,7 +127,7 @@ public class ProductController : BaseController
     }
 
     [HttpPost]
-    [Authorize(Policy = "CompanyOnly")]
+    [Authorize(Policy = CompanyOrAdminPolicyName)]
     public async Task<IActionResult> Delete(string id)
     {
         var productExists = await _productService.ProductExistsAsync(id);
@@ -140,7 +141,7 @@ public class ProductController : BaseController
 
         var isUserAuthorized = await _productService.IsUserAuthorizedAsync(id, User.GetCompanyId()!);
 
-        if (!isUserAuthorized)
+        if (!isUserAuthorized && !User.IsAdmin())
         {
             TempData[ErrorMessage] = UnauthorizedErrorMessage;
 

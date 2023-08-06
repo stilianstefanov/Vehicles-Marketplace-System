@@ -57,10 +57,10 @@ public class CartService : ICartService
         return cartItemExists;
     }
 
-    public async Task<bool> IsUserAuthorizedAsync(string id, string? getId)
+    public async Task<bool> IsUserAuthorizedAsync(string id, string? userId)
     {
         bool isUserAuthorized = await _dbContext.CartItems
-            .AnyAsync(ci => ci.Id.ToString() == id && ci.Cart.UserId.ToString() == getId);
+            .AnyAsync(ci => ci.Id.ToString() == id && ci.Cart.UserId.ToString() == userId);
 
         return isUserAuthorized;
     }
@@ -75,10 +75,10 @@ public class CartService : ICartService
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<IList<CartItemViewModel>> GetAllAsync(string getId)
+    public async Task<IList<CartItemViewModel>> GetAllAsync(string userId)
     {
         IList<CartItemViewModel> cartItems = await _dbContext.CartItems
-            .Where(ci => ci.Cart.UserId.ToString() == getId)
+            .Where(ci => ci.Cart.UserId.ToString() == userId)
             .Select(ci => new CartItemViewModel()
             {
                 Id = ci.Id.ToString(),

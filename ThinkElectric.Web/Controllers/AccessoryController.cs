@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using ViewModels.Accessory;
 using Data.Models.Enums.Product;
+using Infrastructure.Extensions;
 
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
+using static Common.GeneralApplicationConstants;
 
 
 public class AccessoryController : BaseController
@@ -32,14 +34,14 @@ public class AccessoryController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Policy = "CompanyOnly")]
+    [Authorize(Policy = CompanyOnlyPolicyName)]
     public IActionResult Create()
     {
         return View();
     }
 
     [HttpPost]
-    [Authorize(Policy = "CompanyOnly")]
+    [Authorize(Policy = CompanyOnlyPolicyName)]
     public async Task<IActionResult> Create(AccessoryCreateViewModel accessoryModel)
     {
         if (!ModelState.IsValid)
@@ -63,7 +65,7 @@ public class AccessoryController : BaseController
 
         try
         {
-            var companyId = User.FindFirst("companyId")!.Value;
+            var companyId = User.GetCompanyId()!;
 
             var imageId = await _imageService.CreateAsync(accessoryModel.Product.ImageFile);
 
@@ -111,7 +113,7 @@ public class AccessoryController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Policy = "CompanyOnly")]
+    [Authorize(Policy = CompanyOrAdminPolicyName)]
     public async Task<IActionResult> Edit(string id)
     {
         var isAccessoryExisting = await _accessoryService.IsAccessoryExistingAsync(id);
@@ -123,9 +125,9 @@ public class AccessoryController : BaseController
             return RedirectToAction("Index", "Home");
         }
 
-        var isUserAuthorized = await _accessoryService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+        var isUserAuthorized = await _accessoryService.IsUserAuthorizedToEditAsync(id, User.GetCompanyId()!);
 
-        if (!isUserAuthorized)
+        if (!isUserAuthorized && !User.IsAdmin())
         {
             TempData[ErrorMessage] = UnauthorizedErrorMessage;
             return RedirectToAction("Index", "Home");
@@ -148,7 +150,7 @@ public class AccessoryController : BaseController
     }
 
     [HttpPost]
-    [Authorize(Policy = "CompanyOnly")]
+    [Authorize(Policy = CompanyOrAdminPolicyName)]
     public async Task<IActionResult> Edit([FromForm]AccessoryEditViewModel accessoryModel, string id)
     {
         var isAccessoryExisting = await _accessoryService.IsAccessoryExistingAsync(id);
@@ -160,9 +162,9 @@ public class AccessoryController : BaseController
             return RedirectToAction("Index", "Home");
         }
 
-        var isUserAuthorized = await _accessoryService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+        var isUserAuthorized = await _accessoryService.IsUserAuthorizedToEditAsync(id, User.GetCompanyId()!);
 
-        if (!isUserAuthorized)
+        if (!isUserAuthorized && !User.IsAdmin())
         {
             TempData[ErrorMessage] = UnauthorizedErrorMessage;
             return RedirectToAction("Index", "Home");

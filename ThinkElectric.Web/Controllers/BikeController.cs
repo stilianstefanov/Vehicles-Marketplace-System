@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Data.Models.Enums.Product;
+using Infrastructure.Extensions;
 using Services.Contracts;
 using ViewModels.Bike;
 
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
+using static Common.GeneralApplicationConstants;
 
 public class BikeController : BaseController
 {
@@ -31,14 +33,14 @@ public class BikeController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Policy = "CompanyOnly")]
+    [Authorize(Policy = CompanyOnlyPolicyName)]
     public IActionResult Create()
     {
         return View();
     }
 
     [HttpPost]
-    [Authorize(Policy = "CompanyOnly")]
+    [Authorize(Policy = CompanyOnlyPolicyName)]
     public async Task<IActionResult> Create(BikeCreateViewModel bikeModel)
     {
         if (!ModelState.IsValid)
@@ -62,7 +64,7 @@ public class BikeController : BaseController
 
         try
         {
-            var companyId = User.FindFirst("companyId")!.Value;
+            var companyId = User.GetCompanyId()!;
 
             var imageId = await _imageService.CreateAsync(bikeModel.Product.ImageFile);
 
@@ -110,7 +112,7 @@ public class BikeController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Policy = "CompanyOnly")]
+    [Authorize(Policy = CompanyOrAdminPolicyName)]
     public async Task<IActionResult> Edit(string id)
     {
         var isBikeExisting = await _bikeService.IsBikeExistingAsync(id);
@@ -122,9 +124,9 @@ public class BikeController : BaseController
             return RedirectToAction("Index", "Home");
         }
 
-        var isUserAuthorized = await _bikeService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+        var isUserAuthorized = await _bikeService.IsUserAuthorizedToEditAsync(id, User.GetCompanyId()!);
 
-        if (!isUserAuthorized)
+        if (!isUserAuthorized && !User.IsAdmin())
         {
             TempData[ErrorMessage] = UnauthorizedErrorMessage;
 
@@ -148,7 +150,7 @@ public class BikeController : BaseController
     }
 
     [HttpPost]
-    [Authorize(Policy = "CompanyOnly")]
+    [Authorize(Policy = CompanyOrAdminPolicyName)]
     public async Task<IActionResult> Edit([FromForm] BikeEditViewModel bikeModel, string id)
     {
         var isBikeExisting = await _bikeService.IsBikeExistingAsync(id);
@@ -160,9 +162,9 @@ public class BikeController : BaseController
             return RedirectToAction("Index", "Home");
         }
 
-        var isUserAuthorized = await _bikeService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+        var isUserAuthorized = await _bikeService.IsUserAuthorizedToEditAsync(id, User.GetCompanyId()!);
 
-        if (!isUserAuthorized)
+        if (!isUserAuthorized && !User.IsAdmin())
         {
             TempData[ErrorMessage] = UnauthorizedErrorMessage;
 

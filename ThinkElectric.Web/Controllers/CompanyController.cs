@@ -11,6 +11,7 @@ using Infrastructure.Extensions;
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
+using static Common.GeneralApplicationConstants;
 
 
 public class CompanyController : BaseController
@@ -193,8 +194,8 @@ public class CompanyController : BaseController
         }
     }
 
-    [Authorize(Policy = "CompanyOnly")]
     [HttpGet]
+    [Authorize(Policy = CompanyOrAdminPolicyName)]
     public async Task<IActionResult> Edit(string id)
     {
         var companyExists = await _companyService.CompanyExistsByIdAsync(id);
@@ -208,7 +209,7 @@ public class CompanyController : BaseController
 
         var isUserCompanyOwner = await _companyService.IsUserCompanyOwnerAsync(id, User.GetId()!);
 
-        if (!isUserCompanyOwner)
+        if (!isUserCompanyOwner && !User.IsAdmin())
         {
             this.TempData[ErrorMessage] = NotOwnerOfCompanyErrorMessage;
 
@@ -231,8 +232,8 @@ public class CompanyController : BaseController
         }
     }
 
-    [Authorize(Policy = "CompanyOnly")]
     [HttpPost]
+    [Authorize(Policy = CompanyOrAdminPolicyName)]
     public async Task<IActionResult> Edit([FromForm] CompanyEditViewModel model, string id)
     {
         var companyExists = await _companyService.CompanyExistsByIdAsync(id);
@@ -246,7 +247,7 @@ public class CompanyController : BaseController
 
         var isUserCompanyOwner = await _companyService.IsUserCompanyOwnerAsync(id, User.GetId()!);
 
-        if (!isUserCompanyOwner)
+        if (!isUserCompanyOwner && !User.IsAdmin())
         {
             this.TempData[ErrorMessage] = NotOwnerOfCompanyErrorMessage;
 

@@ -11,8 +11,9 @@ using Infrastructure.Extensions;
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
+using static Common.GeneralApplicationConstants;
 
-[Authorize(Policy = "BuyerOnly")]
+[Authorize(Policy = BuyerOrAdminPolicyName)]
 public class AddressController : BaseController
 {
     private readonly IAddressService _addressService;

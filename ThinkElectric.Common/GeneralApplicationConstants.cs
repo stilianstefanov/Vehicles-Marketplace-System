@@ -11,4 +11,10 @@ public static class GeneralApplicationConstants
     public const string AdminRoleName = "Administrator";
 
     public const string DevelopmentAdminEmail = "admin@abv.bg";
+
+    public const string CompanyOnlyPolicyName = "CompanyOnly";
+
+    public const string BuyerOrAdminPolicyName = "BuyerOrAdmin";
+
+    public const string CompanyOrAdminPolicyName = "CompanyOrAdmin";
 }

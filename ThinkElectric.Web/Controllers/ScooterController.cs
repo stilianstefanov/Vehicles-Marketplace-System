@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Data.Models.Enums.Product;
+using Infrastructure.Extensions;
 using Services.Contracts;
 using ViewModels.Scooter;
 
 using static Common.ErrorMessages;
 using static Common.NotificationsMessagesConstants;
 using static Common.GeneralMessages;
+using static Common.GeneralApplicationConstants;
 
 public class ScooterController : BaseController
 {
@@ -31,14 +33,14 @@ public class ScooterController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Policy = "CompanyOnly")]
+    [Authorize(Policy = CompanyOnlyPolicyName)]
     public IActionResult Create()
     {
         return View();
     }
 
     [HttpPost]
-    [Authorize(Policy = "CompanyOnly")]
+    [Authorize(Policy = CompanyOnlyPolicyName)]
     public async Task<IActionResult> Create(ScooterCreateViewModel scooterModel)
     {
         if (!ModelState.IsValid)
@@ -109,7 +111,7 @@ public class ScooterController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Policy = "CompanyOnly")]
+    [Authorize(Policy = CompanyOrAdminPolicyName)]
     public async Task<IActionResult> Edit(string id)
     {
         var isScooterExisting = await _scooterService.IsScooterExistingAsync(id);
@@ -120,9 +122,9 @@ public class ScooterController : BaseController
             return RedirectToAction("Index", "Home");
         }
 
-        var isUserAuthorized = await _scooterService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+        var isUserAuthorized = await _scooterService.IsUserAuthorizedToEditAsync(id, User.GetCompanyId()!);
 
-        if (!isUserAuthorized)
+        if (!isUserAuthorized && !User.IsAdmin())
         {
             TempData[ErrorMessage] = UnauthorizedErrorMessage;
             return RedirectToAction("Index", "Home");
@@ -145,7 +147,7 @@ public class ScooterController : BaseController
     }
 
     [HttpPost]
-    [Authorize(Policy = "CompanyOnly")]
+    [Authorize(Policy = CompanyOrAdminPolicyName)]
     public async Task<IActionResult> Edit([FromForm] ScooterEditViewModel scooterModel, string id)
     {
         var isScooterExisting = await _scooterService.IsScooterExistingAsync(id);
@@ -156,9 +158,9 @@ public class ScooterController : BaseController
             return RedirectToAction("Index", "Home");
         }
 
-        var isUserAuthorized = await _scooterService.IsUserAuthorizedToEditAsync(id, User.FindFirst("companyId")!.Value);
+        var isUserAuthorized = await _scooterService.IsUserAuthorizedToEditAsync(id, User.GetCompanyId()!);
 
-        if (!isUserAuthorized)
+        if (!isUserAuthorized && !User.IsAdmin())
         {
             TempData[ErrorMessage] = UnauthorizedErrorMessage;
             return RedirectToAction("Index", "Home");

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThinkElectric.Data;
 
@@ -11,9 +12,10 @@ using ThinkElectric.Data;
 namespace ThinkElectric.Data.Migrations
 {
     [DbContext(typeof(ThinkElectricDbContext))]
-    partial class ThinkElectricDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230806104018_SeedAdminCart")]
+    partial class SeedAdminCart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -359,7 +361,7 @@ namespace ThinkElectric.Data.Migrations
                         {
                             Id = new Guid("ec09bd2a-4c64-476d-9997-e732562b0ab1"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2c10c135-0ed2-4aba-9f8d-0c48c495b3dd",
+                            ConcurrencyStamp = "e9ed10a9-b088-49af-812f-013d73283438",
                             Email = "admin@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -367,7 +369,7 @@ namespace ThinkElectric.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ABV.BG",
                             NormalizedUserName = "ADMIN@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAENI/69zN7D7TmZXjnlERXesSJCN2zV2ArWxPTfiQ457kAy/bHVXCPQbkxtZYtpufXQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEE+iOxjH5Clt7n/JzZMqxNh9uS1wgJGMMDwFw0p8zZDlQ4cq1ZeWu7FAQvLPpvNOhQ==",
                             PhoneNumber = "0888888888",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -377,7 +379,7 @@ namespace ThinkElectric.Data.Migrations
                         {
                             Id = new Guid("95f65567-3392-47fd-ae6a-95d16dfdbfe2"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ed8b4047-46bd-421c-be59-1269c4a4983b",
+                            ConcurrencyStamp = "a62e9847-6af3-41ef-bc6c-0b6242039a84",
                             Email = "companyuser1@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "CompanyUser1",
@@ -385,7 +387,7 @@ namespace ThinkElectric.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "COMPANYUSER1@ABV.BG",
                             NormalizedUserName = "COMPANYUSER1@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGoG4IAYGlDkSMAufFkNAFurwiCmDsB/ysqpQcPU96ADKFiH5zHLdrUOD0wHtx0q4Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAxmL5iaONPZc94InrI5O0XQk+g7IrgM/3FUaj7eP0oQwKBATZJUylI620XGHfojSQ==",
                             PhoneNumber = "0999999999",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -395,7 +397,7 @@ namespace ThinkElectric.Data.Migrations
                         {
                             Id = new Guid("553d4978-b893-4670-8808-3c91d6165c82"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4f75fbf5-0c72-4255-bfe1-a8d264ea7635",
+                            ConcurrencyStamp = "1ff44686-9096-475e-a07d-7ef1df892326",
                             Email = "companyuser2@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "CompanyUser2",
@@ -403,7 +405,7 @@ namespace ThinkElectric.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "COMPANYUSER2@ABV.BG",
                             NormalizedUserName = "COMPANYUSER2@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE2XDA/3LhEvslpelN9wIgplIiqf2iV6WlkdJDFcxffuVwV9Thf49i76Db7M2iSrcg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG3w7xQ3gX5RdfEV8DtLCfEZ+xmi2OYMpmkcgmHkbpatf9l7HSnHOsCQze/WS2nteA==",
                             PhoneNumber = "0777777777",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -413,7 +415,7 @@ namespace ThinkElectric.Data.Migrations
                         {
                             Id = new Guid("a44dad0e-bd5f-4394-9f8d-ad5a31e5c24b"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "873cf8cd-ace7-4e58-8557-ca8277f7741e",
+                            ConcurrencyStamp = "b2fac17b-cbae-4c21-a1b1-55e9ca03b74a",
                             Email = "buyeruser@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "BuyerUser",
@@ -421,7 +423,7 @@ namespace ThinkElectric.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "BUYERUSER@ABV.BG",
                             NormalizedUserName = "BUYERUSER@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGNouWLZAywVqcIa8NqiBpUN496er82aiVXk0WRyLzQVrDGDTV6vRsF+5Z1w98MXqA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEO5B5WoPz4HJca1eQT4iYY55bQqF2FP7389cRDn36+BRofGP7K7sdhmXoBxGELfJKQ==",
                             PhoneNumber = "0666666666",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -1081,7 +1083,7 @@ namespace ThinkElectric.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c1007106-b91c-4bba-9517-d91eec70cc91"),
+                            Id = new Guid("6ed89d48-5868-4939-bded-039f5a44960e"),
                             Battery = "Li-Ion 60V 24.5Ah",
                             BrakesType = 3,
                             Brand = "Kaabo",
@@ -1100,7 +1102,7 @@ namespace ThinkElectric.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a4ac8b34-4a66-4022-a03f-ce8ca411a38f"),
+                            Id = new Guid("cb924236-c377-4fa6-b337-eeabd776bed8"),
                             Battery = "Li-Ion 60V 18.5Ah",
                             BrakesType = 2,
                             Brand = "Kaabo",
@@ -1119,7 +1121,7 @@ namespace ThinkElectric.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f474d048-fd43-4795-a86b-1c77f57e2535"),
+                            Id = new Guid("7c215b7a-0c3e-49ab-86c8-c8d7d84f1866"),
                             Battery = "Li-Ion 47V 12.5Ah",
                             BrakesType = 1,
                             Brand = "Xiaomi",
@@ -1138,7 +1140,7 @@ namespace ThinkElectric.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d29b190b-82f0-4b9a-bed8-002b3e2a464e"),
+                            Id = new Guid("e0acf67e-7717-4b50-8cd8-807434b82a1d"),
                             Battery = "Li-Ion 47V 10.5Ah",
                             BrakesType = 1,
                             Brand = "Xiaomi",
@@ -1157,7 +1159,7 @@ namespace ThinkElectric.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("22cc4ae0-2d70-45ee-8302-956fae8bbf0d"),
+                            Id = new Guid("48334f42-e1a2-4f15-8cae-af34a4921d24"),
                             Battery = "Li-Ion 47V 13.5Ah",
                             BrakesType = 1,
                             Brand = "Xiaomi",

@@ -41,6 +41,7 @@ public class ScooterConfiguration : IEntityTypeConfiguration<Scooter>
 
         scooter = new Scooter()
         {
+            Id = Guid.Parse("C1007106-B91C-4BBA-9517-D91EEC70CC91"),
             Brand = "Kaabo",
             Model = "Mantis King",
             Color = "Black",
@@ -62,6 +63,7 @@ public class ScooterConfiguration : IEntityTypeConfiguration<Scooter>
 
         scooter = new Scooter()
         {
+            Id = Guid.Parse("A4AC8B34-4A66-4022-A03F-CE8CA411A38F"),
             Brand = "Kaabo",
             Model = "Mantis 10 Pro",
             Color = "Red",
@@ -83,6 +85,7 @@ public class ScooterConfiguration : IEntityTypeConfiguration<Scooter>
 
         scooter = new Scooter()
         {
+            Id = Guid.Parse("F474D048-FD43-4795-A86B-1C77F57E2535"),
             Brand = "Xiaomi",
             Model = "Mi Pro 2",
             Color = "Black",
@@ -104,6 +107,7 @@ public class ScooterConfiguration : IEntityTypeConfiguration<Scooter>
 
         scooter = new Scooter()
         {
+            Id = Guid.Parse("D29B190B-82F0-4B9A-BED8-002B3E2A464E"),
             Brand = "Xiaomi",
             Model = "Mi 365",
             Color = "White",
@@ -125,6 +129,7 @@ public class ScooterConfiguration : IEntityTypeConfiguration<Scooter>
 
         scooter = new Scooter()
         {
+            Id = Guid.Parse("22CC4AE0-2D70-45EE-8302-956FAE8BBF0D"),
             Brand = "Xiaomi",
             Model = "Mi Amg",
             Color = "Gray",
