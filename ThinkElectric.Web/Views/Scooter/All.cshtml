@@ -8,7 +8,9 @@
 @{
     bool isUserRegisteredAsACompany = User.HasClaim("companyUser", "");
 
-    string currentUserCompanyId = "";
+    string currentUserCompanyId = string.Empty;
+
+    bool isUserAdmin = User.IsAdmin();
 
     if (isUserRegisteredAsACompany)
     {
@@ -18,6 +20,7 @@
 
 <input type="hidden" id="isUserRegisteredAsACompany" value="@isUserRegisteredAsACompany.ToString().ToLower()" />
 <input type="hidden" id="currentUserCompanyId" value="@currentUserCompanyId.ToLower()" />
+<input type="hidden" id="isUserAdmin" value="@isUserAdmin.ToString().ToLower()" />
 
 <div class="text-center mt-3">
     <h2>Scooters</h2>

@@ -1,14 +1,17 @@
 ﻿@using ThinkElectric.Web.Infrastructure.Extensions
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+
 @{
     ViewBag.Title = "Accessory List";
 }
 
 
 @{
-    bool isUserRegisteredAsACompany = User.HasClaim("companyUser", "");
+    bool isUserRegisteredAsACompany = User.HasClaim("companyUser", string.Empty);
 
-    string currentUserCompanyId = "";
+    bool isUserAdmin = User.IsAdmin();
+
+    string currentUserCompanyId = string.Empty;
 
     if (isUserRegisteredAsACompany)
     {
@@ -18,6 +21,7 @@
 
 <input type="hidden" id="isUserRegisteredAsACompany" value="@isUserRegisteredAsACompany.ToString().ToLower()" />
 <input type="hidden" id="currentUserCompanyId" value="@currentUserCompanyId.ToLower()" />
+<input type="hidden" id="isUserAdmin" value="@isUserAdmin.ToString().ToLower()" />
 
 <div class="text-center mt-3">
     <h2>Accessories</h2>

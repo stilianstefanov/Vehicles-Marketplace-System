@@ -5,6 +5,8 @@
 
     var currentUserCompanyId = $('#currentUserCompanyId').val();
 
+    var isUserAdmin = $('#isUserAdmin').val() === 'true';
+
     var url = window.location.href;
     var parts = url.split('/');
     var companyId = parts.pop();
@@ -92,7 +94,7 @@
                         card += '<a href="/Cart/AddToCart/' + product.id + '" class="btn btn-success">Add to Cart</a>' +
                             '<a href="/Review/AddToProduct/' + product.id + '" class="btn btn-info">Add Review</a>';
                     }
-                    else if (product.companyId.toLowerCase() == currentUserCompanyId) {
+                    if (product.companyId.toLowerCase() == currentUserCompanyId || isUserAdmin) {
                         card += '<a href="/Product/Edit/' + product.id + '" class="btn btn-warning">Edit</a>' +
                             '<a href="/Product/Details/' + product.id + '" class="btn btn-danger">Delete</a>';
                     }

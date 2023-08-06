@@ -5,6 +5,8 @@
 
     var currentUserCompanyId = $('#currentUserCompanyId').val();
 
+    var isUserAdmin = $('#isUserAdmin').val() === 'true';
+
     loadData();
 
     $('#search').on('input', function () {
@@ -151,11 +153,10 @@
                             scooter.product.id +
                             '" class="btn btn-info">Add Review</a>';
                     }
-                    else if (scooter.product.companyId.toLowerCase() == currentUserCompanyId) {
+                    if (scooter.product.companyId.toLowerCase() == currentUserCompanyId || isUserAdmin) {
                         card += '<a href="/Product/Edit/' + scooter.product.id + '" class="btn btn-warning">Edit</a>' +
                             '<a href="/Product/Details/' + scooter.product.id + '" class="btn btn-danger">Delete</a>';
                     }
-
 
                     card += '</div>' + '</div>' + '</div>';
 

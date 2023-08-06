@@ -9,7 +9,9 @@
 @{
     bool isUserRegisteredAsACompany = User.HasClaim("companyUser", "");
 
-    string currentUserCompanyId = "";
+    string currentUserCompanyId = string.Empty;
+
+    bool isUserAdmin = User.IsAdmin();
 
     if (isUserRegisteredAsACompany)
     {
@@ -71,7 +73,7 @@
                             <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@scooterProduct.Id" class="btn btn-success">Add To Cart</a>
                             <a asp-controller="Review" asp-action="AddToProduct" asp-route-id="@scooterProduct.Id" class="btn btn-info">Add Review</a>
                         }
-                        else if (scooterProduct.CompanyId.ToLower() == currentUserCompanyId.ToLower())
+                        @if (scooterProduct.CompanyId.ToLower() == currentUserCompanyId.ToLower() || isUserAdmin)
                         {
                             <a asp-controller="Product" asp-action="Edit" asp-route-id="@scooterProduct.Id" class="btn btn-warning">Edit</a>
                             <a asp-controller="Product" asp-action="Details" asp-route-id="@scooterProduct.Id" class="btn btn-danger">Delete</a>
@@ -105,7 +107,7 @@
                             <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@bikeProduct.Id" class="btn btn-success">Add To Cart</a>
                             <a asp-controller="Review" asp-action="AddToProduct" asp-route-id="@bikeProduct.Id" class="btn btn-info">Add Review</a>
                         }
-                        else if (bikeProduct.CompanyId.ToLower() == currentUserCompanyId.ToLower())
+                        @if (bikeProduct.CompanyId.ToLower() == currentUserCompanyId.ToLower() || isUserAdmin)
                         {
                             <a asp-controller="Product" asp-action="Edit" asp-route-id="@bikeProduct.Id" class="btn btn-warning">Edit</a>
                             <a asp-controller="Product" asp-action="Details" asp-route-id="@bikeProduct.Id" class="btn btn-danger">Delete</a>
@@ -139,7 +141,7 @@
                             <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@accessoryProduct.Id" class="btn btn-success">Add To Cart</a>
                             <a asp-controller="Review" asp-action="AddToProduct" asp-route-id="@accessoryProduct.Id" class="btn btn-info">Add Review</a>
                         }
-                        else if (accessoryProduct.CompanyId.ToLower() == currentUserCompanyId.ToLower())
+                        @if (accessoryProduct.CompanyId.ToLower() == currentUserCompanyId.ToLower() || isUserAdmin)
                         {
                             <a asp-controller="Product" asp-action="Edit" asp-route-id="@accessoryProduct.Id" class="btn btn-warning">Edit</a>
                             <a asp-controller="Product" asp-action="Details" asp-route-id="@accessoryProduct.Id" class="btn btn-danger">Delete</a>

@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using ThinkElectric.Web.Infrastructure.Extensions
 @model AccessoryDetailsViewModel
 
 @{
@@ -9,6 +10,8 @@
     bool isUserCompany = User.HasClaim("companyUser", "");
 
     string userCompanyId = string.Empty;
+
+    bool isUserAdmin = User.IsAdmin();
 
     if (isUserCompany)
     {
@@ -75,7 +78,7 @@
                     <input type="text" class="form-control details-field" id="compatibleModel" value="@Model.CompatibleModel" readonly>
                 </div>
             </form>
-            @if (isUserCompany && userCompanyId.ToLower() == Model.Product.CompanyId.ToLower())
+            @if (isUserCompany && userCompanyId.ToLower() == Model.Product.CompanyId.ToLower() || isUserAdmin)
             {
                 <div class="btn-group col-md-6 mt-3" role="group">
                     <a type="button" class="btn btn-warning" asp-controller="Accessory" asp-action="Edit" asp-route-id="@Model.Id">Edit Details</a>
@@ -85,7 +88,7 @@
                     </form>
                 </div>
             }
-            else if (!isUserCompany)
+            @if (!isUserCompany)
             {
                 <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.ProductId">Add to Cart</a>
                 <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Review" asp-action="AddToProduct" asp-route-id="@Model.ProductId">Add Review</a>

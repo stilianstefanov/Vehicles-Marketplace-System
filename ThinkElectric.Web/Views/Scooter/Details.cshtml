@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using ThinkElectric.Web.Infrastructure.Extensions
 @model ScooterDetailsViewModel
 
 @{
@@ -10,9 +11,11 @@
 
     string userCompanyId = string.Empty;
 
+    bool isUserAdmin = User.IsAdmin();
+
 if (isUserCompany)
     {
-        userCompanyId = User.Claims.FirstOrDefault(x => x.Type == "companyId")!.Value;
+        userCompanyId = User.GetCompanyId()!;
     }
 }
 
@@ -117,7 +120,7 @@ if (isUserCompany)
                     </div>
                 </div>
             </form>
-            @if (isUserCompany && userCompanyId.ToLower() == Model.Product.CompanyId.ToLower())
+            @if (isUserCompany && userCompanyId.ToLower() == Model.Product.CompanyId.ToLower() || isUserAdmin)
             {
                 <div class="btn-group col-md-6 mt-3" role="group">
                     <a type="button" class="btn btn-warning" asp-controller="Scooter" asp-action="Edit" asp-route-id="@Model.Id">Edit Details</a>
@@ -127,7 +130,7 @@ if (isUserCompany)
                     </form>
                 </div>
             }
-            else if (!isUserCompany)
+            @if (!isUserCompany)
             {
                 <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.ProductId">Add to Cart</a>
                 <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Review" asp-action="AddToProduct" asp-route-id="@Model.ProductId">Add Review</a>

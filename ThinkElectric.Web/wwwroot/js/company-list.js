@@ -1,6 +1,11 @@
 ﻿$(document).ready(function () {
     var currentPage = 1;
+
     var isUserRegisteredAsACompany = $('#isUserRegisteredAsACompany').val() === 'true';
+
+    var currentUserCompanyId = $('#currentUserCompanyId').val();
+
+    var isUserAdmin = $('#isUserAdmin').val() === 'true';
 
     loadData();
 
@@ -74,6 +79,9 @@
 
                     if (!isUserRegisteredAsACompany) {
                         card += '<a href="/Review/AddToCompany/' + company.id + '" class="btn btn-info">Add Review</a>';
+                    }
+                    if (company.id.toLowerCase() == currentUserCompanyId || isUserAdmin) {
+                        card += '<a href="/Company/Edit/' + company.id + '" class="btn btn-warning">Edit</a>';
                     }
 
                     card += '</div>' +
