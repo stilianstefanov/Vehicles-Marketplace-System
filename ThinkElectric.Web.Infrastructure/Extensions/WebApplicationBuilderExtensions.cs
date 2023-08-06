@@ -1,7 +1,13 @@
 ﻿namespace ThinkElectric.Web.Infrastructure.Extensions;
 
-using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+
+using Data.Models;
+using static Common.GeneralApplicationConstants;
 
 public static class WebApplicationBuilderExtensions
 {
@@ -32,5 +38,36 @@ public static class WebApplicationBuilderExtensions
 
             services.AddScoped(interfaceType, implementationType);
         }
+    }
+
+    public static IApplicationBuilder SeedAdministrator(this IApplicationBuilder app, string email)
+    {
+        using var serviceScope = app.ApplicationServices.CreateScope();
+
+        IServiceProvider serviceProvider = serviceScope.ServiceProvider;
+
+        var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+        var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+
+        Task.Run(async () =>
+        {
+            if (await roleManager.RoleExistsAsync(AdminRoleName))
+            {
+                return;
+            }
+
+            var role = new IdentityRole<Guid>(AdminRoleName);
+
+            await roleManager.CreateAsync(role);
+
+            var adminUser = await userManager.FindByEmailAsync(email);
+
+            await userManager.AddToRoleAsync(adminUser, AdminRoleName);
+        })
+        .GetAwaiter()
+        .GetResult();
+
+        return app;
     }
 }
