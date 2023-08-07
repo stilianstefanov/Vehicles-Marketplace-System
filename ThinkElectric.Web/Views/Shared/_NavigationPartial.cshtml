@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using ThinkElectric.Services.Contracts
 @using System.Security.Claims
+@using static ThinkElectric.Common.GeneralApplicationConstants
 
 @inject IUserService UserService
 @{
@@ -48,6 +49,14 @@ else if (User.Identity != null && User.Identity.IsAuthenticated && !isRegistered
         </li>
         <li class="nav-item">
             <a class="nav-link" asp-area="" asp-controller="Review" asp-action="Mine">Reviews</a>
+        </li>
+    </ul>
+}
+@if (User.IsInRole(AdminRoleName))
+{
+   <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin Panel</a>
         </li>
     </ul>
 }
