@@ -5,7 +5,7 @@
 }
 
 <div class="container py-5">
-    <form asp-action="Edit" asp-controller="Company" method="post" enctype="multipart/form-data">
+    <form asp-area="" asp-action="Edit" asp-controller="Company" method="post" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-5">
                 <img src="data:@Model.CurrentImage!.ImageType;base64,@Convert.ToBase64String(Model.CurrentImage.Data)" alt="Company Logo" class="img-fluid image-details" />

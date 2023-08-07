@@ -46,7 +46,7 @@
                                         <td>@orderItem.Price</td>
                                         <td>@orderItem.TotalSum</td>
                                         <td>
-                                            <a asp-controller="Company" asp-action="Details" asp-route-id="@orderItem.CompanyId">@orderItem.CompanyName</a>
+                                            <a asp-area="" asp-controller="Company" asp-action="Details" asp-route-id="@orderItem.CompanyId">@orderItem.CompanyName</a>
                                         </td>
                                         <td>@orderItem.Status</td>
                                     </tr>

@@ -47,7 +47,7 @@
                         <td>
                             @if (orderItem.Status != "Fulfilled")
                             {
-                                <form method="post" asp-controller="Order" asp-action="MarkAsFulfilled">
+                                <form method="post" asp-area="" asp-controller="Order" asp-action="MarkAsFulfilled">
                                     <input type="hidden" name="orderItemId" value="@orderItem.Id" />
                                     <button type="submit" class="btn btn-warning">Fulfill</button>
                                 </form>

@@ -143,8 +143,8 @@
             @if (isUserCompany && userCompanyId.ToLower() == Model.Product.CompanyId.ToLower() || isUserAdmin)
             {
                 <div class="btn-group col-md-6 mt-3" role="group">
-                    <a type="button" class="btn btn-warning" asp-controller="Bike" asp-action="Edit" asp-route-id="@Model.Id">Edit Details</a>
-                    <form method="post" asp-controller="Product" asp-action="Delete" onsubmit="return confirm('Are you sure you want to delete this product?')">
+                    <a type="button" class="btn btn-warning" asp-area="" asp-controller="Bike" asp-action="Edit" asp-route-id="@Model.Id">Edit Details</a>
+                    <form method="post" asp-area="" asp-controller="Product" asp-action="Delete" onsubmit="return confirm('Are you sure you want to delete this product?')">
                         <input type="hidden" name="id" value="@Model.ProductId" />
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
@@ -152,8 +152,8 @@
             }
             @if (!isUserCompany)
             {
-                <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.ProductId">Add to Cart</a>
-                <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Review" asp-action="AddToProduct" asp-route-id="@Model.ProductId">Add Review</a>
+                <a type="button" class="btn btn-warning col-md-3 mt-3" asp-area="" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.ProductId">Add to Cart</a>
+                <a type="button" class="btn btn-warning col-md-3 mt-3" asp-area="" asp-controller="Review" asp-action="AddToProduct" asp-route-id="@Model.ProductId">Add Review</a>
             }
         </div>
     </div>

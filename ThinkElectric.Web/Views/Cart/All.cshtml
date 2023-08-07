@@ -1,10 +1,10 @@
-﻿@model IList<ThinkElectric.Web.ViewModels.CartItem.CartItemViewModel>
+﻿@model IList<CartItemViewModel>
 
 <div class="container mt-5">
     <h2 class="text-center mb-4">Cart Items</h2>
     @if (Model.Any())
     {
-        <form asp-action="Create" asp-controller="Order" method="post">
+        <form asp-area="" asp-action="Create" asp-controller="Order" method="post">
             @for (var i = 0; i < Model.Count(); i++)
             {
                 <div class="row mb-3">
@@ -29,7 +29,8 @@
             <button type="submit" class="btn btn-success">Order</button>
         </form>
     }
-    else     {
+    else    
+    {
         <h3 class="text-center">There are no items in your cart</h3>
     }
 </div>

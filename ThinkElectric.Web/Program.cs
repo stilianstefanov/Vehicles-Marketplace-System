@@ -114,6 +114,10 @@ public class Program
 
         app.UseEndpoints(config =>
         {
+            config.MapControllerRoute(
+                name: "areas",
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+            );
             config.MapDefaultControllerRoute();
             config.MapRazorPages();
         });

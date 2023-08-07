@@ -79,14 +79,14 @@
                     </div>
                 </div>
             </form>
-            <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Product" asp-action="AllByCompanyId" asp-route-id="@Model.Id">View Products</a>
+            <a type="button" class="btn btn-warning col-md-3 mt-3" asp-area="" asp-controller="Product" asp-action="AllByCompanyId" asp-route-id="@Model.Id">View Products</a>
             @if (isUserCompanyOwner || isUserAdmin)
             {
-                <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Company" asp-action="Edit" asp-route-id="@Model.Id">Edit Details</a>
+                <a type="button" class="btn btn-warning col-md-3 mt-3" asp-area="" asp-controller="Company" asp-action="Edit" asp-route-id="@Model.Id">Edit Details</a>
             }
             @if (!isUserRegisteredAsACompany)
             {
-                <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Review" asp-action="AddToCompany" asp-route-id="@Model.Id">Add Review</a>
+                <a type="button" class="btn btn-warning col-md-3 mt-3" asp-area="" asp-controller="Review" asp-action="AddToCompany" asp-route-id="@Model.Id">Add Review</a>
             }
         </div>
     </div>

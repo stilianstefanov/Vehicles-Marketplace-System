@@ -18,17 +18,17 @@
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Add Product</a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" asp-controller="Scooter" asp-action="Create">Add Scooter</a>
-                <a class="dropdown-item" asp-controller="Bike" asp-action="Create">Add Bike</a>
-                <a class="dropdown-item" asp-controller="Accessory" asp-action="Create">Add Accessory</a>
+                <a class="dropdown-item" asp-area="" asp-controller="Scooter" asp-action="Create">Add Scooter</a>
+                <a class="dropdown-item" asp-area="" asp-controller="Bike" asp-action="Create">Add Bike</a>
+                <a class="dropdown-item" asp-area="" asp-controller="Accessory" asp-action="Create">Add Accessory</a>
             </div>
         </li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Company</a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" asp-controller="Product" asp-action="AllByCompanyId" asp-route-id="@User.FindFirst("companyId")!.Value">Products</a>
-                <a class="dropdown-item" asp-controller="Order" asp-action="AllCompanyOrders">Orders</a>
-                <a class="dropdown-item" asp-controller="Company" asp-action="Details" asp-route-id="@User.FindFirst("companyId")!.Value">Company Details</a>
+                <a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="AllByCompanyId" asp-route-id="@User.FindFirst("companyId")!.Value">Products</a>
+                <a class="dropdown-item" asp-area="" asp-controller="Order" asp-action="AllCompanyOrders">Orders</a>
+                <a class="dropdown-item" asp-area="" asp-controller="Company" asp-action="Details" asp-route-id="@User.FindFirst("companyId")!.Value">Company Details</a>
             </div>
         </li>
     </ul>

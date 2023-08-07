@@ -8,7 +8,7 @@
 <div class="container">
     <h2>Create Company</h2>
 
-    <form asp-action="Create" asp-controller="Company" method="post" enctype="multipart/form-data">
+    <form asp-area="" asp-action="Create" asp-controller="Company" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label asp-for="Name"></label>
             <input asp-for="Name" class="form-control" />

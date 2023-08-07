@@ -66,7 +66,7 @@
                 <strong>Zip Code:</strong> @Model.Address.ZipCode
             </div>
         </div>
-        <a type="button" class="btn btn-warning col-md-3 mt-3" asp-controller="Address" asp-action="EditUserAddress" asp-route-id="@Model.Id">Edit Address</a>
+        <a type="button" class="btn btn-warning col-md-3 mt-3" asp-area="" asp-controller="Address" asp-action="EditUserAddress" asp-route-id="@Model.Id">Edit Address</a>
     }
     else
     {
@@ -76,19 +76,19 @@
                 <h4>Please add your address to complete the order!</h4>
             </div>
         </div>
-        <a type="button" class="btn btn-success col-md-3 mt-3" asp-controller="Address" asp-action="CreateUserAddress" asp-route-id="@Model.Id">Add Address</a>
+        <a type="button" class="btn btn-success col-md-3 mt-3" asp-area="" asp-controller="Address" asp-action="CreateUserAddress" asp-route-id="@Model.Id">Add Address</a>
     }
     <div class="row mt-4">
         @if (Model.Address != null)
         {
             <div class="col text-center">
-                <form method="post" asp-controller="Order" asp-action="Confirm" asp-route-id="@Model.Id">
+                <form method="post" asp-area="" asp-controller="Order" asp-action="Confirm" asp-route-id="@Model.Id">
                     <button type="submit" class="btn btn-success">Confirm Order</button>
                 </form>
             </div>
         }
         <div class="col text-center">
-            <form method="post" asp-controller="Order" asp-action="Cancel" asp-route-id="@Model.Id">
+            <form method="post" asp-area="" asp-controller="Order" asp-action="Cancel" asp-route-id="@Model.Id">
                 <button type="submit" class="btn btn-danger">Cancel Order</button>
             </form>
         </div>
