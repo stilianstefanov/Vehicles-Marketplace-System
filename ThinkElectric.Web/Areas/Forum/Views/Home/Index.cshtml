@@ -1,4 +1,5 @@
-﻿@model IEnumerable<PostAllViewModel>
+﻿@using ThinkElectric.Web.Infrastructure.Extensions
+@model IEnumerable<PostAllViewModel>
 @{
     ViewBag.Title = "Forum";
 }
@@ -9,22 +10,37 @@
 </div>
 @if (Model.Any())
 {
-    <div class="row">
+    <div class="row mt-4">
         @foreach (var post in Model)
         {
-            <div class="col-sm-6">
-                <div class="card ">
+            <div class="col-sm-6 mt-3">
+                <div class="card">
                     <div class="card-body">
                         <h4 class="card-title text-center">@post.Title</h4>
                         <p class="card-text">@post.Content</p>
-                        <div class="d-grid gap-2">
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="mb-0"><strong>User:</strong> @post.UserFullName</p>
+                                <p class="mb-0"><strong>Added On:</strong> @post.CreatedOn</p>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <p class="mb-0"><strong>Comments Count:</strong> @post.CommentsCount</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-grid gap-2">
+                        <a asp-area="" asp-controller="" asp-action="" asp-route-id="@post.Id" class="btn btn-info">View</a>
+                        @if (post.UserId.ToLower() == User.GetId()!.ToLower() || User.IsAdmin())
+                        {
                             <a asp-area="" asp-controller="" asp-action="" asp-route-id="@post.Id" class="btn btn-warning">Edit</a>
                             <form class="mt-2" asp-area="" asp-controller="" asp-action="" asp-route-id="@post.Id">
                                 <div class="d-grid gap-2">
-                                    <input type="submit" value="Delete" class="btn btn-danger mb-2" onclick="return confirm('Are you sure you want to delete the post?')" />
+                                    <input type="submit" value="Delete" class="btn btn-danger mb-2" onclick="return confirm('Are you sure you want to delete the post?')"/>
                                 </div>
                             </form>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>

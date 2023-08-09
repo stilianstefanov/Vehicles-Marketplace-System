@@ -31,7 +31,8 @@ public class PostService : IPostService
                 Content = p.Content,
                 CreatedOn = p.CreatedOn.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
                 UserFullName = p.User.FirstName + " " + p.User.LastName,
-                CommentsCount = p.Comments.Count(c => !c.IsDeleted)
+                CommentsCount = p.Comments.Count(c => !c.IsDeleted),
+                UserId = p.UserId.ToString(),
             })
             .ToArrayAsync();
 

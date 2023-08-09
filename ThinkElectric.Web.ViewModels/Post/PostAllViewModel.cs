@@ -12,5 +12,7 @@ public class PostAllViewModel
 
     public string UserFullName { get; set; } = null!;
 
+    public string UserId { get; set; } = null!;
+
     public int CommentsCount { get; set; }
 }
