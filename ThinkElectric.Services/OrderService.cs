@@ -133,7 +133,7 @@ public class OrderService : IOrderService
             {
                 CreatedOn = o.CreatedOn.ToString("dd/MM/yyyy HH:mm"),
                 TotalSum = o.OrderItems.Sum(oi => oi.Product.Price * oi.Quantity).ToString("F2"),
-                Status = o.OrderItems.Any(o => !o.IsFulfilled) ? "Not Fulfilled" : "Fulfilled",
+                Status = o.OrderItems.Any(oi => !oi.IsFulfilled) ? "Not Fulfilled" : "Fulfilled",
                 OrderItems = o.OrderItems.Select(oi => new OrderItemBuyerViewModel()
                     {
                         ProductName = oi.Product.Name,
@@ -205,5 +205,35 @@ public class OrderService : IOrderService
         orderItem.IsFulfilled = true;
 
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<OrderAllAdminViewModel>> GetAllOrdersAsync()
+    {
+        IEnumerable<OrderAllAdminViewModel> orderModels = await _dbContext
+            .Orders
+            .Where(o => o.IsConfirmedByUser)
+            .OrderByDescending(o => o.CreatedOn)
+            .Select(o => new OrderAllAdminViewModel()
+            {
+                UserFullName = o.User.FirstName + " " + o.User.LastName,
+                UserEmail = o.User.Email,
+                CreatedOn = o.CreatedOn.ToString("dd/MM/yyyy HH:mm"),
+                TotalSum = o.OrderItems.Sum(oi => oi.Product.Price * oi.Quantity).ToString("F2"),
+                Status = o.OrderItems.Any(oi => !oi.IsFulfilled) ? "Not Fulfilled" : "Fulfilled",
+                OrderItems = o.OrderItems.Select(oi => new OrderItemBuyerViewModel()
+                    {
+                        ProductName = oi.Product.Name,
+                        Price = oi.Product.Price.ToString("F2"),
+                        Quantity = oi.Quantity,
+                        TotalSum = (oi.Product.Price * oi.Quantity).ToString("F2"),
+                        Status = oi.IsFulfilled ? "Fulfilled" : "Not Fulfilled",
+                        CompanyName = oi.Product.Company.Name,
+                        CompanyId = oi.Product.CompanyId.ToString(),
+                    })
+                    .ToArray()
+            })
+            .ToArrayAsync();
+
+        return orderModels;
     }
 }

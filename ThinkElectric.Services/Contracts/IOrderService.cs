@@ -18,4 +18,5 @@ public interface IOrderService
     Task<bool> OrderItemExistsAsync(string orderItemId);
     Task<bool> IsOrderItemFromCompanyAsync(string orderItemId, string companyId);
     Task MarkAsFulfilledAsync(string orderItemId);
+    Task<IEnumerable<OrderAllAdminViewModel>> GetAllOrdersAsync();
 }

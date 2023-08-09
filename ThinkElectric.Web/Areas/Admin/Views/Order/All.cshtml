@@ -1,0 +1,71 @@
+﻿@model IEnumerable<OrderAllAdminViewModel>
+
+@{
+    ViewBag.Title = "All Orders";
+}
+
+<div class="container mt-4">
+    <h3 class="text-center">Orders</h3>
+    @foreach (var order in Model)
+    {
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Order @order.CreatedOn</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <strong>By User: </strong> @order.UserFullName
+                    </div>
+                    <div class="col">
+                        <strong>User Email: </strong> @order.UserEmail
+                    </div>
+                    <div class="col">
+                        <strong>Created On:</strong> @order.CreatedOn
+                    </div>
+                    <div class="col">
+                        <strong>Total:</strong> @order.TotalSum
+                    </div>
+                    <div class="col">
+                        <strong>Status:</strong> @order.Status
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total Price</th>
+                                    <th>Company</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var orderItem in order.OrderItems)
+                                {
+                                    <tr>
+                                        <td>@orderItem.ProductName</td>
+                                        <td>@orderItem.Quantity</td>
+                                        <td>@orderItem.Price</td>
+                                        <td>@orderItem.TotalSum</td>
+                                        <td>
+                                            <a asp-area="" asp-controller="Company" asp-action="Details" asp-route-id="@orderItem.CompanyId">@orderItem.CompanyName</a>
+                                        </td>
+                                        <td>@orderItem.Status</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @if (!@Model.Any())
+    {
+        <h3 class="text-center mt-5">No Orders!</h3>
+    }
+</div>
