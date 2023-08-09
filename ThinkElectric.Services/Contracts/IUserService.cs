@@ -20,4 +20,7 @@ public interface IUserService
     Task AddAddressToUserAsync(string userId, string addressId);
     Task BlockUserByIdAsync(string userId);
     Task UnblockUserByIdAsync(string userId);
+    Task<IEnumerable<UserAdminAllViewModel>> GetAllUsersForAdminAsync();
+    Task<bool> IsUserRegisteredAsCompanyAsync(string id);
+    Task<string> GetCompanyIdByUserIdAsync(string id);
 }

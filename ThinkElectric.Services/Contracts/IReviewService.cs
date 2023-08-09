@@ -16,4 +16,5 @@ public interface IReviewService
     Task DeleteAsync(string id);
     Task<ReviewEditViewModel> GetForEditAsync(string id);
     Task EditAsync(ReviewEditViewModel reviewModel, string id);
+    Task DeleteAllReviewsByUserIdAsync(string userId);
 }

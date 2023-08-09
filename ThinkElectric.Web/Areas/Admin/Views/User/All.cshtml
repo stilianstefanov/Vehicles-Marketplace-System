@@ -1,0 +1,55 @@
+﻿@model IEnumerable<UserAdminAllViewModel>
+
+@{
+    ViewBag.Title = "Admin Users";
+}
+
+<div class="container mt-5">
+
+    <h2 class="text-center mb-3">Users</h2>
+
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Phone Number</th>
+                <th>User Type</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Email</td>
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>@user.UserType</td>
+                    <td>@user.Status</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            @if (user.Status == "Active")
+                            {
+                                <form method="post" asp-area="Admin" asp-controller="User" asp-action="Block" onsubmit="return confirm('Are you sure you want to block this user?')">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button type="submit" class="btn btn-danger">Block</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form method="post" asp-area="Admin" asp-controller="User" asp-action="Unblock" onsubmit="return confirm('Are you sure you want to unblock this user?')">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button type="submit" class="btn btn-success">Unblock</button>
+                                </form>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

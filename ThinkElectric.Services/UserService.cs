@@ -92,7 +92,9 @@ public class UserService : IUserService
 
     public async Task<bool> UserExistsByIdAsync(string userId)
     {
-        ApplicationUser? user = await _userManager.FindByIdAsync(userId);
+        ApplicationUser? user = await _userManager
+            .Users
+            .FirstOrDefaultAsync(u => u.Id.ToString() == userId);
 
         if (user == null)
         {
@@ -147,5 +149,44 @@ public class UserService : IUserService
         user.IsBlocked = false;
 
         await _userManager.UpdateAsync(user);
+    }
+
+    public async Task<IEnumerable<UserAdminAllViewModel>> GetAllUsersForAdminAsync()
+    {
+        IEnumerable<UserAdminAllViewModel> users = await _userManager
+            .Users
+            .Select(u => new UserAdminAllViewModel()
+            {
+                Id = u.Id.ToString(),
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                PhoneNumber = u.PhoneNumber,
+                UserType = u.Company == null ? "Buyer" : "Company",
+                Status = u.IsBlocked ? "Blocked" : "Active"
+            })
+            .ToArrayAsync();
+
+        return users;
+    }
+
+    public async Task<bool> IsUserRegisteredAsCompanyAsync(string id)
+    {
+        bool isUserRegisteredAsCompany = await _userManager
+            .Users
+            .AnyAsync(u => u.Id.ToString() == id && u.Company != null);
+
+        return isUserRegisteredAsCompany;
+    }
+
+    public async Task<string> GetCompanyIdByUserIdAsync(string id)
+    {
+        string companyId = await _userManager
+            .Users
+            .Where(u => u.Id.ToString() == id)
+            .Select(u => u.Company!.Id.ToString())
+            .FirstAsync();
+
+        return companyId;
     }
 }

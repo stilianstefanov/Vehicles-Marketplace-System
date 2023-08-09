@@ -177,4 +177,16 @@ public class ReviewService : IReviewService
 
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task DeleteAllReviewsByUserIdAsync(string userId)
+    {
+        IEnumerable<Review> reviews = await _dbContext            
+            .Reviews
+            .Where(r => r.UserId.ToString() == userId)
+            .ToArrayAsync();
+
+        _dbContext.Reviews.RemoveRange(reviews);
+
+        await _dbContext.SaveChangesAsync();
+    }
 }
