@@ -40,7 +40,7 @@
                         <td>@company.Status</td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a asp-area="" asp-controller="Company" asp-action="Details" asp-route-id="@company.Id" class="btn btn-success">View</a>
+                                <a asp-area="" asp-controller="Company" asp-action="Details" asp-route-id="@company.Id" class="btn btn-primary">View</a>
                                 <a asp-area="" asp-controller="Company" asp-action="Edit" asp-route-id="@company.Id" class="btn btn-warning">Edit</a>
                                 @if (company.Status == "Active")
                                 {
@@ -53,7 +53,7 @@
                                 {
                                 <form method="post" asp-area="Admin" asp-controller="Company" asp-action="Unblock" onsubmit="return confirm('Are you sure you want to unblock this company?')">
                                     <input type="hidden" name="id" value="@company.Id" />
-                                    <button type="submit" class="btn btn-danger">Unblock</button>
+                                    <button type="submit" class="btn btn-success">Unblock</button>
                                 </form>
                                 }
                             </div>

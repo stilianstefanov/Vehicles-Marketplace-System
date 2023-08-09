@@ -1,5 +1,6 @@
 ﻿namespace ThinkElectric.Services;
 
+using System.Globalization;
 using Microsoft.EntityFrameworkCore;
 
 using Contracts;
@@ -327,6 +328,46 @@ public class ProductService : IProductService
             product.IsDeleted = false;
         }
         
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<ProductAdminAllViewModel>> GetAllProductsForAdminAsync()
+    {
+        IEnumerable<ProductAdminAllViewModel> products = await _dbContext
+            .Products
+            .Select(p => new ProductAdminAllViewModel()
+            {
+                Id = p.Id.ToString(),
+                Name = p.Name,
+                Price = p.Price.ToString("f2"),
+                Quantity = p.Quantity.ToString(),
+                CreatedOn = p.CreatedOn.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                ProductType = p.ProductType.ToString(),
+                Status = p.IsDeleted ? "Deleted" : "Active",
+            })
+            .ToArrayAsync();
+
+        return products;
+    }
+
+    public async Task<bool> ProductExistsForAdminAsync(string id)
+    {
+        bool productExists = await _dbContext
+            .Products
+            .AnyAsync(p => p.Id.ToString() == id);
+
+        return productExists;
+    }
+
+    public async Task RestoreProductAsync(string id)
+    {
+        Product product = await _dbContext
+            .Products
+            .Where(p => p.Id.ToString() == id)
+            .FirstAsync();
+
+        product.IsDeleted = false;
+
         await _dbContext.SaveChangesAsync();
     }
 }

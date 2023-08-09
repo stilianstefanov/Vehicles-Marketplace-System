@@ -21,4 +21,7 @@ public interface IProductService
     Task DeleteAsync(string id);
     Task DeleteAllProductsByCompanyIdAsync(string companyId);
     Task RestoreAllProductsByCompanyIdAsync(string id);
+    Task<IEnumerable<ProductAdminAllViewModel>> GetAllProductsForAdminAsync();
+    Task<bool> ProductExistsForAdminAsync(string id);
+    Task RestoreProductAsync(string id);
 }
