@@ -12,6 +12,7 @@ public class ApplicationUser : IdentityUser<Guid>
         Id = Guid.NewGuid();
         Reviews = new HashSet<Review>();
         Orders = new HashSet<Order>();
+        Posts = new HashSet<Post>();
     }
 
     [Required]
@@ -35,4 +36,8 @@ public class ApplicationUser : IdentityUser<Guid>
     public ICollection<Review> Reviews { get; set; }
 
     public ICollection<Order> Orders { get; set; }
+
+    public ICollection<Post> Posts { get; set; }
+
+    public ICollection<Comment> Comments { get; set; }
 }

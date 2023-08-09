@@ -37,6 +37,10 @@ public class ThinkElectricDbContext : IdentityDbContext<ApplicationUser, Identit
 
     public DbSet<Scooter> Scooters { get; set; } = null!;
 
+    public DbSet<Post> Posts { get; set; } = null!;
+
+    public DbSet<Comment> Comments { get; set; } = null!;
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -48,6 +52,7 @@ public class ThinkElectricDbContext : IdentityDbContext<ApplicationUser, Identit
         builder.ApplyConfiguration(new ScooterConfiguration());
         builder.ApplyConfiguration(new BikeConfiguration());
         builder.ApplyConfiguration(new AccessoryConfiguration());
+        builder.ApplyConfiguration(new PostConfiguration());
 
         base.OnModelCreating(builder);
     }

@@ -347,4 +347,22 @@ public static class EntityValidationConstants
 
         public const int SortingMinValue = 0;
     }
+
+    public static class Post
+    {
+        public const int TitleMaxLength = 100;
+
+        public const int TitleMinValue = 5;
+
+        public const int ContentMaxLength = 1000;
+
+        public const int ContentMinValue = 10;
+    }
+
+    public static class Comment
+    {
+        public const int ContentMaxLength = 1000;
+
+        public const int ContentMinValue = 10;
+    }
 }

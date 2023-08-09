@@ -19,4 +19,6 @@ public static class GeneralApplicationConstants
     public const string CompanyOrAdminPolicyName = "CompanyOrAdmin";
 
     public const string AdminAreaName = "Admin";
+
+    public const string ForumAreaName = "Forum";
 }
