@@ -16,8 +16,8 @@
             <div class="col-sm-6 mt-3">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title text-center">@post.Title</h4>
-                        <p class="card-text">@post.Content</p>
+                        <h4 class="card-title text-center">@TruncateString(post.Title, 50)</h4>
+                        <p class="card-text">@TruncateString(post.Content, 70)</p>
                     </div>
                     <div class="card-footer">
                         <div class="row">
@@ -50,4 +50,15 @@
 else
 {
     <p class="text-center">No posts yet!</p>
+}
+
+@functions {
+    public string TruncateString(string input, int maxLength)
+    {
+        if (input.Length > maxLength)
+        {
+            return input.Substring(0, maxLength) + "...";
+        }
+        return input;
+    }
 }
