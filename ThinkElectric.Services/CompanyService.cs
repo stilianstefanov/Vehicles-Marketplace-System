@@ -258,5 +258,28 @@
 
             return company.UserId.ToString();
         }
+
+        public async Task<bool> CompanyExistsByIdForAdminAsync(string id)
+        {
+            bool hasCompany = await _dbContext.
+                Companies.
+                AnyAsync(c => c.Id.ToString() == id);
+
+            return hasCompany;
+        }
+
+        public async Task<string> UnblockCompanyByIdAsync(string id)
+        {
+            Company company = await _dbContext
+                .Companies
+                .Where(c => c.Id.ToString() == id)
+                .FirstAsync();
+
+            company.IsBlocked = false;
+
+            await _dbContext.SaveChangesAsync();
+
+            return company.UserId.ToString();
+        }
     }
 }

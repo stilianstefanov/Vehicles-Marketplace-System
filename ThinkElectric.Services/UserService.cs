@@ -139,4 +139,13 @@ public class UserService : IUserService
 
         await _userManager.UpdateAsync(user);
     }
+
+    public async Task UnblockUserByIdAsync(string userId)
+    {
+        ApplicationUser user = await _userManager.FindByIdAsync(userId);
+
+        user.IsBlocked = false;
+
+        await _userManager.UpdateAsync(user);
+    }
 }

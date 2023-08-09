@@ -51,7 +51,7 @@
                                 }
                                 else
                                 {
-                                <form method="post" asp-area="Admin" asp-controller="Company" asp-action="" onsubmit="return confirm('Are you sure you want to unblock this company?')">
+                                <form method="post" asp-area="Admin" asp-controller="Company" asp-action="Unblock" onsubmit="return confirm('Are you sure you want to unblock this company?')">
                                     <input type="hidden" name="id" value="@company.Id" />
                                     <button type="submit" class="btn btn-danger">Unblock</button>
                                 </form>

@@ -17,4 +17,6 @@ public interface ICompanyService
     Task<CompaniesAllQueryModel> AllAsync(CompaniesAllQueryModel queryModel);
     Task<IEnumerable<CompanyAdminAllViewModel>> GetAllCompaniesForAdminAsync();
     Task<string> BlockCompanyByIdAsync(string id);
+    Task<bool> CompanyExistsByIdForAdminAsync(string id);
+    Task<string> UnblockCompanyByIdAsync(string id);
 }

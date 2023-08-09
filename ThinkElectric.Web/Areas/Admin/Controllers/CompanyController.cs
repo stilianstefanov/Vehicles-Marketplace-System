@@ -40,7 +40,7 @@ public class CompanyController : BaseAdminController
     [HttpPost]
     public async Task<IActionResult> Block(string id)
     {
-        bool companyExists = await _companyService.CompanyExistsByIdAsync(id);
+        bool companyExists = await _companyService.CompanyExistsByIdForAdminAsync(id);
 
         if (!companyExists)
         {
@@ -54,6 +54,32 @@ public class CompanyController : BaseAdminController
             await _userService.BlockUserByIdAsync(userId);
 
             await _productService.DeleteAllProductsByCompanyIdAsync(id);
+
+            return RedirectToAction("All", "Company", new { Area = AdminAreaName });
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Unblock(string id)
+    {
+        bool companyExists = await _companyService.CompanyExistsByIdForAdminAsync(id);
+
+        if (!companyExists)
+        {
+            return GeneralError();
+        }
+
+        try
+        {
+            var userId = await _companyService.UnblockCompanyByIdAsync(id);
+
+            await _userService.UnblockUserByIdAsync(userId);
+
+            await _productService.RestoreAllProductsByCompanyIdAsync(id);
 
             return RedirectToAction("All", "Company", new { Area = AdminAreaName });
         }
