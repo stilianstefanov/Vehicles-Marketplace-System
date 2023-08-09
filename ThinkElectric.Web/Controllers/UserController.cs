@@ -38,36 +38,43 @@ public class UserController : Controller
             return View(model);
         }
 
-        var resultRegister = await _userService.RegisterAsync(model);
-
-        if (resultRegister.Succeeded)
+        try
         {
-            var user = await _userService.GetUserByEmailAsync(model.Email);
+            var resultRegister = await _userService.RegisterAsync(model);
 
-            if (model.IsCompany)
+            if (resultRegister.Succeeded)
             {
-                await _userService.AddClaimAsync(user!.Id.ToString(), "companyUser", "");
+                var user = await _userService.GetUserByEmailAsync(model.Email);
 
-                return RedirectToAction("Create", "Company", new { id = user.Id.ToString() });
+                if (model.IsCompany)
+                {
+                    await _userService.AddClaimAsync(user!.Id.ToString(), "companyUser", "");
+
+                    return RedirectToAction("Create", "Company", new { id = user.Id.ToString() });
+                }
+
+                var cartId = await _cartService.CreateAsync(user!.Id);
+
+                await _userService.AddClaimAsync(user.Id.ToString(), "cartId", cartId);
+
+                await _userService.SignInAsync(user, model.Password, false, false);
+
+                TempData[SuccessMessage] = RegistrationSuccessMessage;
+
+                return RedirectToAction("Index", "Home");
             }
 
-            var cartId = await _cartService.CreateAsync(user!.Id);
+            foreach (var error in resultRegister.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
 
-            await _userService.AddClaimAsync(user.Id.ToString(), "cartId", cartId);
-
-            await _userService.SignInAsync(user, model.Password, false, false);
-
-            TempData[SuccessMessage] = RegistrationSuccessMessage;
-
-            return RedirectToAction("Index", "Home");
+            return View(model);
         }
-
-        foreach (var error in resultRegister.Errors)
+        catch (Exception)
         {
-            ModelState.AddModelError(string.Empty, error.Description);
+            return GeneralError();
         }
-
-        return View(model);
     }
 
     [HttpGet]
@@ -118,6 +125,13 @@ public class UserController : Controller
     public async Task<IActionResult> Logout()
     {
         await _userService.SignOutAsync();
+
+        return RedirectToAction("Index", "Home");
+    }
+
+    private IActionResult GeneralError()
+    {
+        this.TempData[ErrorMessage] = UnexpectedErrorMessage;
 
         return RedirectToAction("Index", "Home");
     }
