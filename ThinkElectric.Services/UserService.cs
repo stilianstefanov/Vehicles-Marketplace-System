@@ -196,4 +196,27 @@ public class UserService : IUserService
 
         return companyId;
     }
+
+    public async Task<IdentityResult> RegisterAdminAsync(RegisterAdminViewModel model)
+    {
+        ApplicationUser user = new ApplicationUser
+        {
+            UserName = model.Email,
+            Email = model.Email,
+            FirstName = model.FirstName,
+            LastName = model.LastName,
+            PhoneNumber = model.PhoneNumber
+        };
+
+        IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+
+        if (result.Succeeded)
+        {
+            await _userManager.AddToRoleAsync(user, AdminRoleName);
+
+            await _userManager.AddClaimAsync(user, new Claim("FullName", $"{user.FirstName} {user.LastName}"));
+        }
+
+        return result;
+    }
 }

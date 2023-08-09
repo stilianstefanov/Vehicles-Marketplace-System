@@ -23,4 +23,5 @@ public interface IUserService
     Task<IEnumerable<UserAdminAllViewModel>> GetAllUsersForAdminAsync();
     Task<bool> IsUserRegisteredAsCompanyAsync(string id);
     Task<string> GetCompanyIdByUserIdAsync(string id);
+    Task<IdentityResult> RegisterAdminAsync(RegisterAdminViewModel model);
 }

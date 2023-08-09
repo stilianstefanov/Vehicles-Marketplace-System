@@ -39,4 +39,6 @@ public static class GeneralMessages
     public const string ReviewEditedSuccessMessage = "You have successfully edited a review!";
 
     public const string ProductDeletedSuccessfullyMessage = "You have successfully deleted the product!";
+
+    public const string AdminRegistrationSuccessMessage = "You have successfully registered an admin!";
 }
