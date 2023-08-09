@@ -18,4 +18,5 @@ public interface IUserService
     Task<string?> GetAddressIdByUserIdAsync(string userId);
     Task<bool> UserHasAddressAsync(string userId);
     Task AddAddressToUserAsync(string userId, string addressId);
+    Task BlockUserByIdAsync(string userId);
 }

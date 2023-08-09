@@ -67,7 +67,7 @@ public class UserService : IUserService
             .Users
             .Include(u => u.Cart)
             .Include(u => u.Company)
-            .FirstOrDefaultAsync(u => u.UserName == email);
+            .FirstOrDefaultAsync(u => u.UserName == email && !u.IsBlocked);
 
         return user;
     }
@@ -127,6 +127,15 @@ public class UserService : IUserService
         ApplicationUser user = await _userManager.FindByIdAsync(userId);
 
         user.AddressId = Guid.Parse(addressId);
+
+        await _userManager.UpdateAsync(user);
+    }
+
+    public async Task BlockUserByIdAsync(string userId)
+    {
+        ApplicationUser user = await _userManager.FindByIdAsync(userId);
+
+        user.IsBlocked = true;
 
         await _userManager.UpdateAsync(user);
     }

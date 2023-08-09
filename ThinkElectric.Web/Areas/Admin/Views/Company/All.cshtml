@@ -1,0 +1,65 @@
+﻿@model IEnumerable<CompanyAdminAllViewModel>
+
+@{
+    ViewBag.Title = "Admin Companies";
+}
+
+<div class="container mt-5">
+
+    <h2 class="text-center mb-3">Companies</h2>
+
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Country</th>
+                    <th>City</th>
+                    <th>Street</th>
+                    <th>ZIP</th>
+                    <th>User Full Name</th>
+                    <th>User Email</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var company in Model)
+                {
+                    <tr>
+                        <td>@company.Name</td>
+                        <td>@company.Email</td>
+                        <td>@company.PhoneNumber</td>
+                        <td>@company.Address.Country</td>
+                        <td>@company.Address.City</td>
+                        <td>@company.Address.Street</td>
+                        <td>@company.Address.ZipCode</td>
+                        <td>@company.UserFullName</td>
+                        <td>@company.UserEmail</td>
+                        <td>@company.Status</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a asp-area="" asp-controller="Company" asp-action="Details" asp-route-id="@company.Id" class="btn btn-success">View</a>
+                                <a asp-area="" asp-controller="Company" asp-action="Edit" asp-route-id="@company.Id" class="btn btn-warning">Edit</a>
+                                @if (company.Status == "Active")
+                                {
+                                    <form method="post" asp-area="Admin" asp-controller="Company" asp-action="Block" onsubmit="return confirm('Are you sure you want to block this company?')">
+                                        <input type="hidden" name="id" value="@company.Id"/>
+                                        <button type="submit" class="btn btn-danger">Block</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                <form method="post" asp-area="Admin" asp-controller="Company" asp-action="" onsubmit="return confirm('Are you sure you want to unblock this company?')">
+                                    <input type="hidden" name="id" value="@company.Id" />
+                                    <button type="submit" class="btn btn-danger">Unblock</button>
+                                </form>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+</div>

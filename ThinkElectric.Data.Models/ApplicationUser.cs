@@ -22,6 +22,8 @@ public class ApplicationUser : IdentityUser<Guid>
     [MaxLength(LastNameMaxLength)]
     public string LastName { get; set; } = null!;
 
+    public bool IsBlocked { get; set; }
+
     public Guid? AddressId { get; set; }
 
     public Address? Address { get; set; }

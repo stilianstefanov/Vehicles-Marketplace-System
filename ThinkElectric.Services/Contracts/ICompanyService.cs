@@ -15,4 +15,6 @@ public interface ICompanyService
     Task<string> GetAddressIdByCompanyIdAsync(string id);
     Task EditAsync(CompanyEditViewModel model, string id);
     Task<CompaniesAllQueryModel> AllAsync(CompaniesAllQueryModel queryModel);
+    Task<IEnumerable<CompanyAdminAllViewModel>> GetAllCompaniesForAdminAsync();
+    Task<string> BlockCompanyByIdAsync(string id);
 }

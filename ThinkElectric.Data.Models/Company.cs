@@ -37,6 +37,8 @@ public class Company
 
     public DateTime FoundedDate { get; set; }
 
+    public bool IsBlocked { get; set; }
+
 
     [MaxLength(ImageIdMaxLength)]
     public string ImageId { get; set; } = null!;

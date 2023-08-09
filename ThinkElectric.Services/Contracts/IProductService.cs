@@ -19,4 +19,5 @@ public interface IProductService
     Task<bool> HasProductQuantityAsync(string id);
     Task<bool> IsUserAuthorizedAsync(string id, string companyId);
     Task DeleteAsync(string id);
+    Task DeleteAllProductsByCompanyIdAsync(string companyId);
 }

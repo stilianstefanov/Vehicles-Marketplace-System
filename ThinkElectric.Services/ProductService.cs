@@ -299,4 +299,19 @@ public class ProductService : IProductService
 
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task DeleteAllProductsByCompanyIdAsync(string companyId)
+    {
+        IEnumerable<Product> products = await _dbContext            
+            .Products
+            .Where(p => p.CompanyId.ToString() == companyId)
+            .ToArrayAsync();
+
+        foreach (Product product in products)
+        { 
+            product.IsDeleted = true;
+        }
+        
+        await _dbContext.SaveChangesAsync();
+    }
 }

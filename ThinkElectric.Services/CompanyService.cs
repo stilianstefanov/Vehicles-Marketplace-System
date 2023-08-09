@@ -6,6 +6,7 @@
     using Data;
     using Data.Models;
     using Microsoft.AspNetCore.Identity;
+    using Web.ViewModels.Address;
     using Web.ViewModels.Company;
     using Web.ViewModels.Company.Enums;
 
@@ -58,7 +59,7 @@
         {
             CompanyDetailsViewModel? model = await _dbContext
                 .Companies
-                .Where(c => c.Id.ToString() == id)
+                .Where(c => c.Id.ToString() == id && !c.IsBlocked)
                 .Select(c => new CompanyDetailsViewModel()
                 {
                     Id = c.Id.ToString(),
@@ -91,7 +92,7 @@
         {
             bool hasCompany = await _dbContext.
                 Companies.
-                AnyAsync(c => c.Id.ToString() == id);
+                AnyAsync(c => c.Id.ToString() == id && !c.IsBlocked);
 
             return hasCompany;
         }
@@ -109,7 +110,7 @@
         {
             CompanyEditViewModel model = await _dbContext
                 .Companies
-                .Where(c => c.Id.ToString() == id)
+                .Where(c => c.Id.ToString() == id && !c.IsBlocked)
                 .Select(c => new CompanyEditViewModel()
                 {
                     Name = c.Name,
@@ -170,6 +171,7 @@
         {
             IQueryable<Company> companiesQuery = _dbContext
                 .Companies
+                .Where(c => !c.IsBlocked)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(queryModel.SearchTerm))
@@ -215,6 +217,46 @@
             queryModel.Companies = allCompanies;
 
             return queryModel;
+        }
+
+        public async Task<IEnumerable<CompanyAdminAllViewModel>> GetAllCompaniesForAdminAsync()
+        {
+            IEnumerable<CompanyAdminAllViewModel> companies = await _dbContext
+                .Companies
+                .Select(c => new CompanyAdminAllViewModel()
+                {
+                    Id = c.Id.ToString(),
+                    Name = c.Name,
+                    Email = c.Email,
+                    PhoneNumber = c.PhoneNumber,
+                    UserFullName = c.User.FirstName + " " + c.User.LastName,
+                    UserEmail = c.User.Email,
+                    Status = c.IsBlocked ? "Blocked" : "Active",
+                    Address = new AddressViewModel()
+                    {
+                        City = c.Address.City,
+                        Country = c.Address.Country,
+                        Street = c.Address.Street,
+                        ZipCode = c.Address.ZipCode
+                    }
+                })
+                .ToArrayAsync();
+
+            return companies;
+        }
+
+        public async Task<string> BlockCompanyByIdAsync(string id)
+        {
+            Company company = await _dbContext
+                .Companies
+                .Where(c => c.Id.ToString() == id)
+                .FirstAsync();
+
+            company.IsBlocked = true;
+
+            await _dbContext.SaveChangesAsync();
+
+            return company.UserId.ToString();
         }
     }
 }
