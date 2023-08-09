@@ -189,4 +189,46 @@ public class ReviewService : IReviewService
 
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<IEnumerable<ReviewProductAdminViewModel>> GetAllProductReviewsAsync()
+    {
+        IEnumerable<ReviewProductAdminViewModel> reviews = await _dbContext
+            .Reviews
+            .Where(r => !string.IsNullOrWhiteSpace(r.ProductId.ToString()))
+            .Select(r => new ReviewProductAdminViewModel()
+            {
+                Id = r.Id.ToString(),
+                Content = r.Content,
+                CreatedOn = r.CreatedOn.ToString("MM/dd/yyyy H:mm"),
+                Rating = r.Rating,
+                ProductId = r.ProductId.ToString()!,
+                ProductName = r.Product!.Name,
+                UserFullName = r.User.FirstName + " " + r.User.LastName,
+                UserEmail = r.User.Email
+            })
+            .ToArrayAsync();
+
+        return reviews;
+    }
+
+    public async Task<IEnumerable<ReviewCompanyAdminViewModel>> GetAllCompanyReviewsAsync()
+    {
+        IEnumerable<ReviewCompanyAdminViewModel> reviews = await _dbContext
+            .Reviews
+            .Where(r => !string.IsNullOrWhiteSpace(r.CompanyId.ToString()))
+            .Select(r => new ReviewCompanyAdminViewModel()
+            {
+                Id = r.Id.ToString(),
+                Content = r.Content,
+                CreatedOn = r.CreatedOn.ToString("MM/dd/yyyy H:mm"),
+                Rating = r.Rating,
+                CompanyId = r.CompanyId.ToString()!,
+                CompanyName = r.Company!.Name,
+                UserFullName = r.User.FirstName + " " + r.User.LastName,
+                UserEmail = r.User.Email
+            })
+            .ToArrayAsync();
+
+        return reviews;
+    }
 }

@@ -183,7 +183,7 @@ public class ReviewController : BaseController
 
         var isUserAuthorized = await _reviewService.IsUserAuthorizedAsync(id, User.GetId()!);
 
-        if (!isUserAuthorized)
+        if (!isUserAuthorized && !User.IsAdmin())
         {
             TempData[ErrorMessage] = UnauthorizedErrorMessage;
             return RedirectToAction("Index", "Home");
@@ -214,7 +214,7 @@ public class ReviewController : BaseController
 
         var isUserAuthorized = await _reviewService.IsUserAuthorizedAsync(id, User.GetId()!);
 
-        if (!isUserAuthorized)
+        if (!isUserAuthorized && !User.IsAdmin())
         {
             TempData[ErrorMessage] = UnauthorizedErrorMessage;
             return RedirectToAction("Index", "Home");
