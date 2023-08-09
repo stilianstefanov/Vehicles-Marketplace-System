@@ -25,6 +25,8 @@ public class Post
 
     public DateTime CreatedOn { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     [ForeignKey(nameof(User))]
     public Guid UserId { get; set; }
 

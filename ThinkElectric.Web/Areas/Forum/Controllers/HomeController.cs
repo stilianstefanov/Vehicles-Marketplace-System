@@ -2,10 +2,28 @@
 
 using Microsoft.AspNetCore.Mvc;
 
+using Services.Contracts;
+
 public class HomeController : BaseForumController
 {
-    public IActionResult Index()
+    private readonly IPostService _postService;
+
+    public HomeController(IPostService postService)
     {
-        return Ok();
+        _postService = postService;
+    }
+
+    public async Task<IActionResult> Index()
+    {
+        try
+        {
+            var posts = await _postService.GetAllPostsAsync();
+
+            return View(posts);
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
     }
 }

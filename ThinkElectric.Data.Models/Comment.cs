@@ -21,6 +21,8 @@ public class Comment
 
     public DateTime CreatedOn { get; set; }
 
+    public bool IsDeleted { get; set; }
+
 
     [Required]
     public Guid PostId { get; set; }

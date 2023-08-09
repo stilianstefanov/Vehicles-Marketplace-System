@@ -12,6 +12,7 @@
                 <div class="form-group">
                     <label asp-for="Content">Content:</label>
                     <textarea asp-for="Content" class="form-control" rows="5" required></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Rating">Rating:</label>
@@ -22,9 +23,14 @@
                             <option value="@i">@i</option>
                         }
                     </select>
+                    <span asp-validation-for="Rating" class="text-danger"></span>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block mt-3">Submit Review</button>
             </form>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -352,17 +352,17 @@ public static class EntityValidationConstants
     {
         public const int TitleMaxLength = 100;
 
-        public const int TitleMinValue = 5;
+        public const int TitleMinLength = 5;
 
         public const int ContentMaxLength = 1000;
 
-        public const int ContentMinValue = 10;
+        public const int ContentMinLength = 10;
     }
 
     public static class Comment
     {
         public const int ContentMaxLength = 1000;
 
-        public const int ContentMinValue = 10;
+        public const int ContentMinLength = 10;
     }
 }
