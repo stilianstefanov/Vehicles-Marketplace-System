@@ -76,4 +76,37 @@ public class UserController : BaseAdminController
             return GeneralError();
         }
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Unblock(string id)
+    {
+        bool userExists = await _userService.UserExistsByIdAsync(id);
+
+        if (!userExists)
+        {
+            return GeneralError();
+        }
+
+        try
+        {
+            bool isRegisteredAsCompany = await _userService.IsUserRegisteredAsCompanyAsync(id);
+
+            if (isRegisteredAsCompany)
+            {
+                string companyId = await _userService.GetCompanyIdByUserIdAsync(id);
+
+                await _companyService.UnblockCompanyByIdAsync(companyId);
+
+                await _productService.RestoreAllProductsByCompanyIdAsync(companyId);
+            }
+
+            await _userService.UnblockUserByIdAsync(id);
+
+            return RedirectToAction("All", "User", new { Area = AdminAreaName });
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
+    }
 }
