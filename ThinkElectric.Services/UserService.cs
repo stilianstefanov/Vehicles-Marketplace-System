@@ -8,6 +8,8 @@ using Contracts;
 using Data.Models;
 using Web.ViewModels.User;
 
+using static Common.GeneralApplicationConstants;
+
 public class UserService : IUserService
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
@@ -153,8 +155,13 @@ public class UserService : IUserService
 
     public async Task<IEnumerable<UserAdminAllViewModel>> GetAllUsersForAdminAsync()
     {
+        var adminUsers = await _userManager.GetUsersInRoleAsync(AdminRoleName);
+
+        IEnumerable<Guid> adminUserIdSet = adminUsers.Select(u => u.Id);
+
         IEnumerable<UserAdminAllViewModel> users = await _userManager
             .Users
+            .Where(u => !adminUserIdSet.Contains(u.Id))
             .Select(u => new UserAdminAllViewModel()
             {
                 Id = u.Id.ToString(),
