@@ -29,18 +29,18 @@ The project is an online marketplace for various types of electric scooters, bic
 ## Users
 -You can test the application with pre-seeded data using the following credentials:
 
-Administrator User
+### Administrator User
 Username: admin@abv.bg
 Password: 123456
 
-Company User
+### Company User
 Username: companyuser1@abv.bg
 Password: 123456
 
-Company User
+### Company User
 Username: companyuser2@abv.bg
 Password: 123456
 
-Regular User(Buyer)
+### Regular User(Buyer)
 Username: buyeruser@abv.bg
 Password: 123456
