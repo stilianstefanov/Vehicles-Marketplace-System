@@ -15,7 +15,7 @@ Welcome to ThinkElectric! Project for educational purposes.
 
 ## Overview
 - "Think Electric" is a web application with educational and demonstrative purposes. 
-The project is an online marketplace for various types of electric scooters, bicycles and accessories. Users can register in 2 main ways - as buyers and as companies, there are different functionalities for the two types of users. The project also contains an admin area that facilitates control and maintenance of the application. There is also a forum area that allows users to communicate.
+The project is an online marketplace for various types of electric scooters, bicycles and accessories. Users can register in 2 main ways - as buyers and as companies, there are different functionalities for the two types of users. The project uses Ajax for dynamic filtering and pagination. It also contains an admin area that facilitates control and maintenance of the application. There is also a forum area that allows users to communicate.
 
 ## Technologies used
 <ul>
@@ -27,6 +27,7 @@ The project is an online marketplace for various types of electric scooters, bic
   <li>NUnit</li>
   <li>MongoDB</li>
   <li>JS</li>
+  <li>Ajax</li>
 </ul>
 
 ## Requirements
