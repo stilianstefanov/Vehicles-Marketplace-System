@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThinkElectric.Common", "Thi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThinkElectric.Web.Infrastructure", "ThinkElectric.Web.Infrastructure\ThinkElectric.Web.Infrastructure.csproj", "{8CEC2247-76A3-4FD3-913A-81D318257348}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThinkElectric.Services.Tests", "ThinkElectric.Services.Tests\ThinkElectric.Services.Tests.csproj", "{29A500B3-172E-4696-BD43-7B95956C7CF3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{8CEC2247-76A3-4FD3-913A-81D318257348}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CEC2247-76A3-4FD3-913A-81D318257348}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CEC2247-76A3-4FD3-913A-81D318257348}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29A500B3-172E-4696-BD43-7B95956C7CF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29A500B3-172E-4696-BD43-7B95956C7CF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29A500B3-172E-4696-BD43-7B95956C7CF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29A500B3-172E-4696-BD43-7B95956C7CF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
