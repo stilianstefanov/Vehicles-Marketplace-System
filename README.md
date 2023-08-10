@@ -7,6 +7,7 @@ Welcome to ThinkElectric! Project for educational purposes.
 
 ## Table of Contents
 - [Overview](#overview)
+- [Technologies used](#technologiesused)
 - [Requirements](#requirements)
 - [Usage](#usage)
 - [Configuration](#configuration)
@@ -15,6 +16,18 @@ Welcome to ThinkElectric! Project for educational purposes.
 ## Overview
 - "Think Electric" is a web application with educational and demonstrative purposes. 
 The project is an online marketplace for various types of electric scooters, bicycles and accessories. Users can register in 2 main ways - as buyers and as companies, there are different functionalities for the two types of users. The project also contains an admin area that facilitates control and maintenance of the application. There is also a forum area that allows users to communicate.
+
+## Technologies used
+<ul>
+  <li>.NET Core 6.0</li>
+  <li>ASP.NET Core</li>
+  <li>Entity Framework Core</li>
+  <li>HTML, CSS, Bootstrap</li>
+  <li>MS SQL Server</li>
+  <li>NUnit</li>
+  <li>MongoDB</li>
+  <li>JS</li>
+</ul>
 
 ## Requirements
 1. Microsoft Sql Server
