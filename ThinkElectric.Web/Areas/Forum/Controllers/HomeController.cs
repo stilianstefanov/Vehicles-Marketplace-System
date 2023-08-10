@@ -13,6 +13,7 @@ public class HomeController : BaseForumController
         _postService = postService;
     }
 
+    [HttpGet]
     public async Task<IActionResult> Index()
     {
         try

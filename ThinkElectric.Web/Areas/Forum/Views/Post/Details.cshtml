@@ -1,4 +1,6 @@
-﻿@model PostDetailsViewModel
+﻿@using ThinkElectric.Web.Infrastructure.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model PostDetailsViewModel
 
 @{
     ViewBag.Title = "Forum Post Details";
@@ -6,14 +8,27 @@
 
 <div class="container mt-5">
     <div class="card">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between align-items-center">
             <h3>@Model.Title</h3>
-            <small>Created on: @Model.CreatedOn</small>
-            <p>By: @Model.UserFullName</p>
-            <p>Comments Count: @Model.CommentsCount</p>
+            @if (Model.UserId.ToLower() == User.GetId()!.ToLower() || User.IsAdmin())
+            {
+                <div class="btn-group">
+                    <a asp-area="Forum" asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                    <form asp-area="Forum" asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Id">
+                        <div class="d-grid gap-2">
+                            <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete the post?')"/>
+                        </div>
+                    </form>
+                </div>
+            }
         </div>
         <div class="card-body">
             <p>@Model.Content</p>
+        </div>
+        <div class="card-body">
+            <small>Created on: @Model.CreatedOn</small>
+            <p>By: @Model.UserFullName</p>
+            <p>Comments Count: @Model.CommentsCount</p>
         </div>
     </div>
 
@@ -28,6 +43,19 @@
                     <blockquote class="blockquote mb-0">
                         <p>@comment.Content</p>
                         <footer class="blockquote-footer">@comment.UserFullName @comment.CreatedOn</footer>
+                        <div class="float-right">
+                            @if (comment.UserId.ToLower() == User.GetId()!.ToLower() || User.IsAdmin())
+                            {
+                                <div class="btn-group">
+                                    <a asp-area="Forum" asp-controller="Comment" asp-action="Edit" asp-route-id="@comment.Id" class="btn btn-warning">Edit</a>
+                                    <form asp-area="Forum" asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id">
+                                        <div class="d-grid gap-2">
+                                            <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete the comment?')"/>
+                                        </div>
+                                    </form>
+                                </div>
+                            }
+                        </div>
                     </blockquote>
                 </div>
             </div>

@@ -66,4 +66,35 @@ public class CommentService : ICommentService
 
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<bool> ExistsAsync(string id)
+    {
+        bool commentExists = await _dbContext
+            .Comments
+            .AnyAsync(c => c.Id.ToString() == id && !c.IsDeleted);
+
+        return commentExists;
+    }
+
+    public async Task<bool> IsUserAuthorizedAsync(string id, string userId)
+    {
+        bool isUserAuthorized = await _dbContext
+            .Comments
+            .AnyAsync(c => c.Id.ToString() == id && c.UserId.ToString() == userId);
+
+        return isUserAuthorized;
+    }
+
+    public async Task<string> DeleteAsync(string id)
+    {
+        Comment comment = await _dbContext
+            .Comments
+            .FirstAsync(c => c.Id.ToString() == id);
+
+        comment.IsDeleted = true;
+
+        await _dbContext.SaveChangesAsync();
+
+        return comment.PostId.ToString();
+    }
 }

@@ -15,6 +15,6 @@ public class BaseForumController : Controller
     {
         this.TempData[ErrorMessage] = UnexpectedErrorMessage;
 
-        return RedirectToAction("Index", "Home", new { Area = AdminAreaName });
+        return RedirectToAction("Index", "Home", new { Area = ForumAreaName });
     }
 }
