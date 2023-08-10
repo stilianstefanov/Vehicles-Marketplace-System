@@ -12,6 +12,7 @@ Welcome to ThinkElectric! Project for educational purposes.
 - [Usage](#usage)
 - [Configuration](#configuration)
 - [Users](#users)
+- [DatabaseDiagram](#databaseDiagram)
 
 ## Overview
 - "Think Electric" is a web application with educational and demonstrative purposes. 
@@ -57,3 +58,6 @@ Password: 123456
 ### Regular User(Buyer)
 Username: buyeruser@abv.bg </br>
 Password: 123456
+
+## DatabaseDiagram
+![Diagram](https://github.com/stilianstefanov/ThinkElectric_ElectricVehiclesMarketPlaceSystem/blob/main/assets/DatabaseDiagram.png)
