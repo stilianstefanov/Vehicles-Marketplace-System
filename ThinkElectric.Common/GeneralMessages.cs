@@ -41,4 +41,8 @@ public static class GeneralMessages
     public const string ProductDeletedSuccessfullyMessage = "You have successfully deleted the product!";
 
     public const string AdminRegistrationSuccessMessage = "You have successfully registered an admin!";
+
+    public const string PostDeleted = "You have successfully deleted the post!";
+
+    public const string PostEdited = "You have successfully edited the post!";
 }

@@ -7,6 +7,7 @@ using Services.Contracts;
 using ViewModels.Post;
 
 using static Common.GeneralApplicationConstants;
+using static Common.EntityValidationConstants.Comment;
 
 public class CommentController : BaseForumController
 {
@@ -22,6 +23,12 @@ public class CommentController : BaseForumController
     [HttpPost]
     public async  Task<IActionResult> Add(PostDetailsViewModel postModel)
     {
+        if (postModel.CurrentComment.Content.Length < ContentMinLength || 
+            postModel.CurrentComment.Content.Length > ContentMaxLength)
+        {
+            return RedirectToAction("Details", "Post", new { area = ForumAreaName, id = postModel.Id });
+        }
+
         bool postExists = await _postService.ExistsAsync(postModel.Id);
 
         if (!postExists)

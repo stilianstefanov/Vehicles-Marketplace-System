@@ -82,4 +82,51 @@ public class PostService : IPostService
 
         return postExists;
     }
+
+    public async Task DeleteAsync(string id)
+    {
+        Post post = await _dbContext
+            .Posts
+            .FirstAsync(p => p.Id.ToString() == id);
+
+        post.IsDeleted = true;
+
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<bool> IsUserAuthorizedAsync(string id, string userId)
+    {
+        bool isUserAuthorized = await _dbContext
+            .Posts
+            .AnyAsync(p => p.Id.ToString() == id && p.UserId.ToString() == userId);
+
+        return isUserAuthorized;
+    }
+
+    public async Task<PostEditViewModel> GetEditViewModelAsync(string id)
+    {
+        PostEditViewModel post = await _dbContext          
+            .Posts
+            .Where(p => p.Id.ToString() == id)
+            .Select(p => new PostEditViewModel()
+            {
+                Title = p.Title,
+                Content = p.Content,
+            })
+            .FirstAsync();
+
+        return post;
+    }
+
+    public async Task EditAsync(PostEditViewModel postModel, string id)
+    {
+        Post post = await _dbContext           
+            .Posts
+            .FirstAsync(p => p.Id.ToString() == id);
+
+        post.Title = postModel.Title;
+        post.Content = postModel.Content;
+
+        await _dbContext.SaveChangesAsync();
+    }
 }

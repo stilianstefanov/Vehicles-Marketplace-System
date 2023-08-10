@@ -51,4 +51,19 @@ public class CommentService : ICommentService
 
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task DeleteAllCommentsByPostIdAsync(string id)
+    {
+        IEnumerable<Comment> comments = await _dbContext        
+            .Comments
+            .Where(c => c.PostId.ToString() == id)
+            .ToArrayAsync();
+
+        foreach (Comment comment in comments)
+        {
+            comment.IsDeleted = true;
+        }
+
+        await _dbContext.SaveChangesAsync();
+    }
 }

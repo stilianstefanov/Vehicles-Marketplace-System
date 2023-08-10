@@ -34,8 +34,8 @@
                         <a asp-area="Forum" asp-controller="Post" asp-action="Details" asp-route-id="@post.Id" class="btn btn-info">View</a>
                         @if (post.UserId.ToLower() == User.GetId()!.ToLower() || User.IsAdmin())
                         {
-                            <a asp-area="" asp-controller="" asp-action="" asp-route-id="@post.Id" class="btn btn-warning">Edit</a>
-                            <form class="mt-2" asp-area="" asp-controller="" asp-action="" asp-route-id="@post.Id">
+                            <a asp-area="Forum" asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id" class="btn btn-warning">Edit</a>
+                            <form class="mt-2" asp-area="Forum" asp-controller="Post" asp-action="Delete" asp-route-id="@post.Id">
                                 <div class="d-grid gap-2">
                                     <input type="submit" value="Delete" class="btn btn-danger mb-2" onclick="return confirm('Are you sure you want to delete the post?')"/>
                                 </div>
