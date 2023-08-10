@@ -10,7 +10,6 @@ Welcome to ThinkElectric! Project for educational purposes.
 - [Technologies used](#technologiesused)
 - [Requirements](#requirements)
 - [Usage](#usage)
-- [Configuration](#configuration)
 - [Users](#users)
 - [DatabaseDiagram](#databasediagram)
 
