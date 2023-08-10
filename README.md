@@ -12,7 +12,7 @@ Welcome to ThinkElectric! Project for educational purposes.
 - [Usage](#usage)
 - [Configuration](#configuration)
 - [Users](#users)
-- [DatabaseDiagram](#databaseDiagram)
+- [DatabaseDiagram](#databasediagram)
 
 ## Overview
 - "Think Electric" is a web application with educational and demonstrative purposes. 
