@@ -45,4 +45,8 @@ public static class GeneralMessages
     public const string PostDeleted = "You have successfully deleted the post!";
 
     public const string PostEdited = "You have successfully edited the post!";
+
+    public const string CommentDeleted = "You have successfully deleted the comment!";
+
+    public const string CommentEdited = "You have successfully edited the comment!";
 }

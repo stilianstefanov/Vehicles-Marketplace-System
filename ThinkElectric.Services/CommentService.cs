@@ -97,4 +97,31 @@ public class CommentService : ICommentService
 
         return comment.PostId.ToString();
     }
+
+    public async Task<CommentEditViewModel> GetCommentForEditAsync(string id)
+    {
+        CommentEditViewModel comment = await _dbContext          
+            .Comments
+            .Where(c => c.Id.ToString() == id)
+            .Select(c => new CommentEditViewModel()
+            {
+                Content = c.Content,
+            })
+            .FirstAsync();
+
+        return comment;
+    }
+
+    public async Task<string> EditAsync(CommentEditViewModel commentModel, string id)
+    {
+        Comment comment = await _dbContext
+            .Comments
+            .FirstAsync(c => c.Id.ToString() == id);
+
+        comment.Content = commentModel.Content;
+
+        await _dbContext.SaveChangesAsync();
+
+        return comment.PostId.ToString();
+    }
 }

@@ -11,4 +11,6 @@ public interface ICommentService
     Task<bool> ExistsAsync(string id);
     Task<bool> IsUserAuthorizedAsync(string id, string userId);
     Task<string> DeleteAsync(string id);
+    Task<CommentEditViewModel> GetCommentForEditAsync(string id);
+    Task<string> EditAsync(CommentEditViewModel commentModel, string id);
 }

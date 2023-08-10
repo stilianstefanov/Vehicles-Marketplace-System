@@ -4,12 +4,14 @@ using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Contracts;
+using ViewModels.Comment;
 using ViewModels.Post;
 
 using static Common.GeneralApplicationConstants;
 using static Common.EntityValidationConstants.Comment;
 using static Common.NotificationsMessagesConstants;
 using static Common.ErrorMessages;
+using static Common.GeneralMessages;
 
 public class CommentController : BaseForumController
 {
@@ -72,6 +74,77 @@ public class CommentController : BaseForumController
         try
         {
             var postId = await _commentService.DeleteAsync(id);
+
+            TempData[SuccessMessage] = CommentDeleted;
+
+            return RedirectToAction("Details", "Post", new { area = ForumAreaName, id = postId });
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(string id)
+    {
+        bool commentExists = await _commentService.ExistsAsync(id);
+
+        if (!commentExists)
+        {
+            return GeneralError();
+        }
+
+        bool isUserAuthorized = await _commentService.IsUserAuthorizedAsync(id, User.GetId()!);
+
+        if (!isUserAuthorized && !User.IsAdmin())
+        {
+            TempData[ErrorMessage] = UnauthorizedErrorMessage;
+
+            return RedirectToAction("Index", "Home", new { area = ForumAreaName });
+        }
+
+        try
+        {
+            var comment = await _commentService.GetCommentForEditAsync(id);
+
+            return View(comment);
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(CommentEditViewModel commentModel, string id)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(commentModel);
+        }
+
+        bool commentExists = await _commentService.ExistsAsync(id);
+
+        if (!commentExists)
+        {
+            return GeneralError();
+        }
+
+        bool isUserAuthorized = await _commentService.IsUserAuthorizedAsync(id, User.GetId()!);
+
+        if (!isUserAuthorized && !User.IsAdmin())
+        {
+            TempData[ErrorMessage] = UnauthorizedErrorMessage;
+
+            return RedirectToAction("Index", "Home", new { area = ForumAreaName });
+        }
+
+        try
+        {
+            var postId = await _commentService.EditAsync(commentModel, id);
+
+            TempData[SuccessMessage] = CommentEdited;
 
             return RedirectToAction("Details", "Post", new { area = ForumAreaName, id = postId });
         }
