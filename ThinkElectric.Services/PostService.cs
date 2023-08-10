@@ -53,4 +53,33 @@ public class PostService : IPostService
 
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<PostDetailsViewModel?> GetDetailsAsync(string id)
+    {
+        PostDetailsViewModel? post = await _dbContext
+            .Posts
+            .Where(p => p.Id.ToString() == id)
+            .Select(p => new PostDetailsViewModel()
+            {
+                Id = p.Id.ToString(),
+                Title = p.Title,
+                Content = p.Content,
+                CreatedOn = p.CreatedOn.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                UserFullName = p.User.FirstName + " " + p.User.LastName,
+                CommentsCount = p.Comments.Count(c => !c.IsDeleted),
+                UserId = p.UserId.ToString()
+            })
+            .FirstOrDefaultAsync();
+
+        return post;
+    }
+
+    public async Task<bool> ExistsAsync(string id)
+    {
+        bool postExists = await _dbContext
+            .Posts
+            .AnyAsync(p => p.Id.ToString() == id && !p.IsDeleted);
+
+        return postExists;
+    }
 }

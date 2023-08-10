@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="card-footer d-grid gap-2">
-                        <a asp-area="" asp-controller="" asp-action="" asp-route-id="@post.Id" class="btn btn-info">View</a>
+                        <a asp-area="Forum" asp-controller="Post" asp-action="Details" asp-route-id="@post.Id" class="btn btn-info">View</a>
                         @if (post.UserId.ToLower() == User.GetId()!.ToLower() || User.IsAdmin())
                         {
                             <a asp-area="" asp-controller="" asp-action="" asp-route-id="@post.Id" class="btn btn-warning">Edit</a>
