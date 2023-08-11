@@ -20,5 +20,5 @@ public class ProductDetailsViewModel
 
     public string Rating => Reviews.Any() ? Reviews.Average(r => r.Rating).ToString("f1") : "0";
 
-    public IEnumerable<ReviewViewModel> Reviews { get; set; } = null!;
+    public IEnumerable<ReviewViewModel> Reviews { get; set; } = new HashSet<ReviewViewModel>();
 }
