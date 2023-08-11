@@ -28,6 +28,7 @@ The project is an online marketplace for various types of electric scooters, bic
   <li>MongoDB</li>
   <li>JS</li>
   <li>Ajax</li>
+  <li>Moq</li>
 </ul>
 
 ## Requirements
