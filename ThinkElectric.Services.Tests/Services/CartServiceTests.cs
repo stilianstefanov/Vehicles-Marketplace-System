@@ -1,10 +1,12 @@
-﻿namespace ThinkElectric.Services.Tests;
+﻿namespace ThinkElectric.Tests.Services;
 
 using Microsoft.EntityFrameworkCore;
 
-using Contracts;
 using Data;
+using ThinkElectric.Services;
+using ThinkElectric.Services.Contracts;
 using Web.ViewModels.CartItem;
+
 using static DatabaseSeeder;
 
 public class CartServiceTests
@@ -20,7 +22,7 @@ public class CartServiceTests
         _dbOptions = new DbContextOptionsBuilder<ThinkElectricDbContext>()
             .UseInMemoryDatabase("ThinElectricInMemory" + Guid.NewGuid().ToString())
             .Options;
-        _dbContext = new ThinkElectricDbContext(this._dbOptions);
+        _dbContext = new ThinkElectricDbContext(_dbOptions);
 
         _dbContext.Database.EnsureCreated();
 
@@ -159,7 +161,7 @@ public class CartServiceTests
     public async Task AreCartItemsValidAsync_ShouldReturnTrue()
     {
         var cartItems = new List<CartItemViewModel>();
-        
+
         var cartItem = new CartItemViewModel
         {
             ProductId = TestProduct.Id.ToString(),
@@ -174,7 +176,7 @@ public class CartServiceTests
 
         cartItems.Add(cartItem);
         cartItems.Add(cartItem2);
-        
+
         bool areCartItemsValid = await _cartService.AreCartItemsValidAsync(cartItems);
 
         Assert.IsTrue(areCartItemsValid);

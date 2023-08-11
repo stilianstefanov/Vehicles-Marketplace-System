@@ -1,14 +1,14 @@
 #pragma warning disable NUnit2005
-namespace ThinkElectric.Services.Tests;
+namespace ThinkElectric.Tests.Services;
 
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
 
-using Contracts;
 using Data;
 using Data.Models.Enums.Product;
-using MongoDB.Bson;
+using ThinkElectric.Services;
+using ThinkElectric.Services.Contracts;
 using Web.ViewModels.Product;
-
 using static DatabaseSeeder;
 
 public class ProductServiceTests
@@ -25,7 +25,7 @@ public class ProductServiceTests
         _dbOptions = new DbContextOptionsBuilder<ThinkElectricDbContext>()
             .UseInMemoryDatabase("ThinElectricInMemory" + Guid.NewGuid().ToString())
             .Options;
-        _dbContext = new ThinkElectricDbContext(this._dbOptions);
+        _dbContext = new ThinkElectricDbContext(_dbOptions);
 
         _dbContext.Database.EnsureCreated();
 
@@ -108,7 +108,7 @@ public class ProductServiceTests
     [Test]
     public async Task DeleteAsync_DeletesEntityProperly()
     {
-       var productId = TestProduct.Id.ToString();
+        var productId = TestProduct.Id.ToString();
 
         await _productService.DeleteAsync(productId);
 

@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThinkElectric.Common", "Thi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThinkElectric.Web.Infrastructure", "ThinkElectric.Web.Infrastructure\ThinkElectric.Web.Infrastructure.csproj", "{8CEC2247-76A3-4FD3-913A-81D318257348}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThinkElectric.Services.Tests", "ThinkElectric.Services.Tests\ThinkElectric.Services.Tests.csproj", "{29A500B3-172E-4696-BD43-7B95956C7CF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThinkElectric.Tests", "ThinkElectric.Services.Tests\ThinkElectric.Tests.csproj", "{29A500B3-172E-4696-BD43-7B95956C7CF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,9 +1,9 @@
-﻿namespace ThinkElectric.Services.Tests;
+﻿namespace ThinkElectric.Tests;
 
 using Data;
 using Data.Models;
-using Data.Models.Enums.Product;
 using Data.Models.Enums.Bike;
+using Data.Models.Enums.Product;
 using Data.Models.Enums.Scooter;
 
 public static class DatabaseSeeder
