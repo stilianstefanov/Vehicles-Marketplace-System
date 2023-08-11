@@ -56,6 +56,10 @@ public class ReviewController : BaseController
     [HttpPost]
     public async Task<IActionResult> AddToProduct(ReviewAddViewModel reviewModel, string id)
     {
+        if (!ModelState.IsValid)
+        {
+            return View(reviewModel);
+        }
 
         var productExists = await _productService.ProductExistsAsync(id);
 
@@ -72,11 +76,6 @@ public class ReviewController : BaseController
             TempData[ErrorMessage] = AlreadyReviewedProductErrorMessage;
 
             return RedirectToAction("Details", "Product", new { id });
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return View(reviewModel);
         }
 
         try
@@ -119,6 +118,11 @@ public class ReviewController : BaseController
     [HttpPost]
     public async Task<IActionResult> AddToCompany(ReviewAddViewModel reviewModel, string id)
     {
+        if (!ModelState.IsValid)
+        {
+            return View(reviewModel);
+        }
+
         var companyExists = await _companyService.CompanyExistsByIdAsync(id);
 
         if (!companyExists)
@@ -134,11 +138,6 @@ public class ReviewController : BaseController
             TempData[ErrorMessage] = AlreadyReviewedCompanyErrorMessage;
 
             return RedirectToAction("Details", "Company", new { id });
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return View(reviewModel);
         }
 
         try
