@@ -36,6 +36,10 @@ public static class DatabaseSeeder
 
     public static OrderItem TestOrderItem2;
 
+    public static CartItem TestCartItem;
+
+    public static CartItem TestCartItem2;
+
     public static void SeedDatabase(ThinkElectricDbContext _dbContext)
     {
         CompanyUser = new ApplicationUser()
@@ -197,6 +201,18 @@ public static class DatabaseSeeder
             Quantity = 2,
         };
 
+        TestCartItem = new CartItem()
+        {
+            CartId = TestCart.Id,
+            ProductId = TestProduct.Id,
+        };
+
+        TestCartItem2 = new CartItem()
+        {
+            CartId = TestCart.Id,
+            ProductId = TestProduct2.Id,
+        };
+
         _dbContext.Users.Add(CompanyUser);
         _dbContext.Users.Add(BuyerUser);
         _dbContext.Addresses.Add(TestAddress);
@@ -211,6 +227,8 @@ public static class DatabaseSeeder
         _dbContext.Orders.Add(TestOrder);
         _dbContext.OrderItems.Add(TestOrderItem1);
         _dbContext.OrderItems.Add(TestOrderItem2);
+        _dbContext.CartItems.Add(TestCartItem);
+        _dbContext.CartItems.Add(TestCartItem2);
 
         _dbContext.SaveChanges();
     }
