@@ -3,6 +3,7 @@
 #pragma warning disable CS8618
 namespace ThinkElectric.Tests.Controllers;
 
+using System.Collections;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -382,5 +383,47 @@ public class ReviewControllerTests
         _companyServiceMock.Verify(s => s.CompanyExistsByIdAsync(companyId), Times.Once);
         _reviewServiceMock.Verify(s => s.AlreadyReviewedCompanyAsync(companyId, It.IsAny<string>()), Times.Once);
         _reviewServiceMock.VerifyNoOtherCalls();
+    }
+
+    [Test]
+    public async Task Mine_ReviewsRetrieved_ReturnsViewWithReviews()
+    {
+        // Arrange
+        var userId = "user_id";
+        IEnumerable<ReviewMineViewModel> reviews = new List<ReviewMineViewModel>()
+        {
+            new ReviewMineViewModel()
+            {
+                CompanyId = "company_id",
+                CompanyName = "company_name",
+                Content = "Some example content here!",
+                CreatedOn = DateTime.UtcNow.ToString("d"),
+                Rating = 5,
+                Id = "review_id"
+
+            },
+            new ReviewMineViewModel()
+            {
+                CompanyId = "company_id",
+                CompanyName = "company_name",
+                Content = "Some example content here!",
+                CreatedOn = DateTime.UtcNow.ToString("d"),
+                Rating = 5,
+                Id = "review_id2"
+            }
+        };
+        
+        _reviewServiceMock.Setup(s => s.GetMineAsync(userId)).ReturnsAsync(reviews);
+
+        // Act
+        var result = await _reviewController.Mine() as ViewResult;
+
+        // Assert
+        Assert.IsNotNull(result);
+        var model = (IEnumerable<ReviewMineViewModel>) result.Model!;
+        Assert.IsNotNull(model);
+        CollectionAssert.AreEqual(reviews, model);
+
+        _reviewServiceMock.Verify(s => s.GetMineAsync(userId), Times.Once);
     }
 }
