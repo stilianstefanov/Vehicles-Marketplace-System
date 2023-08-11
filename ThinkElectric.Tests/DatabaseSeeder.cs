@@ -1,4 +1,5 @@
-﻿namespace ThinkElectric.Tests;
+﻿#pragma warning disable CS8618
+namespace ThinkElectric.Tests;
 
 using Data;
 using Data.Models;
@@ -40,7 +41,7 @@ public static class DatabaseSeeder
 
     public static CartItem TestCartItem2;
 
-    public static void SeedDatabase(ThinkElectricDbContext _dbContext)
+    public static void SeedDatabase(ThinkElectricDbContext dbContext)
     {
         CompanyUser = new ApplicationUser()
         {
@@ -213,23 +214,23 @@ public static class DatabaseSeeder
             ProductId = TestProduct2.Id,
         };
 
-        _dbContext.Users.Add(CompanyUser);
-        _dbContext.Users.Add(BuyerUser);
-        _dbContext.Addresses.Add(TestAddress);
-        _dbContext.Companies.Add(TestCompany);
-        _dbContext.Carts.Add(TestCart);
-        _dbContext.Products.Add(TestProduct);
-        _dbContext.Products.Add(TestProduct2);
-        _dbContext.Products.Add(TestProduct3);
-        _dbContext.Scooters.Add(TestScooter);
-        _dbContext.Bikes.Add(TestBike);
-        _dbContext.Accessories.Add(TestAccessory);
-        _dbContext.Orders.Add(TestOrder);
-        _dbContext.OrderItems.Add(TestOrderItem1);
-        _dbContext.OrderItems.Add(TestOrderItem2);
-        _dbContext.CartItems.Add(TestCartItem);
-        _dbContext.CartItems.Add(TestCartItem2);
+        dbContext.Users.Add(CompanyUser);
+        dbContext.Users.Add(BuyerUser);
+        dbContext.Addresses.Add(TestAddress);
+        dbContext.Companies.Add(TestCompany);
+        dbContext.Carts.Add(TestCart);
+        dbContext.Products.Add(TestProduct);
+        dbContext.Products.Add(TestProduct2);
+        dbContext.Products.Add(TestProduct3);
+        dbContext.Scooters.Add(TestScooter);
+        dbContext.Bikes.Add(TestBike);
+        dbContext.Accessories.Add(TestAccessory);
+        dbContext.Orders.Add(TestOrder);
+        dbContext.OrderItems.Add(TestOrderItem1);
+        dbContext.OrderItems.Add(TestOrderItem2);
+        dbContext.CartItems.Add(TestCartItem);
+        dbContext.CartItems.Add(TestCartItem2);
 
-        _dbContext.SaveChanges();
+        dbContext.SaveChanges();
     }
 }

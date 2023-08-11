@@ -1,6 +1,8 @@
+#pragma warning disable CS8618
 #pragma warning disable NUnit2005
 namespace ThinkElectric.Tests.Services;
 
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson;
 
@@ -11,6 +13,7 @@ using ThinkElectric.Services.Contracts;
 using Web.ViewModels.Product;
 using static DatabaseSeeder;
 
+[SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
 public class ProductServiceTests
 {
     private DbContextOptions<ThinkElectricDbContext> _dbOptions;
@@ -49,7 +52,7 @@ public class ProductServiceTests
         var productType = ProductType.Scooter;
         var imageId = ObjectId.GenerateNewId().ToString();
 
-        await _productService.CreateAsync(testModel, companyId!, imageId, productType);
+        await _productService.CreateAsync(testModel, companyId, imageId, productType);
 
         var actualEntity = await _dbContext
             .Products
@@ -90,7 +93,7 @@ public class ProductServiceTests
     }
 
     [Test]
-    public async Task EditAsync_ThrowsWhenEntityDoesNotExist()
+    public void EditAsync_ThrowsWhenEntityDoesNotExist()
     {
         var editModel = new ProductEditViewModel()
         {
@@ -121,7 +124,7 @@ public class ProductServiceTests
     }
 
     [Test]
-    public async Task DeleteAsync_ThrowsWhenEntityDoesNotExist()
+    public void DeleteAsync_ThrowsWhenEntityDoesNotExist()
     {
         var productId = Guid.NewGuid().ToString();
 
@@ -146,7 +149,7 @@ public class ProductServiceTests
     }
 
     [Test]
-    public async Task GetProductDetailsByIdAsync_ThrowsWhenEntityDoesNotExist()
+    public void GetProductDetailsByIdAsync_ThrowsWhenEntityDoesNotExist()
     {
         var productId = Guid.NewGuid().ToString();
 
@@ -184,7 +187,7 @@ public class ProductServiceTests
     }
 
     [Test]
-    public async Task GetProductEditViewModelByIdAsync_ThrowsWhenEntityDoesNotExist()
+    public void GetProductEditViewModelByIdAsync_ThrowsWhenEntityDoesNotExist()
     {
         var productId = Guid.NewGuid().ToString();
 
@@ -201,7 +204,7 @@ public class ProductServiceTests
     }
 
     [Test]
-    public async Task GetImageIdByProductIdAsync_ThrowsWhenEntityDoesNotExist()
+    public void GetImageIdByProductIdAsync_ThrowsWhenEntityDoesNotExist()
     {
         var productId = Guid.NewGuid().ToString();
 

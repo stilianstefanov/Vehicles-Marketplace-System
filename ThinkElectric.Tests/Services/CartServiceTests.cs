@@ -1,4 +1,5 @@
-﻿namespace ThinkElectric.Tests.Services;
+﻿#pragma warning disable CS8618
+namespace ThinkElectric.Tests.Services;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -114,7 +115,7 @@ public class CartServiceTests
     }
 
     [Test]
-    public async Task RemoveFromCartAsync_ShouldThrowException()
+    public void RemoveFromCartAsync_ShouldThrowException()
     {
         var cartItemId = Guid.NewGuid().ToString();
 
