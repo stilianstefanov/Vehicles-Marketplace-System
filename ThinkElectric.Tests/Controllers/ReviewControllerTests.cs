@@ -3,7 +3,6 @@
 #pragma warning disable CS8618
 namespace ThinkElectric.Tests.Controllers;
 
-using System.Collections;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -425,5 +424,51 @@ public class ReviewControllerTests
         CollectionAssert.AreEqual(reviews, model);
 
         _reviewServiceMock.Verify(s => s.GetMineAsync(userId), Times.Once);
+    }
+
+    [Test]
+    public async Task Edit_ReviewExists_ReturnsViewWithReview()
+    {
+        // Arrange
+        const string reviewId = "review_id";
+        var reviewModel = new ReviewEditViewModel
+        {
+            Content = "TestReview Content",
+            Rating = 5
+        };
+
+        _reviewServiceMock.Setup(s => s.ReviewExistsAsync(reviewId)).ReturnsAsync(true);
+        _reviewServiceMock.Setup(s => s.IsUserAuthorizedAsync(reviewId, It.IsAny<string>())).ReturnsAsync(true);
+        _reviewServiceMock.Setup(s => s.GetForEditAsync(reviewId)).ReturnsAsync(reviewModel);
+
+        // Act
+        var result = await _reviewController.Edit(reviewId) as ViewResult;
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(reviewModel, result.Model);
+
+        _reviewServiceMock.Verify(s => s.ReviewExistsAsync(reviewId), Times.Once);
+        _reviewServiceMock.Verify(s => s.IsUserAuthorizedAsync(reviewId, It.IsAny<string>()), Times.Once);
+        _reviewServiceMock.Verify(s => s.GetForEditAsync(reviewId), Times.Once);
+    }
+
+    [Test]
+    public async Task Edit_ReviewDoesNotExist_RedirectsToHome()
+    {
+        // Arrange
+        const string reviewId = "non_existent_review_id";
+        _reviewServiceMock.Setup(s => s.ReviewExistsAsync(reviewId)).ReturnsAsync(false);
+
+        // Act
+        var result = await _reviewController.Edit(reviewId) as RedirectToActionResult;
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual("Index", result.ActionName);
+        Assert.AreEqual("Home", result.ControllerName);
+
+        _reviewServiceMock.Verify(s => s.ReviewExistsAsync(reviewId), Times.Once);
+        _reviewServiceMock.VerifyNoOtherCalls();
     }
 }
