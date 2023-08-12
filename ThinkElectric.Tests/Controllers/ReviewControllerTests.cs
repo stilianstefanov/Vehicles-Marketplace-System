@@ -28,7 +28,6 @@ public class ReviewControllerTests
         _productServiceMock = new Mock<IProductService>();
         _reviewServiceMock = new Mock<IReviewService>();
         _companyServiceMock = new Mock<ICompanyService>();
-        _reviewController = new ReviewController(_reviewServiceMock.Object, _productServiceMock.Object, _companyServiceMock.Object);
 
         var claims = new List<Claim>
         {
