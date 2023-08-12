@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThinkElectric.Data;
 
@@ -11,9 +12,10 @@ using ThinkElectric.Data;
 namespace ThinkElectric.Data.Migrations
 {
     [DbContext(typeof(ThinkElectricDbContext))]
-    partial class ThinkElectricDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230812135750_SeedReviews")]
+    partial class SeedReviews
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -362,7 +364,7 @@ namespace ThinkElectric.Data.Migrations
                         {
                             Id = new Guid("ec09bd2a-4c64-476d-9997-e732562b0ab1"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8bf64a82-873c-4820-b363-dc99cfff0465",
+                            ConcurrencyStamp = "507f35b2-e34d-481b-9f6f-f48988a4989f",
                             Email = "admin@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -371,7 +373,7 @@ namespace ThinkElectric.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ABV.BG",
                             NormalizedUserName = "ADMIN@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHvFVh+FyezRlF6RSppPhhxk5CVmI2lq8rMgCgCJ7Q4PlDUMMI5z4ra5rE9ocddtRg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENozsEeMhr575etHveu9mlMLaXeOjcYqPbT4tAjUkBSzTSrzYZ/WEmSTgsvvHB/MBA==",
                             PhoneNumber = "0888888888",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -381,7 +383,7 @@ namespace ThinkElectric.Data.Migrations
                         {
                             Id = new Guid("95f65567-3392-47fd-ae6a-95d16dfdbfe2"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cb191c9a-f51c-4883-9462-4d304e31bf50",
+                            ConcurrencyStamp = "eb78312c-07f8-4644-abcd-c89f0b76581b",
                             Email = "companyuser1@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "CompanyUser1",
@@ -390,7 +392,7 @@ namespace ThinkElectric.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "COMPANYUSER1@ABV.BG",
                             NormalizedUserName = "COMPANYUSER1@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFERDw87pIKGS8xcpnLVnBK8tP34mNq90AnDW+UM46AetOW553M1BVfeYOkSKIepHA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEO2wwlv3nySYzr2oGpgaLJMaUn1ruZ4DooHTqAbppMZ7CzBGYsk+GtEoB4JMZxWCsw==",
                             PhoneNumber = "0999999999",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -400,7 +402,7 @@ namespace ThinkElectric.Data.Migrations
                         {
                             Id = new Guid("553d4978-b893-4670-8808-3c91d6165c82"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a3285745-9e41-4458-adf6-d244b56cc3ea",
+                            ConcurrencyStamp = "51a9bb64-96ad-4dda-8673-49926d5d1bd3",
                             Email = "companyuser2@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "CompanyUser2",
@@ -409,7 +411,7 @@ namespace ThinkElectric.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "COMPANYUSER2@ABV.BG",
                             NormalizedUserName = "COMPANYUSER2@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJ/FwfAvundRI8qm7+pKytWDSTQsn50NLuNiAHData7+Vc0Kqng0QAdUgM3l/+zH1g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMK5EciZ8Nze/a2UX/ne5NXKop9mFRTZXbMwFfLk9MTGVrhxlYtgD4jhLtsgVcw6oA==",
                             PhoneNumber = "0777777777",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -419,7 +421,7 @@ namespace ThinkElectric.Data.Migrations
                         {
                             Id = new Guid("a44dad0e-bd5f-4394-9f8d-ad5a31e5c24b"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ce5ecb8a-b67c-459d-a10d-f8595a6abea8",
+                            ConcurrencyStamp = "99d1c953-ba0e-472f-8011-3cd300c3450f",
                             Email = "buyeruser@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "BuyerUser",
@@ -428,7 +430,7 @@ namespace ThinkElectric.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "BUYERUSER@ABV.BG",
                             NormalizedUserName = "BUYERUSER@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBjgPbaVhF4Ruzajx12jkH5+A7Gh6kLto7WsFEMkqCE/ChX30CQO7vTZ065VFd2aFA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAhFvgfrHQRDQ0bMEgu71CtGAetRySzObGU8LZdOiiD+n/dorO46fV3paITi+/tgiw==",
                             PhoneNumber = "0666666666",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -843,26 +845,6 @@ namespace ThinkElectric.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("bd96c711-32e7-483b-b1fe-9c19c1e0a936"),
-                            Content = "The Wolf Warrior 11 is the most powerful, all terrain electric scooter from Kaabo. It has dual 1200W brushless motors, hydraulic brakes, 11 inch off road tires and a massive 35Ah battery for a maximum range of 150 km. The Wolf Warrior 11 is the ultimate electric scooter for extreme riding.",
-                            CreatedOn = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Title = "Kaabo Wolf Warrior 11 opinions and thoughts",
-                            UserId = new Guid("553d4978-b893-4670-8808-3c91d6165c82")
-                        },
-                        new
-                        {
-                            Id = new Guid("c202cb91-30e9-49e2-8c15-d12eec51b3f7"),
-                            Content = "Vsett 8 is the most powerful, all terrain electric scooter from Vsett. It has dual 1200W brushless motors, hydraulic brakes, 11 inch off road tires and a massive 35Ah battery for a maximum range of 150 km. The vsett 8 is the ultimate electric scooter for extreme riding.",
-                            CreatedOn = new DateTime(2021, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Title = "Vsett 8",
-                            UserId = new Guid("95f65567-3392-47fd-ae6a-95d16dfdbfe2")
-                        });
                 });
 
             modelBuilder.Entity("ThinkElectric.Data.Models.Product", b =>

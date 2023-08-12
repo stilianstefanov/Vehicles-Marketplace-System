@@ -53,6 +53,7 @@ public class ThinkElectricDbContext : IdentityDbContext<ApplicationUser, Identit
         builder.ApplyConfiguration(new BikeConfiguration());
         builder.ApplyConfiguration(new AccessoryConfiguration());
         builder.ApplyConfiguration(new PostConfiguration());
+        builder.ApplyConfiguration(new ReviewConfiguration());
 
         base.OnModelCreating(builder);
     }
