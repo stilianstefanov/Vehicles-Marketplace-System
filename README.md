@@ -57,7 +57,7 @@ Username: companyuser2@abv.bg </br>
 Password: 123456
 
 ### Regular User(Buyer)
-Username: buyeruser@abv.bg </br>
+Username: buyeruser@abv.bg  </br>
 Password: 123456
 
 ## DatabaseDiagram
