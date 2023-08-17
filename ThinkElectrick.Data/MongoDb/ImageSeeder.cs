@@ -1,5 +1,6 @@
 ﻿namespace ThinkElectric.Data.MongoDb;
 
+using System.Security.Authentication;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -12,7 +13,12 @@ public class ImageSeeder
 
     public ImageSeeder(IOptions<ImageStoreDatabaseSettings> imageStoreDatabaseSettings)
     {
-        var mongoClient = new MongoClient(imageStoreDatabaseSettings.Value.ConnectionString);
+        MongoClientSettings settings = MongoClientSettings.FromUrl(
+            new MongoUrl(imageStoreDatabaseSettings.Value.ConnectionString)
+        );
+        settings.SslSettings =
+            new SslSettings() { EnabledSslProtocols = SslProtocols.Tls12 };
+        var mongoClient = new MongoClient(settings);
 
         var mongoDatabase = mongoClient.GetDatabase(imageStoreDatabaseSettings.Value.DatabaseName);
 

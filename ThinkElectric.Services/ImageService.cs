@@ -1,5 +1,6 @@
 ﻿namespace ThinkElectric.Services
 {
+    using System.Security.Authentication;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Options;
     using MongoDB.Bson;
@@ -15,7 +16,12 @@
 
         public ImageService(IOptions<ImageStoreDatabaseSettings> imageStoreDatabaseSettings)
         {
-            var mongoClient = new MongoClient(imageStoreDatabaseSettings.Value.ConnectionString);
+            MongoClientSettings settings = MongoClientSettings.FromUrl(
+                new MongoUrl(imageStoreDatabaseSettings.Value.ConnectionString)
+            );
+            settings.SslSettings =
+                new SslSettings() { EnabledSslProtocols = SslProtocols.Tls12 };
+            var mongoClient = new MongoClient(settings);
 
             var mongoDatabase = mongoClient.GetDatabase(imageStoreDatabaseSettings.Value.DatabaseName);
 
@@ -48,14 +54,16 @@
 
         public async Task<ImageViewModel> GetImageByIdAsync(string imageId)
         {
-            ImageViewModel model = await _imageCollection
+            var x = await _imageCollection
                 .Find(image => image.Id == imageId)
-                .Project(image => new ImageViewModel
-                {
-                    ImageType = image.ImageType,
-                    Data = image.Data
-                })
                 .FirstOrDefaultAsync();
+
+            var model = new ImageViewModel()
+            {
+                ImageType = x.ImageType,
+                Data = x.Data
+            };
+           
 
             return model;
         }
