@@ -12,6 +12,7 @@ Welcome to ThinkElectric! Project for educational purposes.
 - [Usage](#usage)
 - [Users](#users)
 - [DatabaseDiagram](#databasediagram)
+- [Achievements](#achievements)
 
 ## Overview
 - "Think Electric" is a web application with educational and demonstrative purposes. 
@@ -62,3 +63,8 @@ Password: 123456
 
 ## DatabaseDiagram
 ![Diagram](https://github.com/stilianstefanov/ThinkElectric_ElectricVehiclesMarketPlaceSystem/blob/main/assets/DatabaseDiagram.png)
+
+## Achievements
+- Excellent grade in C# MVC Frameworks - ASP.NET Advanced course
+    
+![Certificate](https://github.com/stilianstefanov/ThinkElectric_ElectricVehiclesMarketPlaceSystem/blob/main/assets/ASP.NET%20Advanced%20-%20June%202023%20-%20Certificate.jpeg)
