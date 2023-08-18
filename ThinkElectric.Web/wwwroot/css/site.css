@@ -56,3 +56,10 @@ body {
         justify-content: center;
         margin-bottom: 20px;
     }
+
+.cool-font {
+    font-family: 'Alfa Slab One', cursive;
+    font-size: 28px;
+    color: #ffffff;
+}
+
