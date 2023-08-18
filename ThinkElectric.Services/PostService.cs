@@ -41,7 +41,7 @@ public class PostService : IPostService
 
     public async Task CreateAsync(PostCreateViewModel postModel, string userId)
     {
-        Post post = new Post()
+        var post = new Post()
         {
             Title = postModel.Title,
             Content = postModel.Content,
@@ -56,7 +56,7 @@ public class PostService : IPostService
 
     public async Task<PostDetailsViewModel?> GetDetailsAsync(string id)
     {
-        PostDetailsViewModel? post = await _dbContext
+        var post = await _dbContext
             .Posts
             .Where(p => p.Id.ToString() == id)
             .Select(p => new PostDetailsViewModel()
@@ -76,7 +76,7 @@ public class PostService : IPostService
 
     public async Task<bool> ExistsAsync(string id)
     {
-        bool postExists = await _dbContext
+        var postExists = await _dbContext
             .Posts
             .AnyAsync(p => p.Id.ToString() == id && !p.IsDeleted);
 
@@ -85,7 +85,7 @@ public class PostService : IPostService
 
     public async Task DeleteAsync(string id)
     {
-        Post post = await _dbContext
+        var post = await _dbContext
             .Posts
             .FirstAsync(p => p.Id.ToString() == id);
 
@@ -96,7 +96,7 @@ public class PostService : IPostService
 
     public async Task<bool> IsUserAuthorizedAsync(string id, string userId)
     {
-        bool isUserAuthorized = await _dbContext
+        var isUserAuthorized = await _dbContext
             .Posts
             .AnyAsync(p => p.Id.ToString() == id && p.UserId.ToString() == userId);
 
@@ -105,7 +105,7 @@ public class PostService : IPostService
 
     public async Task<PostEditViewModel> GetEditViewModelAsync(string id)
     {
-        PostEditViewModel post = await _dbContext          
+        var post = await _dbContext          
             .Posts
             .Where(p => p.Id.ToString() == id)
             .Select(p => new PostEditViewModel()
@@ -120,7 +120,7 @@ public class PostService : IPostService
 
     public async Task EditAsync(PostEditViewModel postModel, string id)
     {
-        Post post = await _dbContext           
+        var post = await _dbContext           
             .Posts
             .FirstAsync(p => p.Id.ToString() == id);
 

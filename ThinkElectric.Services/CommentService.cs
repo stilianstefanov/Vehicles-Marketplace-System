@@ -39,7 +39,7 @@ public class CommentService : ICommentService
 
     public async Task CreateAsync(PostDetailsViewModel postModel, string userId)
     {
-        Comment comment = new Comment()
+        var comment = new Comment()
         {
             Content = postModel.CurrentComment.Content,
             UserId = Guid.Parse(userId),
@@ -59,7 +59,7 @@ public class CommentService : ICommentService
             .Where(c => c.PostId.ToString() == id)
             .ToArrayAsync();
 
-        foreach (Comment comment in comments)
+        foreach (var comment in comments)
         {
             comment.IsDeleted = true;
         }
@@ -69,7 +69,7 @@ public class CommentService : ICommentService
 
     public async Task<bool> ExistsAsync(string id)
     {
-        bool commentExists = await _dbContext
+        var commentExists = await _dbContext
             .Comments
             .AnyAsync(c => c.Id.ToString() == id && !c.IsDeleted);
 
@@ -78,7 +78,7 @@ public class CommentService : ICommentService
 
     public async Task<bool> IsUserAuthorizedAsync(string id, string userId)
     {
-        bool isUserAuthorized = await _dbContext
+        var isUserAuthorized = await _dbContext
             .Comments
             .AnyAsync(c => c.Id.ToString() == id && c.UserId.ToString() == userId);
 
@@ -87,7 +87,7 @@ public class CommentService : ICommentService
 
     public async Task<string> DeleteAsync(string id)
     {
-        Comment comment = await _dbContext
+        var comment = await _dbContext
             .Comments
             .FirstAsync(c => c.Id.ToString() == id);
 
@@ -100,7 +100,7 @@ public class CommentService : ICommentService
 
     public async Task<CommentEditViewModel> GetCommentForEditAsync(string id)
     {
-        CommentEditViewModel comment = await _dbContext          
+        var comment = await _dbContext          
             .Comments
             .Where(c => c.Id.ToString() == id)
             .Select(c => new CommentEditViewModel()
@@ -114,7 +114,7 @@ public class CommentService : ICommentService
 
     public async Task<string> EditAsync(CommentEditViewModel commentModel, string id)
     {
-        Comment comment = await _dbContext
+        var comment = await _dbContext
             .Comments
             .FirstAsync(c => c.Id.ToString() == id);
 

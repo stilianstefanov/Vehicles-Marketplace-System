@@ -23,7 +23,7 @@
 
         public async Task<string> CreateAsync(CompanyCreateViewModel model, string imageId, string addressId, string userId)
         {
-            Company company = new Company()
+            var company = new Company()
             {
                 Name = model.Name,
                 Email = model.Email,
@@ -44,9 +44,9 @@
 
         public async Task<CompanyCreateViewModel> GetCompanyCreateViewModelByUserIdAsync(string id)
         {
-            ApplicationUser user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
 
-            CompanyCreateViewModel model = new CompanyCreateViewModel()
+            var model = new CompanyCreateViewModel()
             {
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
@@ -57,7 +57,7 @@
 
         public async Task<CompanyDetailsViewModel?> GetCompanyDetailsByIdAsync(string id)
         {
-            CompanyDetailsViewModel? model = await _dbContext
+            var model = await _dbContext
                 .Companies
                 .Where(c => c.Id.ToString() == id && !c.IsBlocked)
                 .Select(c => new CompanyDetailsViewModel()
@@ -81,7 +81,7 @@
 
         public async Task<bool> HasAlreadyCreatedCompanyAsync(string id)
         {
-            bool hasCompany = await _dbContext.
+            var hasCompany = await _dbContext.
                 Companies.
                 AnyAsync(c => c.UserId.ToString() == id);
 
@@ -90,7 +90,7 @@
 
         public async Task<bool> CompanyExistsByIdAsync(string id)
         {
-            bool hasCompany = await _dbContext.
+            var hasCompany = await _dbContext.
                 Companies.
                 AnyAsync(c => c.Id.ToString() == id && !c.IsBlocked);
 
@@ -99,7 +99,7 @@
 
         public async Task<bool> IsUserCompanyOwnerAsync(string companyId, string userId)
         {
-            bool isOwner = await _dbContext.
+            var isOwner = await _dbContext.
                 Companies.
                 AnyAsync(c => c.Id.ToString() == companyId && c.UserId.ToString() == userId);
 
@@ -108,7 +108,7 @@
 
         public async Task<CompanyEditViewModel> GetCompanyEditViewModelByIdAsync(string id)
         {
-            CompanyEditViewModel model = await _dbContext
+            var model = await _dbContext
                 .Companies
                 .Where(c => c.Id.ToString() == id && !c.IsBlocked)
                 .Select(c => new CompanyEditViewModel()
@@ -130,7 +130,7 @@
 
         public async Task<string> GetImageIdByCompanyIdAsync(string id)
         {
-            string imageId = await _dbContext
+            var imageId = await _dbContext
                 .Companies
                 .Where(c => c.Id.ToString() == id)
                 .Select(c => c.ImageId)
@@ -141,7 +141,7 @@
 
         public async Task<string> GetAddressIdByCompanyIdAsync(string id)
         {
-            string addressId = await _dbContext
+            var addressId = await _dbContext
                 .Companies
                 .Where(c => c.Id.ToString() == id)
                 .Select(c => c.AddressId.ToString())
@@ -152,7 +152,7 @@
 
         public async Task EditAsync(CompanyEditViewModel model, string id)
         {
-            Company company = await _dbContext
+            var company = await _dbContext
                 .Companies
                 .Where(c => c.Id.ToString() == id)
                 .FirstAsync();
@@ -169,14 +169,14 @@
 
         public async Task<CompaniesAllQueryModel> AllAsync(CompaniesAllQueryModel queryModel)
         {
-            IQueryable<Company> companiesQuery = _dbContext
+            var companiesQuery = _dbContext
                 .Companies
                 .Where(c => !c.IsBlocked)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(queryModel.SearchTerm))
             {
-                string wildCardSearchTerm = $"%{queryModel.SearchTerm.ToLower()}%";
+                var wildCardSearchTerm = $"%{queryModel.SearchTerm.ToLower()}%";
 
                 companiesQuery = companiesQuery
                     .Where(c => EF.Functions.Like(c.Name, wildCardSearchTerm) ||
@@ -210,7 +210,7 @@
                 })
                 .ToArrayAsync();
 
-            int totalPages = (int)Math.Ceiling(await companiesQuery.CountAsync() / (double)queryModel.CompaniesPerPage);
+            var totalPages = (int)Math.Ceiling(await companiesQuery.CountAsync() / (double)queryModel.CompaniesPerPage);
 
             queryModel.TotalPages = totalPages;
 
@@ -247,7 +247,7 @@
 
         public async Task<string> BlockCompanyByIdAsync(string id)
         {
-            Company company = await _dbContext
+            var company = await _dbContext
                 .Companies
                 .Where(c => c.Id.ToString() == id)
                 .FirstAsync();
@@ -261,7 +261,7 @@
 
         public async Task<bool> CompanyExistsByIdForAdminAsync(string id)
         {
-            bool hasCompany = await _dbContext.
+            var hasCompany = await _dbContext.
                 Companies.
                 AnyAsync(c => c.Id.ToString() == id);
 
@@ -270,7 +270,7 @@
 
         public async Task<string> UnblockCompanyByIdAsync(string id)
         {
-            Company company = await _dbContext
+            var company = await _dbContext
                 .Companies
                 .Where(c => c.Id.ToString() == id)
                 .FirstAsync();

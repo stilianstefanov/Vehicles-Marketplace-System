@@ -19,7 +19,7 @@ public class CartService : ICartService
 
     public async Task<string> CreateAsync(Guid userId)
     {
-        Cart cart = new Cart()
+        var cart = new Cart()
         {
             UserId = userId
         };
@@ -33,12 +33,12 @@ public class CartService : ICartService
 
     public async Task AddToCartAsync(string id, string userId)
     {
-        Guid cartId = await _dbContext.Carts
+        var cartId = await _dbContext.Carts
             .Where(c => c.UserId.ToString() == userId)
             .Select(c => c.Id)
             .FirstOrDefaultAsync();
 
-        CartItem cartItem = new CartItem()
+        var cartItem = new CartItem()
         {
             ProductId = Guid.Parse(id),
             CartId = cartId
@@ -51,7 +51,7 @@ public class CartService : ICartService
 
     public async Task<bool> CartItemExistsAsync(string id)
     {
-        bool cartItemExists = await _dbContext.CartItems
+        var cartItemExists = await _dbContext.CartItems
             .AnyAsync(ci => ci.Id.ToString() == id);
 
         return cartItemExists;
@@ -59,7 +59,7 @@ public class CartService : ICartService
 
     public async Task<bool> IsUserAuthorizedAsync(string id, string? userId)
     {
-        bool isUserAuthorized = await _dbContext.CartItems
+        var isUserAuthorized = await _dbContext.CartItems
             .AnyAsync(ci => ci.Id.ToString() == id && ci.Cart.UserId.ToString() == userId);
 
         return isUserAuthorized;
@@ -67,7 +67,7 @@ public class CartService : ICartService
 
     public async Task RemoveFromCartAsync(string id)
     {
-        CartItem cartItem = await _dbContext.CartItems
+        var cartItem = await _dbContext.CartItems
             .FirstAsync(ci => ci.Id.ToString() == id);
 
         _dbContext.CartItems.Remove(cartItem);
@@ -94,7 +94,7 @@ public class CartService : ICartService
 
     public async Task<bool> ProductAlreadyAdded(string id, string userId)
     {
-        bool productAlreadyAdded = await _dbContext.CartItems
+        var productAlreadyAdded = await _dbContext.CartItems
             .AnyAsync(ci => ci.ProductId.ToString() == id && ci.Cart.UserId.ToString() == userId);
 
         return productAlreadyAdded;
@@ -102,13 +102,13 @@ public class CartService : ICartService
 
     public async Task<bool> AreCartItemsValidAsync(IEnumerable<CartItemViewModel> cartItems)
     {
-        bool areCartItemsValid = true;
+        var areCartItemsValid = true;
 
         IEnumerable<Product> products = await _dbContext
             .Products
             .ToArrayAsync();
 
-        foreach (CartItemViewModel cartItem in cartItems)
+        foreach (var cartItem in cartItems)
         {
             if (products.All(p => p.Id.ToString().ToLower() != cartItem.ProductId.ToLower()))
             {

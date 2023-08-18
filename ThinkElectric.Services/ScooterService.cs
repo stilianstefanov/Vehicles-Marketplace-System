@@ -22,7 +22,7 @@ public class ScooterService : IScooterService
 
     public async Task<string> CreateAsync(ScooterCreateViewModel model, string productId)
     {
-        Scooter scooter = new Scooter()
+        var scooter = new Scooter()
         {
             Brand = model.Brand,
             Model = model.Model,
@@ -49,7 +49,7 @@ public class ScooterService : IScooterService
 
     public async Task<ScooterDetailsViewModel?> GetScooterDetailsByIdAsync(string id)
     {
-        ScooterDetailsViewModel? model = await _dbContext
+        var model = await _dbContext
             .Scooters
             .Where(s => s.Id.ToString() == id && !s.Product.IsDeleted)
             .Select(s => new ScooterDetailsViewModel()
@@ -79,7 +79,7 @@ public class ScooterService : IScooterService
 
     public async Task<bool> IsScooterExistingAsync(string id)
     {
-        bool isScooterExisting = _dbContext
+        var isScooterExisting = _dbContext
             .Scooters
             .Any(s => s.Id.ToString() == id && !s.Product.IsDeleted);
 
@@ -88,7 +88,7 @@ public class ScooterService : IScooterService
 
     public async Task<bool> IsUserAuthorizedToEditAsync(string id, string userCompanyId)
     {
-        bool isAuthorized = await _dbContext
+        var isAuthorized = await _dbContext
             .Scooters
             .AnyAsync(s => s.Id.ToString() == id && s.Product.CompanyId.ToString() == userCompanyId);
 
@@ -97,7 +97,7 @@ public class ScooterService : IScooterService
 
     public async Task<ScooterEditViewModel> GetScooterEditViewModelByIdAsync(string id)
     {
-        ScooterEditViewModel model = await _dbContext
+        var model = await _dbContext
             .Scooters
             .Where(s => s.Id.ToString() == id)
             .Select(s => new ScooterEditViewModel()
@@ -125,7 +125,7 @@ public class ScooterService : IScooterService
 
     public async Task<string> GetProductIdByScooterIdAsync(string id)
     {
-        string productId = await _dbContext
+        var productId = await _dbContext
             .Scooters
             .Where(s => s.Id.ToString() == id)
             .Select(s => s.ProductId.ToString())
@@ -136,7 +136,7 @@ public class ScooterService : IScooterService
 
     public async Task EditAsync(string id, ScooterEditViewModel scooterModel)
     {
-        Scooter scooter = await _dbContext
+        var scooter = await _dbContext
             .Scooters
             .Where(s => s.Id.ToString() == id)
             .FirstAsync();
@@ -162,14 +162,14 @@ public class ScooterService : IScooterService
 
     public async Task<ScooterAllQueryModel> GetAllFilteredAndPagedAsync(ScooterAllQueryModel queryModel)
     {
-        IQueryable<Scooter> scootersQuery = _dbContext
+        var scootersQuery = _dbContext
             .Scooters
             .Where(s => !s.Product.IsDeleted)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(queryModel.SearchTerm))
         {
-            string wildCardSearchTerm = $"%{queryModel.SearchTerm.ToLower()}%";
+            var wildCardSearchTerm = $"%{queryModel.SearchTerm.ToLower()}%";
 
             scootersQuery = scootersQuery
                 .Where(s => EF.Functions.Like(s.Product.Name, wildCardSearchTerm) ||
@@ -249,7 +249,7 @@ public class ScooterService : IScooterService
             })
         .ToArrayAsync();
 
-        int totalPages = (int)Math.Ceiling(await scootersQuery.CountAsync() / (double)queryModel.ScootersPerPage);
+        var totalPages = (int)Math.Ceiling(await scootersQuery.CountAsync() / (double)queryModel.ScootersPerPage);
 
         queryModel.TotalPages = totalPages;
 

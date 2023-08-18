@@ -19,7 +19,7 @@ public class AddressService : IAddressService
 
     public async Task<string> CreateAsync(AddressCreateViewModel modelAddress)
     {
-        Address address = new Address()
+        var address = new Address()
         {
             Street = modelAddress.Street,
             City = modelAddress.City,
@@ -35,7 +35,7 @@ public class AddressService : IAddressService
 
     public async Task<AddressViewModel?> GetAddressDetailsByIdAsync(string id)
     {
-        AddressViewModel? model = await _dbContext
+        var model = await _dbContext
             .Addresses
             .Where(a => a.Id.ToString() == id)
             .Select(a => new AddressViewModel()
@@ -53,7 +53,7 @@ public class AddressService : IAddressService
 
     public async Task<AddressEditViewModel> GetAddressEditByIdAsync(string id)
     {
-        AddressEditViewModel model = await _dbContext
+        var model = await _dbContext
             .Addresses
             .Where(a => a.Id.ToString() == id)
             .Select(a => new AddressEditViewModel()
@@ -70,7 +70,7 @@ public class AddressService : IAddressService
 
     public async Task EditAsync(string id, AddressEditViewModel modelAddress)
     {
-        Address address = await _dbContext
+        var address = await _dbContext
             .Addresses
             .FirstAsync(a => a.Id.ToString() == id);
 

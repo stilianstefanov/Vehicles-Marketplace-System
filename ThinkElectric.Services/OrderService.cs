@@ -22,15 +22,15 @@ public class OrderService : IOrderService
 
     public async Task<string> CreateAsync(IEnumerable<CartItemViewModel> cartItems, string userId)
     {
-        Order order = new Order()
+        var order = new Order()
         {
             CreatedOn = DateTime.UtcNow,
             UserId = Guid.Parse(userId),
         };
 
-        foreach (CartItemViewModel cartItem in cartItems)
+        foreach (var cartItem in cartItems)
         {
-            OrderItem orderItem = new OrderItem()
+            var orderItem = new OrderItem()
             {
                 ProductId = Guid.Parse(cartItem.ProductId),
                 Quantity = cartItem.Quantity,
@@ -48,7 +48,7 @@ public class OrderService : IOrderService
 
     public async Task<OrderDetailsViewModel> GetOrderDetailsAsync(string id)
     {
-        OrderDetailsViewModel model = await _dbContext.Orders
+        var model = await _dbContext.Orders
             .Where(o => o.Id.ToString() == id)
             .Select(o => new OrderDetailsViewModel()
             {
@@ -72,7 +72,7 @@ public class OrderService : IOrderService
 
     public async Task<bool> OrderExistsAsync(string id)
     {
-        bool orderExists = await _dbContext.Orders
+        var orderExists = await _dbContext.Orders
             .AnyAsync(o => o.Id.ToString() == id);
 
         return orderExists;
@@ -80,7 +80,7 @@ public class OrderService : IOrderService
 
     public async Task<bool> IsOrderFromUserAsync(string id, string userId)
     {
-        bool isOrderFromUser = await _dbContext.Orders
+        var isOrderFromUser = await _dbContext.Orders
             .AnyAsync(o => o.Id.ToString() == id && o.UserId.ToString() == userId);
 
         return isOrderFromUser;
@@ -95,7 +95,7 @@ public class OrderService : IOrderService
 
         _dbContext.OrderItems.RemoveRange(orderItems);
 
-        Order order = await _dbContext.Orders
+        var order = await _dbContext.Orders
             .Where(o => o.Id.ToString() == id)
             .FirstAsync();
 
@@ -106,7 +106,7 @@ public class OrderService : IOrderService
 
     public async Task ConfirmAsync(string id)
     {
-        Order order = await _dbContext.Orders
+        var order = await _dbContext.Orders
             .Where(o => o.Id.ToString() == id)
             .FirstAsync();
 
@@ -117,7 +117,7 @@ public class OrderService : IOrderService
 
     public async Task<bool> IsOrderExisting(string id)
     {
-        bool isOrderExisting = await _dbContext.Orders
+        var isOrderExisting = await _dbContext.Orders
             .AnyAsync(o => o.Id.ToString() == id);
 
         return isOrderExisting;
@@ -182,7 +182,7 @@ public class OrderService : IOrderService
 
     public async Task<bool> OrderItemExistsAsync(string orderItemId)
     {
-        bool orderItemExists = await _dbContext.OrderItems
+        var orderItemExists = await _dbContext.OrderItems
             .AnyAsync(oi => oi.Id.ToString() == orderItemId);
 
         return orderItemExists;
@@ -190,7 +190,7 @@ public class OrderService : IOrderService
 
     public async Task<bool> IsOrderItemFromCompanyAsync(string orderItemId, string companyId)
     {
-        bool isOrderItemFromCompany = await _dbContext.OrderItems
+        var isOrderItemFromCompany = await _dbContext.OrderItems
             .AnyAsync(oi => oi.Id.ToString() == orderItemId && oi.Product.CompanyId.ToString() == companyId);
 
         return isOrderItemFromCompany;
@@ -198,7 +198,7 @@ public class OrderService : IOrderService
 
     public async Task MarkAsFulfilledAsync(string orderItemId)
     {
-        OrderItem orderItem = await _dbContext.OrderItems
+        var orderItem = await _dbContext.OrderItems
             .Where(oi => oi.Id.ToString() == orderItemId)
             .FirstAsync();
 

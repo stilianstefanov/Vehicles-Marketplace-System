@@ -21,7 +21,7 @@ public class AccessoryService : IAccessoryService
 
     public async Task<string> CreateAsync(AccessoryCreateViewModel accessoryModel, string productId)
     {
-        Accessory accessory = new Accessory()
+        var accessory = new Accessory()
         {
             Brand = accessoryModel.Brand,
             Description = accessoryModel.Description,
@@ -39,7 +39,7 @@ public class AccessoryService : IAccessoryService
 
     public async Task<AccessoryDetailsViewModel?> GetAccessoryDetailsByIdAsync(string id)
     {
-        AccessoryDetailsViewModel? model = await _dbContext
+        var model = await _dbContext
             .Accessories
             .Where(a => a.Id.ToString() == id && !a.Product.IsDeleted)
             .Select(a => new AccessoryDetailsViewModel()
@@ -58,7 +58,7 @@ public class AccessoryService : IAccessoryService
 
     public async Task<bool> IsAccessoryExistingAsync(string id)
     {
-        bool isAccessoryExisting = await _dbContext
+        var isAccessoryExisting = await _dbContext
             .Accessories
             .AnyAsync(a => a.Id.ToString() == id && !a.Product.IsDeleted);
 
@@ -67,7 +67,7 @@ public class AccessoryService : IAccessoryService
 
     public async Task<bool> IsUserAuthorizedToEditAsync(string id, string companyId)
     {
-        bool isUserAuthorizedToEdit = await _dbContext
+        var isUserAuthorizedToEdit = await _dbContext
             .Accessories
             .AnyAsync(a => a.Id.ToString() == id && a.Product.CompanyId.ToString() == companyId);
 
@@ -76,7 +76,7 @@ public class AccessoryService : IAccessoryService
 
     public async Task<AccessoryEditViewModel> GetAccessoryEditViewModelByIdAsync(string id)
     {
-        AccessoryEditViewModel model = await _dbContext
+        var model = await _dbContext
             .Accessories
             .Where(a => a.Id.ToString() == id)
             .Select(a => new AccessoryEditViewModel()
@@ -94,7 +94,7 @@ public class AccessoryService : IAccessoryService
 
     public async Task<string> GetProductIdByAccessoryIdAsync(string id)
     {
-        string productId = await _dbContext
+        var productId = await _dbContext
             .Accessories
             .Where(a => a.Id.ToString() == id)
             .Select(a => a.ProductId.ToString())
@@ -105,7 +105,7 @@ public class AccessoryService : IAccessoryService
 
     public async Task EditAsync(string id, AccessoryEditViewModel accessoryModel)
     {
-        Accessory accessory = await _dbContext
+        var accessory = await _dbContext
             .Accessories
             .Where(a => a.Id.ToString() == id)
             .FirstAsync();
@@ -120,14 +120,14 @@ public class AccessoryService : IAccessoryService
 
     public async Task<AccessoryAllQueryModel> GetAllFilteredAndPagedAsync(AccessoryAllQueryModel queryModel)
     {
-        IQueryable<Accessory> accessoriesQuery = _dbContext
+        var accessoriesQuery = _dbContext
             .Accessories
             .Where(a => !a.Product.IsDeleted)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(queryModel.SearchTerm))
         {
-            string wildCardSearchTerm = $"%{queryModel.SearchTerm.ToLower()}%";
+            var wildCardSearchTerm = $"%{queryModel.SearchTerm.ToLower()}%";
 
             accessoriesQuery = accessoriesQuery
                 .Where(s => EF.Functions.Like(s.Product.Name, wildCardSearchTerm) ||
@@ -168,7 +168,7 @@ public class AccessoryService : IAccessoryService
             })
             .ToArrayAsync();
 
-        int totalPages = (int)Math.Ceiling(await accessoriesQuery.CountAsync() / (double)queryModel.AccessoriesPerPage);
+        var totalPages = (int)Math.Ceiling(await accessoriesQuery.CountAsync() / (double)queryModel.AccessoriesPerPage);
 
         queryModel.TotalPages = totalPages;
 

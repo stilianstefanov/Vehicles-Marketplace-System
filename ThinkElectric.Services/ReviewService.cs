@@ -53,7 +53,7 @@ public class ReviewService : IReviewService
 
     public async Task AddToProductAsync(ReviewAddViewModel reviewModel, string id, string userId)
     {
-        Review review = new Review()
+        var review = new Review()
         {
             Content = reviewModel.Content,
             Rating = reviewModel.Rating,
@@ -69,7 +69,7 @@ public class ReviewService : IReviewService
 
     public async Task<bool> AlreadyReviewedProductAsync(string id, string userId)
     {
-        bool alreadyReviewed = await _dbContext
+        var alreadyReviewed = await _dbContext
             .Reviews
             .AnyAsync(r => r.ProductId.ToString() == id && r.UserId.ToString() == userId);
 
@@ -78,7 +78,7 @@ public class ReviewService : IReviewService
 
     public async Task<bool> AlreadyReviewedCompanyAsync(string id, string userId)
     {
-        bool alreadyReviewed = await _dbContext
+        var alreadyReviewed = await _dbContext
             .Reviews
             .AnyAsync(r => r.CompanyId.ToString() == id && r.UserId.ToString() == userId);
 
@@ -87,7 +87,7 @@ public class ReviewService : IReviewService
 
     public async Task AddToCompanyAsync(ReviewAddViewModel reviewModel, string id, string userId)
     {
-        Review review = new Review()
+        var review = new Review()
         {
             Content = reviewModel.Content,
             Rating = reviewModel.Rating,
@@ -124,7 +124,7 @@ public class ReviewService : IReviewService
 
     public async Task<bool> ReviewExistsAsync(string id)
     {
-        bool reviewExists = await _dbContext
+        var reviewExists = await _dbContext
             .Reviews
             .AnyAsync(r => r.Id.ToString() == id);
 
@@ -133,7 +133,7 @@ public class ReviewService : IReviewService
 
     public async Task<bool> IsUserAuthorizedAsync(string id, string userId)
     {
-        bool isAuthorized = await _dbContext
+        var isAuthorized = await _dbContext
             .Reviews
             .AnyAsync(r => r.Id.ToString() == id && r.UserId.ToString() == userId);
 
@@ -142,7 +142,7 @@ public class ReviewService : IReviewService
 
     public async Task DeleteAsync(string id)
     {
-        Review review = await _dbContext
+        var review = await _dbContext
             .Reviews
             .FirstAsync(r => r.Id.ToString() == id);
 
@@ -153,7 +153,7 @@ public class ReviewService : IReviewService
 
     public async Task<ReviewEditViewModel> GetForEditAsync(string id)
     {
-        ReviewEditViewModel model = await _dbContext
+        var model = await _dbContext
             .Reviews
             .Where(r => r.Id.ToString() == id)
             .Select(r => new ReviewEditViewModel()
@@ -168,7 +168,7 @@ public class ReviewService : IReviewService
 
     public async Task EditAsync(ReviewEditViewModel reviewModel, string id)
     {
-        Review review = await _dbContext
+        var review = await _dbContext
             .Reviews
             .FirstAsync(r => r.Id.ToString() == id);
 

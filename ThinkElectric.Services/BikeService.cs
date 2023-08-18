@@ -22,7 +22,7 @@ public class BikeService : IBikeService
 
     public async Task<string> CreateAsync(BikeCreateViewModel bikeModel, string productId)
     {
-        Bike bike = new Bike()
+        var bike = new Bike()
         {
             Brand = bikeModel.Brand,
             Model = bikeModel.Model,
@@ -54,7 +54,7 @@ public class BikeService : IBikeService
 
     public async Task<BikeDetailsViewModel?> GetBikeDetailsByIdAsync(string id)
     {
-        BikeDetailsViewModel? model = await _dbContext
+        var model = await _dbContext
             .Bikes
             .Where(b => b.Id.ToString() == id && !b.Product.IsDeleted)
             .Select(b => new BikeDetailsViewModel()
@@ -88,7 +88,7 @@ public class BikeService : IBikeService
 
     public async Task<bool> IsBikeExistingAsync(string id)
     {
-        bool isExisting = await _dbContext
+        var isExisting = await _dbContext
             .Bikes
             .AnyAsync(b => b.Id.ToString() == id && !b.Product.IsDeleted);
 
@@ -97,7 +97,7 @@ public class BikeService : IBikeService
 
     public async Task<bool> IsUserAuthorizedToEditAsync(string id, string companyId)
     {
-        bool isAuthorized = await _dbContext
+        var isAuthorized = await _dbContext
             .Bikes
             .AnyAsync(b => b.Id.ToString() == id && b.Product.CompanyId.ToString() == companyId);
 
@@ -106,7 +106,7 @@ public class BikeService : IBikeService
 
     public async Task<BikeEditViewModel> GetBikeEditViewModelByIdAsync(string id)
     {
-        BikeEditViewModel model = await _dbContext
+        var model = await _dbContext
             .Bikes
             .Where(b => b.Id.ToString() == id)
             .Select(b => new BikeEditViewModel()
@@ -139,7 +139,7 @@ public class BikeService : IBikeService
 
     public async Task<string> GetProductIdByBikeIdAsync(string id)
     {
-        string productId = await _dbContext
+        var productId = await _dbContext
             .Bikes
             .Where(b => b.Id.ToString() == id)
             .Select(b => b.ProductId.ToString())
@@ -150,7 +150,7 @@ public class BikeService : IBikeService
 
     public async Task EditAsync(string id, BikeEditViewModel bikeModel)
     {
-        Bike bike = await _dbContext
+        var bike = await _dbContext
             .Bikes
             .Where(b => b.Id.ToString() == id)
             .FirstAsync();
@@ -180,14 +180,14 @@ public class BikeService : IBikeService
 
     public async Task<BikeAllQueryModel> GetAllFilteredAndPagedAsync(BikeAllQueryModel queryModel)
     {
-        IQueryable<Bike> bikesQuery = _dbContext
+        var bikesQuery = _dbContext
             .Bikes
             .Where(b => !b.Product.IsDeleted)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(queryModel.SearchTerm))
         {
-            string wildCardSearchTerm = $"%{queryModel.SearchTerm.ToLower()}%";
+            var wildCardSearchTerm = $"%{queryModel.SearchTerm.ToLower()}%";
 
             bikesQuery = bikesQuery
                 .Where(s => EF.Functions.Like(s.Product.Name, wildCardSearchTerm) ||
@@ -283,7 +283,7 @@ public class BikeService : IBikeService
             })
             .ToArrayAsync();
 
-        int totalPages = (int)Math.Ceiling(await bikesQuery.CountAsync() / (double)queryModel.BikesPerPage);
+        var totalPages = (int)Math.Ceiling(await bikesQuery.CountAsync() / (double)queryModel.BikesPerPage);
 
         queryModel.TotalPages = totalPages;
 

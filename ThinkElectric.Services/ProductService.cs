@@ -22,7 +22,7 @@ public class ProductService : IProductService
 
     public async Task<string> CreateAsync(ProductCreateViewModel modelProduct, string companyId, string imageId, ProductType productType)
     {
-        Product product = new Product()
+        var product = new Product()
         {
             Name = modelProduct.Name,
             ImageId = imageId,
@@ -41,13 +41,13 @@ public class ProductService : IProductService
 
     public async Task<ProductAllQueryModel> AllByCompanyIdAsync(ProductAllQueryModel queryModel)
     {
-        IQueryable<Product> productsQuery = _dbContext.Products
+        var productsQuery = _dbContext.Products
             .Where(p => p.CompanyId.ToString() == queryModel.CompanyId && !p.IsDeleted)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(queryModel.SearchTerm))
         {
-            string wildCardSearchTerm = $"%{queryModel.SearchTerm.ToLower()}%";
+            var wildCardSearchTerm = $"%{queryModel.SearchTerm.ToLower()}%";
 
             productsQuery = productsQuery
                 .Where(c => EF.Functions.Like(c.Name, wildCardSearchTerm));
@@ -97,7 +97,7 @@ public class ProductService : IProductService
             })
             .ToArrayAsync();
 
-        int totalPages = (int)Math.Ceiling(await productsQuery.CountAsync() / (double)queryModel.ProductsPerPage);
+        var totalPages = (int)Math.Ceiling(await productsQuery.CountAsync() / (double)queryModel.ProductsPerPage);
 
         queryModel.TotalPages = totalPages;
 
@@ -108,7 +108,7 @@ public class ProductService : IProductService
 
     public async Task<ProductDetailsViewModel> GetProductDetailsByIdAsync(string id)
     {
-        ProductDetailsViewModel model = await _dbContext
+        var model = await _dbContext
             .Products
             .Where(p => p.Id.ToString() == id)
             .Select(p => new ProductDetailsViewModel()
@@ -127,7 +127,7 @@ public class ProductService : IProductService
 
     public async Task<Product?> GetProductByIdAsync(string id)
     {
-        Product? product = await _dbContext
+        var product = await _dbContext
             .Products
             .Include(p => p.Scooter)
             .Include(p => p.Bike)
@@ -140,7 +140,7 @@ public class ProductService : IProductService
 
     public async Task<ProductEditViewModel> GetProductEditViewModelByIdAsync(string id)
     {
-        ProductEditViewModel model = await _dbContext
+        var model = await _dbContext
             .Products
             .Where(p => p.Id.ToString() == id)
             .Select(p => new ProductEditViewModel()
@@ -157,7 +157,7 @@ public class ProductService : IProductService
 
     public async Task<string> GetImageIdByProductIdAsync(string id)
     {
-        string imageId = await _dbContext
+        var imageId = await _dbContext
             .Products
             .Where(p => p.Id.ToString() == id)
             .Select(p => p.ImageId)
@@ -168,7 +168,7 @@ public class ProductService : IProductService
 
     public async Task EditAsync(string id, ProductEditViewModel modelProduct)
     {
-        Product product = await _dbContext
+        var product = await _dbContext
             .Products
             .Where(p => p.Id.ToString() == id)
             .FirstAsync();
@@ -182,7 +182,7 @@ public class ProductService : IProductService
 
     public async Task<ProductsHomeModel> GetProductsForHomeAsync()
     {
-        ProductsHomeModel productsModel = new ProductsHomeModel();
+        var productsModel = new ProductsHomeModel();
 
         productsModel.ScooterProducts = await _dbContext
             .Products
@@ -237,7 +237,7 @@ public class ProductService : IProductService
 
     public async Task<bool> ProductExistsAsync(string id)
     {
-        bool productExists = await _dbContext
+        var productExists = await _dbContext
             .Products
             .AnyAsync(p => p.Id.ToString() == id && !p.IsDeleted);
 
@@ -251,7 +251,7 @@ public class ProductService : IProductService
            .Where(oi => oi.OrderId.ToString() == orderId)
            .ToArrayAsync();
 
-        string[] productIds = orderItems
+        var productIds = orderItems
             .Select(oi => oi.ProductId.ToString())
             .ToArray();
 
@@ -260,9 +260,9 @@ public class ProductService : IProductService
             .Where(p => productIds.Contains(p.Id.ToString()))
             .ToArrayAsync();
 
-       foreach (Product product in products)
+       foreach (var product in products)
        {
-           OrderItem orderItem = orderItems
+           var orderItem = orderItems
                .First(oi => oi.ProductId.ToString() == product.Id.ToString());
 
            product.Quantity -= orderItem.Quantity;
@@ -273,7 +273,7 @@ public class ProductService : IProductService
 
     public async Task<bool> HasProductQuantityAsync(string id)
     {
-        bool hasProductQuantity = await _dbContext
+        var hasProductQuantity = await _dbContext
             .Products
             .AnyAsync(p => p.Id.ToString() == id && p.Quantity > 0);
 
@@ -282,7 +282,7 @@ public class ProductService : IProductService
 
     public async Task<bool> IsUserAuthorizedAsync(string id, string companyId)
     {
-        bool isUserAuthorized = await _dbContext
+        var isUserAuthorized = await _dbContext
             .Products
             .AnyAsync(p => p.Id.ToString() == id && p.CompanyId.ToString() == companyId);
 
@@ -291,7 +291,7 @@ public class ProductService : IProductService
 
     public async Task DeleteAsync(string id)
     {
-        Product product = await _dbContext
+        var product = await _dbContext
             .Products
             .Where(p => p.Id.ToString() == id)
             .FirstAsync();
@@ -308,7 +308,7 @@ public class ProductService : IProductService
             .Where(p => p.CompanyId.ToString() == companyId)
             .ToArrayAsync();
 
-        foreach (Product product in products)
+        foreach (var product in products)
         { 
             product.IsDeleted = true;
         }
@@ -323,7 +323,7 @@ public class ProductService : IProductService
             .Where(p => p.CompanyId.ToString() == id)
             .ToArrayAsync();
 
-        foreach (Product product in products)
+        foreach (var product in products)
         {
             product.IsDeleted = false;
         }
@@ -352,7 +352,7 @@ public class ProductService : IProductService
 
     public async Task<bool> ProductExistsForAdminAsync(string id)
     {
-        bool productExists = await _dbContext
+        var productExists = await _dbContext
             .Products
             .AnyAsync(p => p.Id.ToString() == id);
 
@@ -361,7 +361,7 @@ public class ProductService : IProductService
 
     public async Task RestoreProductAsync(string id)
     {
-        Product product = await _dbContext
+        var product = await _dbContext
             .Products
             .Where(p => p.Id.ToString() == id)
             .FirstAsync();

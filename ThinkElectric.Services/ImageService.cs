@@ -16,7 +16,7 @@
 
         public ImageService(IOptions<ImageStoreDatabaseSettings> imageStoreDatabaseSettings)
         {
-            MongoClientSettings settings = MongoClientSettings.FromUrl(
+            var settings = MongoClientSettings.FromUrl(
                 new MongoUrl(imageStoreDatabaseSettings.Value.ConnectionString)
             );
             settings.SslSettings =
@@ -30,17 +30,17 @@
 
         public async Task<string> CreateAsync(IFormFile imageFile)
         {
-            string imageType = imageFile.ContentType;
+            var imageType = imageFile.ContentType;
 
             byte[] imageBytes;
 
-            await using MemoryStream memoryStream = new MemoryStream();
+            await using var memoryStream = new MemoryStream();
 
             await imageFile.CopyToAsync(memoryStream);
 
             imageBytes = memoryStream.ToArray();
 
-            Image image = new Image
+            var image = new Image
             {
                 Id = ObjectId.GenerateNewId().ToString(),
                 ImageType = imageType,
@@ -70,17 +70,17 @@
 
         public async Task UpdateAsync(string imageId, IFormFile newImage)
         {
-            string imageType = newImage.ContentType;
+            var imageType = newImage.ContentType;
 
             byte[] imageBytes;
 
-            await using MemoryStream memoryStream = new MemoryStream();
+            await using var memoryStream = new MemoryStream();
 
             await newImage.CopyToAsync(memoryStream);
 
             imageBytes = memoryStream.ToArray();
 
-            Image updatedImage = new Image
+            var updatedImage = new Image
             {
                 Id = imageId,
                 ImageType = imageType,

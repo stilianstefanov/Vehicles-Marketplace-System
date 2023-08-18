@@ -25,7 +25,7 @@ public class UserService : IUserService
 
     public async Task<IdentityResult> RegisterAsync(RegisterViewModel model)
     {
-        ApplicationUser user = new ApplicationUser
+        var user = new ApplicationUser
         {
             UserName = model.Email,
             Email = model.Email,
@@ -34,7 +34,7 @@ public class UserService : IUserService
             PhoneNumber = model.PhoneNumber
         };
 
-        IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+        var result = await _userManager.CreateAsync(user, model.Password);
 
         if (result.Succeeded)
         {
@@ -46,7 +46,7 @@ public class UserService : IUserService
 
     public async Task<SignInResult> SignInAsync(ApplicationUser user, string password, bool isPersistent, bool lockoutOnFailure)
     {
-        SignInResult result = await _signInManager.PasswordSignInAsync(user, password, isPersistent, lockoutOnFailure);
+        var result = await _signInManager.PasswordSignInAsync(user, password, isPersistent, lockoutOnFailure);
 
         return result;
     }
@@ -58,14 +58,14 @@ public class UserService : IUserService
 
     public async Task<ApplicationUser?> GetUserByEmailAsync(string email)
     {
-        ApplicationUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == email);
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == email);
 
         return user;
     }
 
     public async Task<ApplicationUser?> GetUserByEmailWithCartAndCompany(string email)
     {
-        ApplicationUser? user = await _userManager
+        var user = await _userManager
             .Users
             .Include(u => u.Cart)
             .Include(u => u.Company)
@@ -76,25 +76,25 @@ public class UserService : IUserService
 
     public async Task AddClaimAsync(string userId, string key, string value)
     {
-        ApplicationUser user = await _userManager.FindByIdAsync(userId);
+        var user = await _userManager.FindByIdAsync(userId);
 
         await _userManager.AddClaimAsync(user, new Claim(key, value));
     }
 
     public async Task<bool> IsRegisteredAsCompanyAsync(string userId)
     {
-        ApplicationUser user = await _userManager.FindByIdAsync(userId);
+        var user = await _userManager.FindByIdAsync(userId);
 
-        IList<Claim> claims = await _userManager.GetClaimsAsync(user);
+        var claims = await _userManager.GetClaimsAsync(user);
 
-        bool isRegisteredAsCompany = claims.Any(c => c.Type == "companyUser");
+        var isRegisteredAsCompany = claims.Any(c => c.Type == "companyUser");
 
         return isRegisteredAsCompany;
     }
 
     public async Task<bool> UserExistsByIdAsync(string userId)
     {
-        ApplicationUser? user = await _userManager
+        var user = await _userManager
             .Users
             .FirstOrDefaultAsync(u => u.Id.ToString() == userId);
 
@@ -108,7 +108,7 @@ public class UserService : IUserService
 
     public async Task<string?> GetAddressIdByUserIdAsync(string userId)
     {
-        string? addressId = await _userManager
+        var addressId = await _userManager
             .Users
             .Where(u => u.Id.ToString() == userId)
             .Select(u => u.AddressId.ToString())
@@ -119,7 +119,7 @@ public class UserService : IUserService
 
     public async Task<bool> UserHasAddressAsync(string userId)
     {
-        bool isUserHasAddress = await _userManager
+        var isUserHasAddress = await _userManager
             .Users
             .AnyAsync(u => u.Id.ToString() == userId && !string.IsNullOrWhiteSpace(u.AddressId.ToString()));
 
@@ -128,7 +128,7 @@ public class UserService : IUserService
 
     public async Task AddAddressToUserAsync(string userId, string addressId)
     {
-        ApplicationUser user = await _userManager.FindByIdAsync(userId);
+        var user = await _userManager.FindByIdAsync(userId);
 
         user.AddressId = Guid.Parse(addressId);
 
@@ -137,7 +137,7 @@ public class UserService : IUserService
 
     public async Task BlockUserByIdAsync(string userId)
     {
-        ApplicationUser user = await _userManager.FindByIdAsync(userId);
+        var user = await _userManager.FindByIdAsync(userId);
 
         user.IsBlocked = true;
 
@@ -146,7 +146,7 @@ public class UserService : IUserService
 
     public async Task UnblockUserByIdAsync(string userId)
     {
-        ApplicationUser user = await _userManager.FindByIdAsync(userId);
+        var user = await _userManager.FindByIdAsync(userId);
 
         user.IsBlocked = false;
 
@@ -157,7 +157,7 @@ public class UserService : IUserService
     {
         var adminUsers = await _userManager.GetUsersInRoleAsync(AdminRoleName);
 
-        IEnumerable<Guid> adminUserIdSet = adminUsers.Select(u => u.Id);
+        var adminUserIdSet = adminUsers.Select(u => u.Id);
 
         IEnumerable<UserAdminAllViewModel> users = await _userManager
             .Users
@@ -179,7 +179,7 @@ public class UserService : IUserService
 
     public async Task<bool> IsUserRegisteredAsCompanyAsync(string id)
     {
-        bool isUserRegisteredAsCompany = await _userManager
+        var isUserRegisteredAsCompany = await _userManager
             .Users
             .AnyAsync(u => u.Id.ToString() == id && u.Company != null);
 
@@ -188,7 +188,7 @@ public class UserService : IUserService
 
     public async Task<string> GetCompanyIdByUserIdAsync(string id)
     {
-        string companyId = await _userManager
+        var companyId = await _userManager
             .Users
             .Where(u => u.Id.ToString() == id)
             .Select(u => u.Company!.Id.ToString())
@@ -199,7 +199,7 @@ public class UserService : IUserService
 
     public async Task<IdentityResult> RegisterAdminAsync(RegisterAdminViewModel model)
     {
-        ApplicationUser user = new ApplicationUser
+        var user = new ApplicationUser
         {
             UserName = model.Email,
             Email = model.Email,
@@ -208,7 +208,7 @@ public class UserService : IUserService
             PhoneNumber = model.PhoneNumber
         };
 
-        IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+        var result = await _userManager.CreateAsync(user, model.Password);
 
         if (result.Succeeded)
         {
