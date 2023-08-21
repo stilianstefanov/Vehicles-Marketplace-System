@@ -1,25 +1,26 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 .navbar-nav .nav-link {
-    color: #ffffff; 
+    color: #ffffff;
 }
+
 .details-field {
     background-color: #9ea3a0;
 }
@@ -37,25 +38,25 @@ body {
     object-position: center;
 }
 
-.image-details{
+.image-details {
     height: 500px;
     width: 500px;
     object-fit: fill;
     object-position: center;
 }
 
-    .big-button {
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center center;
-        width: 260px; /* 100% of the viewport width */
-        height: 260px; /* 100% of the viewport height */
-        color: #9ea3a0; /* Text color */
-        display: ruby-base;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 20px;
-    }
+.big-button {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    width: 260px; 
+    height: 260px; 
+    color: #9ea3a0; 
+    display: ruby-base;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
 
 .cool-font {
     font-family: 'Alfa Slab One', cursive;
@@ -69,3 +70,8 @@ body {
     color: #ffffff;
 }
 
+.cool-font3 {
+    font-family: '', cursive;
+    font-size: 15px;
+    color: #ffffff;
+}

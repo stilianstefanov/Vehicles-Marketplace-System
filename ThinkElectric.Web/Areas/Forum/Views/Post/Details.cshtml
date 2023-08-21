@@ -23,7 +23,7 @@
             }
         </div>
         <div class="card-body">
-            <p>@Model.Content</p>
+            <p class="cool-font3">@Model.Content</p>
         </div>
         <div class="card-body">
             <small>Created on: @Model.CreatedOn</small>
@@ -41,7 +41,7 @@
             <div class="card .bg-light col-6">
                 <div class="card-body">
                     <blockquote class="blockquote mb-0">
-                        <p>@comment.Content</p>
+                        <p class="cool-font3">@comment.Content</p>
                         <footer class="blockquote-footer">@comment.UserFullName @comment.CreatedOn</footer>
                         <div class="float-right">
                             @if (comment.UserId.ToLower() == User.GetId()!.ToLower() || User.IsAdmin())
