@@ -31,6 +31,7 @@ The application is deployed at: https://thinkelectric.azurewebsites.net/
   <li>JS</li>
   <li>Ajax</li>
   <li>Moq</li>
+  <li>EP Plus (NET library for managing Excel files)</li>
 </ul>
 
 ## Requirements
