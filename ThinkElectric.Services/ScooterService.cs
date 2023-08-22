@@ -79,9 +79,9 @@ public class ScooterService : IScooterService
 
     public async Task<bool> IsScooterExistingAsync(string id)
     {
-        var isScooterExisting = _dbContext
+        var isScooterExisting = await _dbContext
             .Scooters
-            .Any(s => s.Id.ToString() == id && !s.Product.IsDeleted);
+            .AnyAsync(s => s.Id.ToString() == id && !s.Product.IsDeleted);
 
         return isScooterExisting;
     }
