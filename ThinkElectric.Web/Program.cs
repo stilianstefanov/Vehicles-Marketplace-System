@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authorization;
 
 using Data;
 using Data.Models;
@@ -13,8 +14,8 @@ using Infrastructure.ModelBinders;
 using Services.Contracts;
 using Data.MongoDb.Models;
 using Infrastructure.Helpers;
-using Microsoft.AspNetCore.Authorization;
 
+using Services;
 using static Common.GeneralApplicationConstants;
 
 public class Program
@@ -76,6 +77,7 @@ public class Program
         builder.Services.AddScoped<SignInManager<ApplicationUser>>();
 
         builder.Services.AddApplicationServices(typeof(IProductService));
+        builder.Services.AddSingleton<IImageService, ImageService>();
 
 
         builder.Services.AddControllersWithViews()

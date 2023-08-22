@@ -22,7 +22,7 @@ public static class WebApplicationBuilderExtensions
 
         Type[] implementationTypes = serviceAssembly
             .GetTypes()
-            .Where(t => t.Name.EndsWith("Service") && !t.IsInterface)
+            .Where(t => t.Name.EndsWith("Service") && !t.IsInterface && !t.Name.Contains("Image"))
             .ToArray();
 
         foreach (Type implementationType in implementationTypes)
