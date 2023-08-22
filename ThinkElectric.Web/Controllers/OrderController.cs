@@ -250,4 +250,22 @@ public class OrderController : BaseController
             return GeneralError();
         }
     }
+
+    [HttpGet]
+    [Authorize(Policy = CompanyOnlyPolicyName)]
+    public async Task<IActionResult> GetCompanyOrdersExcel()
+    {
+        try
+        {
+            var orderItems = await _orderService.GetOrderItemsForExcelAsync(User.GetCompanyId()!);
+
+            var excelBytes = await _orderService.GetAllInExcelFormatAsync(orderItems);
+
+            return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "orders.xlsx");
+        }
+        catch (Exception)
+        {
+            return GeneralError();
+        }
+    }
 }
