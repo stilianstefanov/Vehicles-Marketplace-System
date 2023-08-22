@@ -253,6 +253,14 @@ public class OrderService : IOrderService
         return orderItemModels;
     }
 
+    public async Task<bool> HasOrdersAsync(string companyId)
+    {
+        var hasOrders = await _dbContext.OrderItems
+            .AnyAsync(oi => oi.Product.CompanyId.ToString() == companyId);
+
+        return hasOrders;
+    }
+
     public async Task<bool> OrderItemExistsAsync(string orderItemId)
     {
         var orderItemExists = await _dbContext.OrderItems

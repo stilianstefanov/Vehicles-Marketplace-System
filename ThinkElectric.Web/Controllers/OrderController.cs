@@ -1,4 +1,5 @@
-﻿namespace ThinkElectric.Web.Controllers;
+﻿// ReSharper disable StringLiteralTypo
+namespace ThinkElectric.Web.Controllers;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -257,6 +258,15 @@ public class OrderController : BaseController
     {
         try
         {
+            bool hasOrders = await _orderService.HasOrdersAsync(User.GetCompanyId()!);
+
+            if (!hasOrders)
+            {
+                TempData[ErrorMessage] = NoOrdersForExcelErrorMessage;
+
+                return RedirectToAction("Index", "Home");
+            }
+
             var orderItems = await _orderService.GetOrderItemsForExcelAsync(User.GetCompanyId()!);
 
             var excelBytes = await _orderService.GetAllInExcelFormatAsync(orderItems);

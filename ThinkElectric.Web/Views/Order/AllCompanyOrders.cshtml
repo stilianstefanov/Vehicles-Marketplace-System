@@ -1,11 +1,21 @@
-﻿@model IEnumerable<OrderItemCompanyViewModel>
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using ThinkElectric.Services.Contracts
+@using ThinkElectric.Web.Infrastructure.Extensions
+@model IEnumerable<OrderItemCompanyViewModel>
+@inject IOrderService OrderService
 
 @{
     ViewBag.Title = "My Orders";
 }
 
 <div class="container mt-5">
-    <h3 class="text-center mb-3 cool-font2">My Orders</h3>
+    <div class="d-flex justify-content-between align-items-center">
+        <h3 class="text-center mb-4 cool-font2">My Orders</h3>
+        @if (await OrderService.HasOrdersAsync(User.GetCompanyId()!))
+        {
+            <a asp-area="" asp-controller="Order" asp-action="GetCompanyOrdersExcel" class="btn btn-success mb-2">Export Excel</a>
+        }
+    </div>
     @if (!@Model.Any())
     {
         <h3 class="text-center mt-5">You have no orders yet!</h3>

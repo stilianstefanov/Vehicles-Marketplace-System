@@ -72,4 +72,6 @@ public static class ErrorMessages
     public const string ReviewNotFoundErrorMessage = "Review with the provided Id does not exist!";
 
     public const string PostNotFound = "Post with the provided Id does not exist!";
+
+    public const string NoOrdersForExcelErrorMessage = "There are no orders to export!";
 }

@@ -21,4 +21,5 @@ public interface IOrderService
     Task<IEnumerable<OrderAllAdminViewModel>> GetAllOrdersAsync();
     Task<byte[]> GetAllInExcelFormatAsync(IEnumerable<OrderItemExcelModel> orderItemModels);
     Task<IEnumerable<OrderItemExcelModel>> GetOrderItemsForExcelAsync(string companyId);
+    Task<bool> HasOrdersAsync(string companyId);
 }
