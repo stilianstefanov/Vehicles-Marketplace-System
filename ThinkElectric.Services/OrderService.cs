@@ -203,7 +203,7 @@ public class OrderService : IOrderService
             range.Style.Font.Bold = true;
         }
 
-        int row = 2;
+        var row = 2;
         foreach (var orderItem in orderItemModels)
         {
             worksheet.Cells[row, 1].Value = orderItem.ProductName;
