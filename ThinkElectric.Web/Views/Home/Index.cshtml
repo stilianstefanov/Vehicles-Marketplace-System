@@ -77,7 +77,10 @@
                         <a asp-area="" asp-controller="Product" asp-action="Details" asp-route-id="@scooterProduct.Id" class="btn btn-primary">Details</a>
                         @if (!isUserRegisteredAsACompany)
                         {
-                            <a asp-area="" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@scooterProduct.Id" class="btn btn-success">Add To Cart</a>
+                            @if (scooterProduct.Quantity > 0)
+                            {
+                                <a asp-area="" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@scooterProduct.Id" class="btn btn-success">Add To Cart</a>
+                            }
                             <a asp-area="" asp-controller="Review" asp-action="AddToProduct" asp-route-id="@scooterProduct.Id" class="btn btn-info">Add Review</a>
                         }
                         @if (scooterProduct.CompanyId.ToLower() == currentUserCompanyId.ToLower() || isUserAdmin)
@@ -118,7 +121,10 @@
                         <a asp-area="" asp-controller="Product" asp-action="Details" asp-route-id="@bikeProduct.Id" class="btn btn-primary">Details</a>
                         @if (!isUserRegisteredAsACompany)
                         {
-                            <a asp-area="" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@bikeProduct.Id" class="btn btn-success">Add To Cart</a>
+                            @if (bikeProduct.Quantity > 0)
+                            {
+                                <a asp-area="" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@bikeProduct.Id" class="btn btn-success">Add To Cart</a>
+                            }
                             <a asp-area="" asp-controller="Review" asp-action="AddToProduct" asp-route-id="@bikeProduct.Id" class="btn btn-info">Add Review</a>
                         }
                         @if (bikeProduct.CompanyId.ToLower() == currentUserCompanyId.ToLower() || isUserAdmin)
@@ -159,7 +165,10 @@
                         <a asp-area="" asp-controller="Product" asp-action="Details" asp-route-id="@accessoryProduct.Id" class="btn btn-primary">Details</a>
                         @if (!isUserRegisteredAsACompany)
                         {
-                            <a asp-area="" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@accessoryProduct.Id" class="btn btn-success">Add To Cart</a>
+                            @if (accessoryProduct.Quantity > 0)
+                            {
+                                <a asp-area="" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@accessoryProduct.Id" class="btn btn-success">Add To Cart</a>
+                            }
                             <a asp-area="" asp-controller="Review" asp-action="AddToProduct" asp-route-id="@accessoryProduct.Id" class="btn btn-info">Add Review</a>
                         }
                         @if (accessoryProduct.CompanyId.ToLower() == currentUserCompanyId.ToLower() || isUserAdmin)

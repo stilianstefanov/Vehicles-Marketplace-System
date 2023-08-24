@@ -98,7 +98,13 @@
                         '<div class="col-md-8">' +
                         '<div class="card-body">' +
                         '<h5 class="card-title">' +
-                        scooter.product.name +
+                        scooter.product.name;
+
+                    if (scooter.product.quantity == 0) {
+                        card += ' <span class="text-danger">Out of stock</span>';
+                    }
+
+                    card +=
                         '</h5>' +
                         '<p class="card-text">' +
                         '<strong>Price:</strong> ' +
@@ -144,11 +150,15 @@
                         scooter.id +
                         '" class="btn btn-primary">Details</a>';
 
-                    if (!isUserRegisteredAsACompany) {
+                    if (!isUserRegisteredAsACompany)
+                    {
+                        if (scooter.product.quantity > 0)
+                        {
+                            card += '<a href="/Cart/AddToCart/' +
+                                scooter.product.id +
+                                '" class="btn btn-success">Add to Cart</a>';
+                        }
                         card +=
-                            '<a href="/Cart/AddToCart/' +
-                            scooter.product.id +
-                            '" class="btn btn-success">Add to Cart</a>' +
                             '<a href="/Review/AddToProduct/' +
                             scooter.product.id +
                             '" class="btn btn-info">Add Review</a>';
@@ -159,6 +169,7 @@
                     }
 
                     card += '</div>' + '</div>' + '</div>';
+
 
                     $('#productsContainer').append(card);
                 });
