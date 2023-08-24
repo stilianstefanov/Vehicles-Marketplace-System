@@ -111,7 +111,13 @@
                         '<div class="col-md-7">' +
                         '<div class="card-body">' +
                         '<h5 class="card-title">' +
-                        bike.product.name +
+                        bike.product.name;
+
+                    if (bike.product.quantity == 0) {
+                        card += ' <span class="text-danger">Out of stock</span>';
+                    }
+
+                    card +=
                         '</h5>' +
                         '<p class="card-text">' +
                         '<strong>Price:</strong> ' +
@@ -163,20 +169,23 @@
                         bike.id +
                         '" class="btn btn-primary">Details</a>';
 
-                    if (!isUserRegisteredAsACompany) {
+                    if (!isUserRegisteredAsACompany)
+                    {
+                        if (bike.product.quantity > 0)
+                        {
+                            card += '<a href="/Cart/AddToCart/' +
+                                bike.product.id +
+                                '" class="btn btn-success">Add to Cart</a>';
+                        }
                         card +=
-                            '<a href="/Cart/AddToCart/' +
-                            bike.product.id +
-                            '" class="btn btn-success">Add to Cart</a>' +
                             '<a href="/Review/AddToProduct/' +
-                            bike.product.id +
+                             bike.product.id +
                             '" class="btn btn-info">Add Review</a>';
                     }
                     if (bike.product.companyId.toLowerCase() == currentUserCompanyId || isUserAdmin) {
                         card += '<a href="/Product/Edit/' + bike.product.id + '" class="btn btn-warning">Edit</a>' +
                             '<a href="/Product/Details/' + bike.product.id + '" class="btn btn-danger">Delete</a>';
                     }
-
 
                     card += '</div>' + '</div>' + '</div>';
 

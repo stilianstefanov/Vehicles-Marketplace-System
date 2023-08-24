@@ -75,7 +75,13 @@
                         '<div class="col-md-8">' +
                         '<div class="card-body">' +
                         '<h5 class="card-title">' +
-                        accessory.product.name +
+                        accessory.product.name;
+
+                    if (accessory.product.quantity == 0) {
+                        card += ' <span class="text-danger">Out of stock</span>';
+                    }
+
+                    card +=
                         '</h5>' +
                         '<p class="card-text">' +
                         '<strong>Price:</strong> ' +
@@ -103,20 +109,23 @@
                         accessory.id +
                         '" class="btn btn-primary">Details</a>';
 
-                    if (!isUserRegisteredAsACompany) {
+                    if (!isUserRegisteredAsACompany)
+                    {
+                        if (accessory.product.quantity > 0)
+                        {
+                            card += '<a href="/Cart/AddToCart/' +
+                                accessory.product.id +
+                                '" class="btn btn-success">Add to Cart</a>';
+                        }
                         card +=
-                            '<a href="/Cart/AddToCart/' +
-                            accessory.product.id +
-                            '" class="btn btn-success">Add to Cart</a>' +
                             '<a href="/Review/AddToProduct/' +
-                            accessory.product.id +
+                        accessory.product.id +
                             '" class="btn btn-info">Add Review</a>';
                     }
                     if (accessory.product.companyId.toLowerCase() == currentUserCompanyId || isUserAdmin) {
                         card += '<a href="/Product/Edit/' + accessory.product.id + '" class="btn btn-warning">Edit</a>' +
                             '<a href="/Product/Details/' + accessory.product.id + '" class="btn btn-danger">Delete</a>';
                     }
-
 
                     card += '</div>' + '</div>' + '</div>';
 

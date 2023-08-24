@@ -77,7 +77,14 @@
                         '<div class="card">' +
                         '<img src="data:' + product.image.imageType + ';base64,' + product.image.data + '" class="img-fluid image-equal" alt="Company Image">' +
                         '<div class="card-body">' +
-                        '<h5 class="card-title">' + product.name + '</h5>' +
+                        '<h5 class="card-title">' + product.name;
+
+                    if (product.quantity == 0) {
+                        card += ' <span class="text-danger">Out of stock</span>';
+                    }
+
+                        card +=
+                        '</h5>' +
                         '<p class="card-text">' +
                         '<strong>Price: </strong>' + product.price + '<br>' +
                         '<strong>Quantity:</strong> ' + product.quantity + '<br>' +
@@ -90,17 +97,23 @@
                         '<a href="/Product/Details/' + product.id + '" class="btn btn-primary">Details</a>';
 
 
-                    if (!isUserRegisteredAsACompany) {
-                        card += '<a href="/Cart/AddToCart/' + product.id + '" class="btn btn-success">Add to Cart</a>' +
+                    if (!isUserRegisteredAsACompany)
+                    {
+                        if (product.quantity > 0)
+                        {
+                            card += '<a href="/Cart/AddToCart/' + product.id + '" class="btn btn-success">Add to Cart</a>';
+                        }
+                        card +=
                             '<a href="/Review/AddToProduct/' + product.id + '" class="btn btn-info">Add Review</a>';
                     }
+
                     if (product.companyId.toLowerCase() == currentUserCompanyId || isUserAdmin) {
                         card += '<a href="/Product/Edit/' + product.id + '" class="btn btn-warning">Edit</a>' +
                             '<a href="/Product/Details/' + product.id + '" class="btn btn-danger">Delete</a>';
                     }
 
-
-                    card += '</div>' +
+                    card +=
+                        '</div>' +
                         '</div>' +
                         '</div></div>';
 
