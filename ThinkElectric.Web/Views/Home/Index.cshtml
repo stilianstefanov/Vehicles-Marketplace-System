@@ -65,7 +65,14 @@
                 <div class="card-body">
                     <h5 class="card-title">@scooterProduct.Name</h5>
                     <p class="card-text">Price: @scooterProduct.Price</p>
-                    <p class="card-text">Quantity: @scooterProduct.Quantity</p>
+                    @if (scooterProduct.Quantity > 0)
+                    {
+                        <p class="card-text">Quantity: @scooterProduct.Quantity</p>
+                    }
+                    else
+                    {
+                        <p class="card-text text-danger">Currently out of stock</p>
+                    }
                     <div class="text-center mt-2">
                         <a asp-area="" asp-controller="Product" asp-action="Details" asp-route-id="@scooterProduct.Id" class="btn btn-primary">Details</a>
                         @if (!isUserRegisteredAsACompany)
@@ -99,7 +106,14 @@
                 <div class="card-body">
                     <h5 class="card-title">@bikeProduct.Name</h5>
                     <p class="card-text">Price: @bikeProduct.Price</p>
-                    <p class="card-text">Quantity: @bikeProduct.Quantity</p>
+                    @if (bikeProduct.Quantity > 0)
+                    {
+                        <p class="card-text">Quantity: @bikeProduct.Quantity</p>
+                    }
+                    else
+                    {
+                        <p class="card-text text-danger">Currently out of stock</p>
+                    }
                     <div class="text-center mt-2">
                         <a asp-area="" asp-controller="Product" asp-action="Details" asp-route-id="@bikeProduct.Id" class="btn btn-primary">Details</a>
                         @if (!isUserRegisteredAsACompany)
@@ -133,7 +147,14 @@
                 <div class="card-body">
                     <h5 class="card-title">@accessoryProduct.Name</h5>
                     <p class="card-text">Price: @accessoryProduct.Price</p>
-                    <p class="card-text">Quantity: @accessoryProduct.Quantity</p>
+                    @if (accessoryProduct.Quantity > 0)
+                    {
+                        <p class="card-text">Quantity: @accessoryProduct.Quantity</p>
+                    }
+                    else
+                    {
+                        <p class="card-text text-danger">Currently out of stock</p>
+                    }
                     <div class="text-center mt-2">
                         <a asp-area="" asp-controller="Product" asp-action="Details" asp-route-id="@accessoryProduct.Id" class="btn btn-primary">Details</a>
                         @if (!isUserRegisteredAsACompany)
