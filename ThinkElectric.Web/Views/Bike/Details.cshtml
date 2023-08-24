@@ -44,6 +44,10 @@
         </div>
         <div class="col-md-7">
             <h2>@Model.Product.Name</h2>
+            @if (Model.Product.Quantity == 0)
+            {
+                <h4 class="text-danger">Out of stock</h4>
+            }
             <form>
                 <div class="row">
                     <div class="form-group col-md-3">
@@ -152,7 +156,10 @@
             }
             @if (!isUserCompany)
             {
-                <a type="button" class="btn btn-warning col-md-3 mt-3" asp-area="" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.ProductId">Add to Cart</a>
+                @if (Model.Product.Quantity > 0)
+                {
+                    <a type="button" class="btn btn-warning col-md-3 mt-3" asp-area="" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.ProductId">Add to Cart</a>
+                }
                 <a type="button" class="btn btn-warning col-md-3 mt-3" asp-area="" asp-controller="Review" asp-action="AddToProduct" asp-route-id="@Model.ProductId">Add Review</a>
             }
         </div>
