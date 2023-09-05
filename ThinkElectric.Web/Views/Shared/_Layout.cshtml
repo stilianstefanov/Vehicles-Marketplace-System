@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using System.Reflection
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -64,6 +66,7 @@
 <footer class="border-top footer text-muted">
     <div class="container">
         &copy; @DateTime.UtcNow.Year - ThinkElectric Community
+            <span> version @Assembly.GetExecutingAssembly().GetName().Version!.ToString()</span>
     </div>
 </footer>
 
