@@ -45,7 +45,7 @@ The application is deployed at: https://thinkelectric.azurewebsites.net/
 4. The project will automatically seed some example data in both databases
 
 ## Users
--You can test the application with pre-seeded data using the following credentials:
+-The application can be tested with pre-seeded data using the following credentials:
 
 ### Administrator User
 Username: admin@abv.bg </br>
