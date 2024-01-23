@@ -39,8 +39,8 @@ The application is deployed at: https://thinkelectric.azurewebsites.net/
 2. MongoDb
 
 ## Usage
-1. Update the configuration settings for the sql server and the mongoDb database
-2. Update the Sql Server database according to the migrations
+1. Update the configuration settings for the MSSQL and the MongoDb database
+2. Update the MSSQL database according to the migrations
 3. Run the project
 4. The project will automatically seed some example data in both databases
 
